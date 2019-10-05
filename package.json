@@ -6,15 +6,21 @@
   "scripts": {
     "start": "node dist/server",
     "dev": "webpack --config webpack.config.js --watch",
-    "build": "webpack --config webpack.config.js"
+    "build": "webpack --config webpack.config.js",
+    "gen": "ts-node src/generate-typings"
   },
   "dependencies": {
     "@nestjs/common": "6.8.2",
     "@nestjs/core": "6.8.2",
+    "@nestjs/graphql": "^6.5.3",
     "@nestjs/platform-express": "6.8.2",
+    "apollo-server-express": "^2.9.5",
+    "dotenv": "^8.1.0",
+    "graphql": "^14.5.8",
+    "graphql-tools": "^4.0.5",
     "reflect-metadata": "0.1.13",
     "rxjs": "6.5.3",
-    "typescript": "3.6.3"
+    "typescript": "^3.6.3"
   },
   "devDependencies": {
     "@types/node": "12.7.11",

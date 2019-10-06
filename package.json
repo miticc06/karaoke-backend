@@ -11,12 +11,12 @@
 		"gen": "ts-node src/generate-typings",
 		"eslint:check": "tslint -p tsconfig.json -c tslint.json",
 		"eslint:fix": "tslint -p tsconfig.json -c tslint.json --fix"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run eslint:fix && git add ."
-    }
-  },
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "npm run eslint:fix && git add ."
+		}
+	},
 	"dependencies": {
 		"@nestjs/common": "6.8.2",
 		"@nestjs/core": "6.8.2",
@@ -27,6 +27,7 @@
 		"dotenv": "^8.1.0",
 		"graphql": "^14.5.8",
 		"graphql-tools": "^4.0.5",
+		"graphql-voyager": "^1.0.0-rc.28",
 		"mongodb": "^3.3.2",
 		"reflect-metadata": "^0.1.13",
 		"rxjs": "6.5.3",

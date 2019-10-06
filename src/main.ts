@@ -2,6 +2,7 @@ import { NestFactory } from '@nestjs/core'
 import { ApplicationModule } from './app.module'
 import { Logger } from '@nestjs/common'
 import chalk from 'chalk'
+// tslint:disable-next-line:no-var-requires
 require('dotenv').config()
 
 declare const module: any

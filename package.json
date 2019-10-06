@@ -10,13 +10,13 @@
 		"build": "webpack --config webpack.config.js",
 		"gen": "ts-node src/generate-typings",
 		"eslint:check": "tslint -p tsconfig.json -c tslint.json",
-		"eslint:fix": "tslint -p tsconfig.json -c tslint.json --fix",
-		"husky": {
-			"hooks": {
-				"pre-commit": "npm run eslint:fix && git add ."
-			}
-		}
-	},
+		"eslint:fix": "tslint -p tsconfig.json -c tslint.json --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run eslint:fix && git add ."
+    }
+  },
 	"dependencies": {
 		"@nestjs/common": "6.8.2",
 		"@nestjs/core": "6.8.2",

@@ -5,6 +5,7 @@ import { PhotoModule } from './photo/photo.module'
 import { getMetadataArgsStorage } from 'typeorm'
 import { join } from 'path'
 
+// tslint:disable-next-line:no-var-requires
 require('dotenv').config()
 
 @Module({

@@ -62,7 +62,7 @@
     "trailing-comma": false,
     "no-string-throw": false,
     "object-literal-key-quotes": [false],
-    "indent": false
+    "indent": ["error", 2]
   },
   "rulesDirectory": [],
   "linterOptions": {

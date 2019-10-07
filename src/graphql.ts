@@ -4,29 +4,99 @@
  */
 
 /* tslint:disable */
-export class CreateCatInput {
+export class PaymentSlipInput {
     name?: string;
-    age?: number;
+    price?: number;
 }
 
-export class Cat {
-    id?: number;
+export class UserCreateInput {
+    username?: string;
+    password?: string;
     name?: string;
-    age?: number;
+    roleId?: string;
+}
+
+export class Customer {
+    _id?: string;
+    name?: string;
+    dateOfBirth?: number;
+    phone?: string;
+    email?: string;
+    points?: number;
+    createdAt?: number;
+    createdBy?: User;
+}
+
+export class Discount {
+    _id?: string;
+    name?: string;
 }
 
 export abstract class IMutation {
-    abstract createCat(createCatInput?: CreateCatInput): Cat | Promise<Cat>;
+    abstract createUser(userCreateInput?: UserCreateInput): string | Promise<string>;
+
+    abstract createPaymentSlip(input?: PaymentSlipInput): string | Promise<string>;
+}
+
+export class PaymentSlip {
+    _id?: string;
+    name?: string;
+    price?: number;
+    createdAt?: number;
+    createdBy?: User;
+}
+
+export class Permission {
+    _id?: string;
+    code?: string;
+    name?: string;
 }
 
 export abstract class IQuery {
-    abstract getCats(): Cat[] | Promise<Cat[]>;
+    abstract user(id: string): User | Promise<User>;
 
-    abstract cat(id: string): Cat | Promise<Cat>;
+    abstract users(ids: string[]): User[] | Promise<User[]>;
 
-    abstract cat233(id: string): Cat | Promise<Cat>;
+    abstract customer(id: string): Customer | Promise<Customer>;
+
+    abstract customers(ids: string[]): Customer[] | Promise<Customer[]>;
+
+    abstract room(id: string): Room | Promise<Room>;
+
+    abstract rooms(ids: string[]): Room[] | Promise<Room[]>;
+
+    abstract paymentSlip(id: string): PaymentSlip | Promise<PaymentSlip>;
+
+    abstract paymentSlips(ids: string[]): PaymentSlip[] | Promise<PaymentSlip[]>;
+
+    abstract discount(id: string): Discount | Promise<Discount>;
 }
 
-export abstract class ISubscription {
-    abstract catCreated(): Cat | Promise<Cat>;
+export class Role {
+    _id?: string;
+    code?: string;
+    name?: string;
+    permissions?: Permission[];
+}
+
+export class Room {
+    _id?: string;
+    name?: string;
+    createdAt?: number;
+    typeRoom?: TypeRoom;
+}
+
+export class TypeRoom {
+    _id?: string;
+    name?: string;
+    createdAt?: number;
+}
+
+export class User {
+    _id?: string;
+    username?: string;
+    password?: string;
+    name?: string;
+    createdAt?: number;
+    role?: Role;
 }

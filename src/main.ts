@@ -22,8 +22,8 @@ async function bootstrap() {
 		chalk
 			.hex('#AED6F1')
 			.bold(
-				`🚀  Server ready at http://localhost:` + process.env.PORT ||
-					'3000' + `/graphql`
+				`🚀  Server ready at http://localhost:${process.env.PORT ||
+					'3000'}/graphql`
 			),
 		'Connect'
 	)

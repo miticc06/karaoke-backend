@@ -1,0 +1,113 @@
+# ------------------------ Graphql ------------------------
+
+type Query {
+	user(id: ID!): User
+	users(ids: [ID]!): [User]
+
+	customer(id: ID!): Customer
+	customers(ids: [ID]!): [Customer]
+
+	room(id: ID!): Room
+	rooms(ids: [ID]!): [Room]
+
+  paymentSlip(id: ID!): PaymentSlip
+  paymentSlips(ids: [ID]!): [PaymentSlip]
+
+
+  discount(id: ID!): Discount
+}
+
+type Mutation {
+	createUser(userCreateInput: UserCreateInput): String
+
+  createPaymentSlip(input: PaymentSlipInput): String
+}
+
+# ------------------------ Entity ------------------------
+
+type User {
+	_id: ID
+	username: String
+	password: String
+	name: String
+	createdAt: Float
+  role: Role
+}
+
+type Customer {
+	_id: ID
+	name: String
+	dateOfBirth: Float
+	phone: String
+	email: String
+	points: Int
+	createdAt: Float
+	createdBy: User
+}
+
+type Room {
+	_id: ID
+	name: String
+	createdAt: Float
+  typeRoom: TypeRoom
+}
+
+type TypeRoom {
+	_id: ID
+	name: String
+	createdAt: Float
+}
+
+type Permission {
+	_id: ID
+  code: String
+  name: String
+}
+
+type Role {
+  _id: ID
+  code: String
+  name: String
+  permissions: [Permission]
+}
+
+type PaymentSlip {
+  _id: ID
+  name: String
+  price: Float
+  # histories: [HistoryPaymentSlip]
+  createdAt: Float
+  createdBy: User
+}
+
+type Discount {
+  _id: ID
+  name: String
+}
+
+
+# ------------------------ Class Support ------------------------
+
+# type HistoryPaymentSlip {
+#   createdAt: Float
+#   createdBy: User
+#   note: String
+# }
+
+# ------------------------ Input ------------------------
+
+input UserCreateInput {
+	username: String
+	password: String
+	name: String
+  
+  roleId: String
+}
+
+
+input PaymentSlipInput {
+  name: String
+  price: Float
+}
+
+

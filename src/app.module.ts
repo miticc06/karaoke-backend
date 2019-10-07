@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { PhotoModule } from './photo/photo.module'
+import { UserModule } from './user/user.module'
 import { getMetadataArgsStorage } from 'typeorm'
 import { join } from 'path'
 
@@ -23,7 +23,7 @@ require('dotenv').config()
 				outputAs: 'class'
 			}
 		}),
-		PhotoModule
+		UserModule
 	]
 })
 export class ApplicationModule {}

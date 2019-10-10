@@ -4,6 +4,17 @@
  */
 
 /* tslint:disable */
+export enum DiscountType {
+    PERCENT = "PERCENT",
+    DEDUCT = "DEDUCT"
+}
+
+export class DiscountInput {
+    name?: string;
+    type?: DiscountType;
+    value?: number;
+}
+
 export class PaymentSlipInput {
     name?: string;
     price?: number;
@@ -13,6 +24,7 @@ export class UserCreateInput {
     username?: string;
     password?: string;
     name?: string;
+    email?: string;
     roleId?: string;
 }
 
@@ -30,12 +42,21 @@ export class Customer {
 export class Discount {
     _id?: string;
     name?: string;
+    type?: DiscountType;
+    value?: number;
+    createdAt?: number;
+    createdBy?: User;
+    startDate?: number;
+    endDate?: number;
+    isActive?: boolean;
 }
 
 export abstract class IMutation {
     abstract createUser(userCreateInput?: UserCreateInput): string | Promise<string>;
 
     abstract createPaymentSlip(input?: PaymentSlipInput): string | Promise<string>;
+
+    abstract createDiscount(input?: DiscountInput): string | Promise<string>;
 }
 
 export class PaymentSlip {
@@ -70,6 +91,8 @@ export abstract class IQuery {
     abstract paymentSlips(ids: string[]): PaymentSlip[] | Promise<PaymentSlip[]>;
 
     abstract discount(id: string): Discount | Promise<Discount>;
+
+    abstract discounts(): Discount[] | Promise<Discount[]>;
 }
 
 export class Role {
@@ -84,6 +107,7 @@ export class Room {
     name?: string;
     createdAt?: number;
     typeRoom?: TypeRoom;
+    isActive?: boolean;
 }
 
 export class TypeRoom {
@@ -96,7 +120,9 @@ export class User {
     _id?: string;
     username?: string;
     password?: string;
+    email?: string;
     name?: string;
     createdAt?: number;
     role?: Role;
+    isActive?: boolean;
 }

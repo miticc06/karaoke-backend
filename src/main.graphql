@@ -15,12 +15,15 @@ type Query {
 
 
   discount(id: ID!): Discount
+  discounts: [Discount]
 }
 
 type Mutation {
 	createUser(userCreateInput: UserCreateInput): String
 
   createPaymentSlip(input: PaymentSlipInput): String
+
+	createDiscount(input: DiscountInput): String
 }
 
 # ------------------------ Entity ------------------------
@@ -29,9 +32,11 @@ type User {
 	_id: ID
 	username: String
 	password: String
+	email: String
 	name: String
 	createdAt: Float
   role: Role
+	isActive: Boolean
 }
 
 type Customer {
@@ -50,6 +55,7 @@ type Room {
 	name: String
 	createdAt: Float
   typeRoom: TypeRoom
+	isActive: Boolean
 }
 
 type TypeRoom {
@@ -83,8 +89,21 @@ type PaymentSlip {
 type Discount {
   _id: ID
   name: String
+	type: DiscountType
+	value: Float
+
+  createdAt: Float
+  createdBy: User
+
+	startDate: Float
+	endDate: Float
+	isActive: Boolean
 }
 
+enum DiscountType {
+  PERCENT
+	DEDUCT
+}
 
 # ------------------------ Class Support ------------------------
 
@@ -100,7 +119,7 @@ input UserCreateInput {
 	username: String
 	password: String
 	name: String
-  
+  email: String
   roleId: String
 }
 
@@ -110,4 +129,8 @@ input PaymentSlipInput {
   price: Float
 }
 
-
+input DiscountInput {
+	name: String
+	type: DiscountType
+	value: Float
+}

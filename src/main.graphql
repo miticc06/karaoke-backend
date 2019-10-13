@@ -10,17 +10,16 @@ type Query {
 	room(id: ID!): Room
 	rooms(ids: [ID]!): [Room]
 
-  paymentSlip(id: ID!): PaymentSlip
-  paymentSlips(ids: [ID]!): [PaymentSlip]
+	paymentSlip(id: ID!): PaymentSlip
+	paymentSlips(ids: [ID]!): [PaymentSlip]
 
-
-  discount(id: ID!): Discount
+	discount(id: ID!): Discount
 }
 
 type Mutation {
 	createUser(userCreateInput: UserCreateInput): String
 
-  createPaymentSlip(input: PaymentSlipInput): String
+	createPaymentSlip(input: PaymentSlipInput): String
 }
 
 # ------------------------ Entity ------------------------
@@ -31,7 +30,7 @@ type User {
 	password: String
 	name: String
 	createdAt: Float
-  role: Role
+	role: Role
 }
 
 type Customer {
@@ -49,7 +48,7 @@ type Room {
 	_id: ID
 	name: String
 	createdAt: Float
-  typeRoom: TypeRoom
+	typeRoom: TypeRoom
 }
 
 type TypeRoom {
@@ -60,31 +59,30 @@ type TypeRoom {
 
 type Permission {
 	_id: ID
-  code: String
-  name: String
+	code: String
+	name: String
 }
 
 type Role {
-  _id: ID
-  code: String
-  name: String
-  permissions: [Permission]
+	_id: ID
+	code: String
+	name: String
+	permissions: [Permission]
 }
 
 type PaymentSlip {
-  _id: ID
-  name: String
-  price: Float
-  # histories: [HistoryPaymentSlip]
-  createdAt: Float
-  createdBy: User
+	_id: ID
+	name: String
+	price: Float
+	# histories: [HistoryPaymentSlip]
+	createdAt: Float
+	createdBy: User
 }
 
 type Discount {
-  _id: ID
-  name: String
+	_id: ID
+	name: String
 }
-
 
 # ------------------------ Class Support ------------------------
 
@@ -100,14 +98,10 @@ input UserCreateInput {
 	username: String
 	password: String
 	name: String
-  
-  roleId: String
+	roleId: String
 }
-
 
 input PaymentSlipInput {
   name: String
   price: Float
 }
-
-

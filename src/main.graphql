@@ -15,6 +15,9 @@ type Query {
 
   discount(id: ID!): Discount
   discounts: [Discount]
+
+  bill(id: ID!): Bill
+  service(id: ID!): Service
 }
 
 type Mutation {
@@ -62,8 +65,10 @@ type Room {
 
 type TypeRoom {
 	_id: ID
+  # code: String
 	name: String
-	createdAt: Float
+  unitPrice: Float
+	updatedAt: Float
 }
 
 type Permission {
@@ -88,11 +93,55 @@ type PaymentSlip {
 	createdBy: User
 }
 
+type Bill {
+  _id: ID
+  customer: Customer
+  createdAt: Float
+	createdBy: User
+  roomDetails: [BillRoomDetails]
+  serviceDetails: [BillServiceDetails]
+  total: Float
+}
+
+type BillServiceDetails {
+  service: Service
+  startTime: Float
+  endTime: Float
+  quantity: Int
+  total: Float
+}
+
+type BillRoomDetails {
+  room: Room
+  startTime: Float
+  endTime: Float
+  total: Float
+}
+
+type Service {
+  _id: ID
+  name: String
+  type: TypeService
+  unitPrice: Float
+}
+
+enum TypeService {
+  TIME
+	NUMS
+}
+
+# type TypeService {
+# 	_id: ID
+#   code: String
+# 	name: String
+# 	createdAt: Float
+# }
+
 type Discount {
 
   _id: ID
   name: String
-	type: DiscountType
+	type: TypeDiscount
 	value: Float
 
   createdAt: Float
@@ -103,7 +152,7 @@ type Discount {
 	isActive: Boolean
 }
 
-enum DiscountType {
+enum TypeDiscount {
   PERCENT
 	DEDUCT
 }
@@ -133,6 +182,6 @@ input PaymentSlipInput {
 
 input DiscountInput {
 	name: String
-	type: DiscountType
+	type: TypeDiscount
 	value: Float
 }

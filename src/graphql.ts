@@ -4,14 +4,19 @@
  */
 
 /* tslint:disable */
-export enum DiscountType {
+export enum TypeDiscount {
     PERCENT = "PERCENT",
     DEDUCT = "DEDUCT"
 }
 
+export enum TypeService {
+    TIME = "TIME",
+    NUMS = "NUMS"
+}
+
 export class DiscountInput {
     name?: string;
-    type?: DiscountType;
+    type?: TypeDiscount;
     value?: number;
 }
 
@@ -28,6 +33,31 @@ export class UserCreateInput {
     roleId?: string;
 }
 
+export class Bill {
+    _id?: string;
+    customer?: Customer;
+    createdAt?: number;
+    createdBy?: User;
+    roomDetails?: BillRoomDetails[];
+    serviceDetails?: BillServiceDetails[];
+    total?: number;
+}
+
+export class BillRoomDetails {
+    room?: Room;
+    startTime?: number;
+    endTime?: number;
+    total?: number;
+}
+
+export class BillServiceDetails {
+    service?: Service;
+    startTime?: number;
+    endTime?: number;
+    quantity?: number;
+    total?: number;
+}
+
 export class Customer {
     _id?: string;
     name?: string;
@@ -42,7 +72,7 @@ export class Customer {
 export class Discount {
     _id?: string;
     name?: string;
-    type?: DiscountType;
+    type?: TypeDiscount;
     value?: number;
     createdAt?: number;
     createdBy?: User;
@@ -93,6 +123,10 @@ export abstract class IQuery {
     abstract discount(id: string): Discount | Promise<Discount>;
 
     abstract discounts(): Discount[] | Promise<Discount[]>;
+
+    abstract bill(id: string): Bill | Promise<Bill>;
+
+    abstract service(id: string): Service | Promise<Service>;
 }
 
 export class Role {
@@ -110,10 +144,18 @@ export class Room {
     isActive?: boolean;
 }
 
+export class Service {
+    _id?: string;
+    name?: string;
+    type?: TypeService;
+    unitPrice?: number;
+}
+
 export class TypeRoom {
     _id?: string;
     name?: string;
-    createdAt?: number;
+    unitPrice?: number;
+    updatedAt?: number;
 }
 
 export class User {

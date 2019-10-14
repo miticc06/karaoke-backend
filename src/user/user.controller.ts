@@ -4,10 +4,10 @@ import { User } from './user.entity'
 
 @Controller('User')
 export class UserController {
-	constructor(private readonly userService: UserService) {}
+  constructor(private readonly userService: UserService) {}
 
-	@Get()
-	findAll(): Promise<User[]> {
-		return this.userService.findAll()
-	}
+  @Get()
+  findAll(): Promise<User[]> {
+    return this.userService.findAll()
+  }
 }

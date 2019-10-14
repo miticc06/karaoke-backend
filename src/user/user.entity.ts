@@ -2,18 +2,18 @@ import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
 
 @Entity({ name: 'User' })
 export class User {
-	@ObjectIdColumn()
-	id: ObjectID
+  @ObjectIdColumn()
+  id: ObjectID
 
-	@Column()
-	username: string
+  @Column()
+  username: string
 
-	@Column()
-	password: string
+  @Column()
+  password: string
 
-	@Column()
-	name: string
+  @Column()
+  name: string
 
-	@Column()
-	createdAt: number
+  @Column()
+  createdAt: number
 }

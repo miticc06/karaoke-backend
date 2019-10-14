@@ -1,17 +1,17 @@
 # ------------------------ Graphql ------------------------
 
 type Query {
-	user(id: ID!): User
-	users(ids: [ID]!): [User]
+  user(id: ID!): User
+  users(ids: [ID]!): [User]
 
-	customer(id: ID!): Customer
-	customers(ids: [ID]!): [Customer]
+  customer(id: ID!): Customer
+  customers(ids: [ID]!): [Customer]
 
-	room(id: ID!): Room
-	rooms(ids: [ID]!): [Room]
+  room(id: ID!): Room
+  rooms(ids: [ID]!): [Room]
 
-	paymentSlip(id: ID!): PaymentSlip
-	paymentSlips(ids: [ID]!): [PaymentSlip]
+  paymentSlip(id: ID!): PaymentSlip
+  paymentSlips(ids: [ID]!): [PaymentSlip]
 
   discount(id: ID!): Discount
   discounts: [Discount]
@@ -21,83 +21,83 @@ type Query {
 }
 
 type Mutation {
-	createUser(userCreateInput: UserCreateInput): String
+  createUser(userCreateInput: UserCreateInput): String
 
 
   createPaymentSlip(input: PaymentSlipInput): String
 
-	createDiscount(input: DiscountInput): String
+  createDiscount(input: DiscountInput): String
 }
 
 # ------------------------ Entity ------------------------
 
 type User {
-	_id: ID
-	username: String
-	password: String
-	email: String
-	name: String
-	createdAt: Float
+  _id: ID
+  username: String
+  password: String
+  email: String
+  name: String
+  createdAt: Float
 
   role: Role
-	isActive: Boolean
+  isActive: Boolean
 }
 
 type Customer {
-	_id: ID
-	name: String
-	dateOfBirth: Float
-	phone: String
-	email: String
-	points: Int
-	createdAt: Float
-	createdBy: User
+  _id: ID
+  name: String
+  dateOfBirth: Float
+  phone: String
+  email: String
+  points: Int
+  createdAt: Float
+  createdBy: User
 }
 
 type Room {
-	_id: ID
-	name: String
-	createdAt: Float
+  _id: ID
+  name: String
+  createdAt: Float
 
   typeRoom: TypeRoom
-	isActive: Boolean
+  isActive: Boolean
 }
 
 type TypeRoom {
-	_id: ID
+  _id: ID
   # code: String
-	name: String
+  name: String
   unitPrice: Float
-	updatedAt: Float
+  updatedAt: Float
 }
 
 type Permission {
-	_id: ID
-	code: String
-	name: String
+  _id: ID
+  code: String
+  name: String
 }
 
 type Role {
-	_id: ID
-	code: String
-	name: String
-	permissions: [Permission]
+  _id: ID
+  code: String
+  name: String
+  permissions: [Permission]
 }
 
 type PaymentSlip {
-	_id: ID
-	name: String
-	price: Float
-	# histories: [HistoryPaymentSlip]
-	createdAt: Float
-	createdBy: User
+  _id: ID
+  name: String
+  price: Float
+  # histories: [HistoryPaymentSlip]
+  createdAt: Float
+  createdBy: User
 }
 
 type Bill {
   _id: ID
   customer: Customer
   createdAt: Float
-	createdBy: User
+createdBy: User
   roomDetails: [BillRoomDetails]
   serviceDetails: [BillServiceDetails]
   total: Float
@@ -127,7 +127,7 @@ type Service {
 
 enum TypeService {
   TIME
-	NUMS
+  NUMS
 }
 
 # type TypeService {
@@ -141,20 +141,20 @@ type Discount {
 
   _id: ID
   name: String
-	type: TypeDiscount
-	value: Float
+  type: TypeDiscount
+  value: Float
 
   createdAt: Float
   createdBy: User
 
-	startDate: Float
-	endDate: Float
-	isActive: Boolean
+  startDate: Float
+  endDate: Float
+  isActive: Boolean
 }
 
 enum TypeDiscount {
   PERCENT
-	DEDUCT
+  DEDUCT
 }
 
 # ------------------------ Class Support ------------------------
@@ -168,9 +168,9 @@ enum TypeDiscount {
 # ------------------------ Input ------------------------
 
 input UserCreateInput {
-	username: String
-	password: String
-	name: String
+  username: String
+  password: String
+  name: String
   email: String
   roleId: String
 }
@@ -181,7 +181,7 @@ input PaymentSlipInput {
 }
 
 input DiscountInput {
-	name: String
-	type: TypeDiscount
-	value: Float
+  name: String
+  type: TypeDiscount
+  value: Float
 }

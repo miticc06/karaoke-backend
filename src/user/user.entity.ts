@@ -1,6 +1,6 @@
 import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
 
-@Entity({ name: 'User' })
+@Entity({ name: 'users' })
 export class User {
   @ObjectIdColumn()
   id: ObjectID
@@ -12,8 +12,17 @@ export class User {
   password: string
 
   @Column()
+  email: string
+
+  @Column()
   name: string
 
   @Column()
   createdAt: number
+
+  @Column()
+  role: string
+
+  @Column()
+  isActive: boolean
 }

@@ -4,6 +4,7 @@ const nodeExternals = require('webpack-node-externals');
 
 module.exports = {
   entry: ['webpack/hot/poll?100', './src/main.ts'],
+  watch: true,
   target: 'node',
   externals: [
     nodeExternals({
@@ -13,8 +14,16 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
+        test: /.tsx?$/,
+        use: [
+					{
+						loader: 'ts-loader',
+						options: {
+							transpileOnly: true,
+							experimentalWatchApi: true
+						}
+					}
+        ],
         exclude: /node_modules/,
       },
     ],
@@ -23,7 +32,12 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
-  plugins: [new webpack.HotModuleReplacementPlugin(), new webpack.WatchIgnorePlugin([/\.js$/, /\.d\.ts$/])],
+  plugins: [new webpack.HotModuleReplacementPlugin()],
+  optimization: {
+		removeAvailableModules: false,
+		removeEmptyChunks: false,
+		splitChunks: false
+	},
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'server.js',

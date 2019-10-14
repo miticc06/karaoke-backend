@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common'
 import { GraphQLModule } from '@nestjs/graphql'
 import { TypeOrmModule } from '@nestjs/typeorm'
-import { UserModule } from './user/user.module'
 import { getMetadataArgsStorage } from 'typeorm'
 import { join } from 'path'
+
+import { UserModule } from './user/user.module'
+import { PermissionResolver } from './permission/permission.resolver'
 
 // tslint:disable-next-line:no-var-requires
 require('dotenv').config()
@@ -14,7 +16,10 @@ require('dotenv').config()
       type: 'mongodb',
       url: process.env.MONGO_URL || 'mongodb://localhost:27017/karaoke',
       entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
-      synchronize: true
+      synchronize: true,
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+      keepConnectionAlive: true
     }),
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
@@ -23,7 +28,8 @@ require('dotenv').config()
         outputAs: 'class'
       }
     }),
-    UserModule
+    UserModule,
+    PermissionResolver
   ]
 })
 export class ApplicationModule {}

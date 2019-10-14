@@ -4,6 +4,8 @@ type Query {
   user(id: ID!): User
   users(ids: [ID]!): [User]
 
+  permissions: [Permission]
+
   customer(id: ID!): Customer
   customers(ids: [ID]!): [Customer]
 

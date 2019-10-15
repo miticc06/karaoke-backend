@@ -3,9 +3,11 @@ import { AppController } from './app.controller'
 import { AppService } from './app.service'
 import { GraphQLModule } from '@nestjs/graphql'
 import { join } from 'path'
+import { MainModule } from './modules/main.module'
 
 @Module({
   imports: [
+    MainModule,
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
       definitions: {
@@ -13,8 +15,8 @@ import { join } from 'path'
         outputAs: 'class'
       }
     })
-  ],
-  controllers: [AppController],
-  providers: [AppService]
+  ]
+  // controllers: [AppController],
+  // providers: [AppService]
 })
 export class AppModule {}

@@ -109,6 +109,8 @@ export abstract class IQuery {
 
     abstract users(ids: string[]): User[] | Promise<User[]>;
 
+    abstract permissions(): Permission[] | Promise<Permission[]>;
+
     abstract customer(id: string): Customer | Promise<Customer>;
 
     abstract customers(ids: string[]): Customer[] | Promise<Customer[]>;

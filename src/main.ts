@@ -6,6 +6,7 @@ import { express as createSchema } from 'graphql-voyager/middleware'
 
 declare const module: any
 
+// tslint:disable-next-line:no-var-requires
 require('dotenv').config()
 
 async function bootstrap() {

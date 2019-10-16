@@ -7,6 +7,7 @@ import { MainModule } from './modules/main.module'
 import { getMetadataArgsStorage } from 'typeorm'
 import { TypeOrmModule } from '@nestjs/typeorm'
 
+// tslint:disable-next-line:no-var-requires
 require('dotenv').config()
 
 @Module({
@@ -26,8 +27,8 @@ require('dotenv').config()
         outputAs: 'class'
       }
     })
-  ]
-  // controllers: [AppController],
-  // providers: [AppService]
+  ],
+  controllers: [AppController],
+  providers: [AppService]
 })
 export class AppModule {}

@@ -1,0 +1,200 @@
+# ------------------------ Graphql ------------------------
+
+type Query {
+  user(id: ID!): User
+  users(ids: [ID]!): [User]
+
+  #### PERMISSION
+  permissions: [Permission]
+
+  customer(id: ID!): Customer
+  customers(ids: [ID]!): [Customer]
+
+  room(id: ID!): Room
+  rooms(ids: [ID]!): [Room]
+
+  paymentSlip(id: ID!): PaymentSlip
+  paymentSlips(ids: [ID]!): [PaymentSlip]
+
+  discount(id: ID!): Discount
+  discounts: [Discount]
+
+  bill(id: ID!): Bill
+  service(id: ID!): Service
+}
+
+type Mutation {
+  createUser(userCreateInput: UserCreateInput): String
+
+
+  createPaymentSlip(input: PaymentSlipInput): String
+
+  createDiscount(input: DiscountInput): String
+
+  #### PERMISSION
+  createPermission(input: PermissionInput!): Permission
+  updatePermission(permissionId: String!, input: PermissionInput!): Permission
+  deletePermission(permissionId: String!): Boolean
+}
+
+# ------------------------ Entity ------------------------
+
+type User {
+  _id: ID
+  username: String
+  password: String
+  email: String
+  name: String
+  createdAt: Float
+
+  role: Role
+  isActive: Boolean
+}
+
+type Customer {
+  _id: ID
+  name: String
+  dateOfBirth: Float
+  phone: String
+  email: String
+  points: Int
+  createdAt: Float
+  createdBy: User
+}
+
+type Room {
+  _id: ID
+  name: String
+  createdAt: Float
+
+  typeRoom: TypeRoom
+  isActive: Boolean
+}
+
+type TypeRoom {
+  _id: ID
+  # code: String
+  name: String
+  unitPrice: Float
+  updatedAt: Float
+}
+
+type Permission {
+  _id: ID
+  code: String
+  name: String
+}
+
+type Role {
+  _id: ID
+  code: String
+  name: String
+  permissions: [Permission]
+}
+
+type PaymentSlip {
+  _id: ID
+  name: String
+  price: Float
+  # histories: [HistoryPaymentSlip]
+  createdAt: Float
+  createdBy: User
+}
+
+type Bill {
+  _id: ID
+  customer: Customer
+  createdAt: Float
+createdBy: User
+  roomDetails: [BillRoomDetails]
+  serviceDetails: [BillServiceDetails]
+  total: Float
+}
+
+type BillServiceDetails {
+  service: Service
+  startTime: Float
+  endTime: Float
+  quantity: Int
+  total: Float
+}
+
+type BillRoomDetails {
+  room: Room
+  startTime: Float
+  endTime: Float
+  total: Float
+}
+
+type Service {
+  _id: ID
+  name: String
+  type: TypeService
+  unitPrice: Float
+}
+
+enum TypeService {
+  TIME
+  NUMS
+}
+
+# type TypeService {
+# 	_id: ID
+#   code: String
+# 	name: String
+# 	createdAt: Float
+# }
+
+type Discount {
+
+  _id: ID
+  name: String
+  type: TypeDiscount
+  value: Float
+
+  createdAt: Float
+  createdBy: User
+
+  startDate: Float
+  endDate: Float
+  isActive: Boolean
+}
+
+enum TypeDiscount {
+  PERCENT
+  DEDUCT
+}
+
+# ------------------------ Class Support ------------------------
+
+# type HistoryPaymentSlip {
+#   createdAt: Float
+#   createdBy: User
+#   note: String
+# }
+
+# ------------------------ Input ------------------------
+
+input UserCreateInput {
+  username: String
+  password: String
+  name: String
+  email: String
+  roleId: String
+}
+
+input PaymentSlipInput {
+  name: String
+  price: Float
+}
+
+input DiscountInput {
+  name: String
+  type: TypeDiscount
+  value: Float
+}
+
+input PermissionInput {
+  code: String!
+  name: String!
+}

@@ -15,7 +15,7 @@
 
 <h3 style="color: #1c4587">Create enviroment:</h3>
 
-File name: ``.ENV`` 
+File name: ``.env`` 
 
 ```js
 # PORT=<YOUR_PORT>

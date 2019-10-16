@@ -13,9 +13,9 @@ describe('AppController', () => {
   })
 
   describe('getHello', () => {
-    it('should return "Hello World!"', () => {
+    it('should return "This is backend!"', () => {
       const appController = app.get<AppController>(AppController)
-      expect(appController.getHello()).toBe('Hello World!')
+      expect(appController.getHello()).toBe('This is backend!')
     })
   })
 })

@@ -3,7 +3,7 @@ import { AppModule } from './app.module'
 import { Logger } from '@nestjs/common'
 import chalk from 'chalk'
 import { express as createSchema } from 'graphql-voyager/middleware'
-
+import { LoggingInterceptor } from './interceptors/logging.interceptor'
 declare const module: any
 
 // tslint:disable-next-line:no-var-requires
@@ -13,6 +13,9 @@ async function bootstrap() {
   const PORT = process.env.PORT || 3000
   const app = await NestFactory.create(AppModule)
   app.use('/schema', createSchema({ endpointUrl: '/graphql' }))
+
+  app.useGlobalInterceptors(new LoggingInterceptor())
+  app.enableShutdownHooks()
 
   await app.listen(PORT)
 

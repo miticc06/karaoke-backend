@@ -25,6 +25,11 @@ export class PaymentSlipInput {
     price?: number;
 }
 
+export class PermissionInput {
+    code: string;
+    name: string;
+}
+
 export class UserCreateInput {
     username?: string;
     password?: string;
@@ -87,6 +92,12 @@ export abstract class IMutation {
     abstract createPaymentSlip(input?: PaymentSlipInput): string | Promise<string>;
 
     abstract createDiscount(input?: DiscountInput): string | Promise<string>;
+
+    abstract createPermission(input: PermissionInput): Permission | Promise<Permission>;
+
+    abstract updatePermission(permissionId: string, input: PermissionInput): Permission | Promise<Permission>;
+
+    abstract deletePermission(permissionId: string): boolean | Promise<boolean>;
 }
 
 export class PaymentSlip {

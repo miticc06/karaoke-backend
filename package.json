@@ -14,14 +14,12 @@
     "start:prod": "node dist/main",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
+    "test:update": "jest -u",
+    "test:ci": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-
     "eslint:check": "tslint -p tsconfig.json -c tslint.json",
     "eslint:fix": "tslint -p tsconfig.json -c tslint.json --fix",
-
     "dev": "nest build --watch --webpack",
     "start": "nodemon dist/main",
     "gen": "ts-node src/generate-typings"
@@ -51,6 +49,7 @@
     "rxjs": "^6.5.3",
     "tslint-plugin-prettier": "^2.0.1",
     "typeorm": "^0.2.19",
+    "uuid": "^3.3.3",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9"
   },

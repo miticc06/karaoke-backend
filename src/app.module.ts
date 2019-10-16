@@ -1,20 +1,24 @@
 import { Module } from '@nestjs/common'
+import { AppController } from './app.controller'
+import { AppService } from './app.service'
 import { GraphQLModule } from '@nestjs/graphql'
-import { TypeOrmModule } from '@nestjs/typeorm'
-import { UserModule } from './user/user.module'
-import { getMetadataArgsStorage } from 'typeorm'
 import { join } from 'path'
+import { MainModule } from './modules/main.module'
+import { getMetadataArgsStorage } from 'typeorm'
+import { TypeOrmModule } from '@nestjs/typeorm'
 
 // tslint:disable-next-line:no-var-requires
 require('dotenv').config()
 
 @Module({
   imports: [
+    MainModule,
     TypeOrmModule.forRoot({
       type: 'mongodb',
       url: process.env.MONGO_URL || 'mongodb://localhost:27017/karaoke',
       entities: getMetadataArgsStorage().tables.map(tbl => tbl.target),
-      synchronize: true
+      synchronize: true,
+      useUnifiedTopology: true
     }),
     GraphQLModule.forRoot({
       typePaths: ['./**/*.graphql'],
@@ -22,8 +26,9 @@ require('dotenv').config()
         path: join(process.cwd(), 'src/graphql.ts'),
         outputAs: 'class'
       }
-    }),
-    UserModule
-  ]
+    })
+  ],
+  controllers: [AppController],
+  providers: [AppService]
 })
-export class ApplicationModule {}
+export class AppModule {}

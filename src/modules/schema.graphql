@@ -4,6 +4,9 @@ type Query {
   user(id: ID!): User
   users(ids: [ID]!): [User]
 
+  #### PERMISSION
+  permissions: [Permission]
+
   customer(id: ID!): Customer
   customers(ids: [ID]!): [Customer]
 
@@ -27,6 +30,11 @@ type Mutation {
   createPaymentSlip(input: PaymentSlipInput): String
 
   createDiscount(input: DiscountInput): String
+
+  #### PERMISSION
+  createPermission(input: PermissionInput!): Permission
+  updatePermission(permissionId: String!, input: PermissionInput!): Permission
+  deletePermission(permissionId: String!): Boolean
 }
 
 # ------------------------ Entity ------------------------
@@ -184,4 +192,9 @@ input DiscountInput {
   name: String
   type: TypeDiscount
   value: Float
+}
+
+input PermissionInput {
+  code: String!
+  name: String!
 }

@@ -8,7 +8,7 @@
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start1": "nest start",
+    "start:normal": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -18,9 +18,18 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
+
+    "eslint:check": "tslint -p tsconfig.json -c tslint.json",
+    "eslint:fix": "tslint -p tsconfig.json -c tslint.json --fix",
+
     "dev": "nest build --watch --webpack",
     "start": "nodemon dist/main",
     "gen": "ts-node src/generate-typings"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run eslint:fix && git add ."
+    }
   },
   "dependencies": {
     "@nestjs/common": "^6.8.3",
@@ -34,6 +43,7 @@
     "graphql": "^14.5.8",
     "graphql-tools": "^4.0.5",
     "graphql-voyager": "^1.0.0-rc.28",
+    "husky": "^3.0.9",
     "mongodb": "^3.3.3",
     "path": "^0.12.7",
     "reflect-metadata": "^0.1.13",

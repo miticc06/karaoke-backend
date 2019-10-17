@@ -7,6 +7,10 @@ type Query {
   #### PERMISSION
   permissions: [Permission]
 
+  #### ROLE
+  roles: [Role]
+  role(roleId: String!): Role
+
   customer(id: ID!): Customer
   customers(ids: [ID]!): [Customer]
 
@@ -26,7 +30,6 @@ type Query {
 type Mutation {
   createUser(userCreateInput: UserCreateInput): String
 
-
   createPaymentSlip(input: PaymentSlipInput): String
 
   createDiscount(input: DiscountInput): String
@@ -35,6 +38,11 @@ type Mutation {
   createPermission(input: PermissionInput!): Permission
   updatePermission(permissionId: String!, input: PermissionInput!): Permission
   deletePermission(permissionId: String!): Boolean
+
+  #### ROLE
+  createRole(input: RoleInput!): Role
+  updateRole(roleId: String!, input: RoleInput!): Role
+  deleteRole(roleId: String!): Boolean
 }
 
 # ------------------------ Entity ------------------------
@@ -105,7 +113,7 @@ type Bill {
   _id: ID
   customer: Customer
   createdAt: Float
-createdBy: User
+  createdBy: User
   roomDetails: [BillRoomDetails]
   serviceDetails: [BillServiceDetails]
   total: Float
@@ -146,7 +154,6 @@ enum TypeService {
 # }
 
 type Discount {
-
   _id: ID
   name: String
   type: TypeDiscount
@@ -197,4 +204,10 @@ input DiscountInput {
 input PermissionInput {
   code: String!
   name: String!
+}
+
+input RoleInput {
+  code: String!
+  name: String!
+  permissions: [String!]!
 }

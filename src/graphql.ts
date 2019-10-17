@@ -30,6 +30,12 @@ export class PermissionInput {
     name: string;
 }
 
+export class RoleInput {
+    code: string;
+    name: string;
+    permissions: string[];
+}
+
 export class UserCreateInput {
     username?: string;
     password?: string;
@@ -98,6 +104,12 @@ export abstract class IMutation {
     abstract updatePermission(permissionId: string, input: PermissionInput): Permission | Promise<Permission>;
 
     abstract deletePermission(permissionId: string): boolean | Promise<boolean>;
+
+    abstract createRole(input: RoleInput): Role | Promise<Role>;
+
+    abstract updateRole(roleId: string, input: RoleInput): Role | Promise<Role>;
+
+    abstract deleteRole(roleId: string): boolean | Promise<boolean>;
 }
 
 export class PaymentSlip {
@@ -120,6 +132,10 @@ export abstract class IQuery {
     abstract users(ids: string[]): User[] | Promise<User[]>;
 
     abstract permissions(): Permission[] | Promise<Permission[]>;
+
+    abstract roles(): Role[] | Promise<Role[]>;
+
+    abstract role(roleId: string): Role | Promise<Role>;
 
     abstract customer(id: string): Customer | Promise<Customer>;
 

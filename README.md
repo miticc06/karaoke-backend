@@ -19,7 +19,7 @@ File name: ``.env``
 
 ```js
 # PORT=<YOUR_PORT>
-# MONGO_URL=mongodb://localhost:27017/<YOUR_PORT_MONGO>
+# MONGO_URL=mongodb://localhost:<YOUR_PORT_MONGO>/karaoke
 ```
 
 

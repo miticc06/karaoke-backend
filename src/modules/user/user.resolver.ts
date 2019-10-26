@@ -28,14 +28,6 @@ export class UserResolvers {
       _id: user.role
     })
     return role
-    // const permissions = await Promise.all(
-    //   role.permissions.map(async permissionId => {
-    //     return await getMongoRepository(PermissionEntity).findOne({
-    //       _id: permissionId
-    //     })
-    //   })
-    // )
-    // return permissions
   }
 
   @Query('users')
@@ -209,7 +201,7 @@ export class UserResolvers {
       if (!result) {
         throw new ApolloError('Update user thất bại!')
       }
-      return 'true'
+      return true
     } catch (error) {
       return error
     }

@@ -37,10 +37,18 @@ export class RoleInput {
 }
 
 export class UserCreateInput {
-    username?: string;
-    password?: string;
-    name?: string;
+    username: string;
+    password: string;
+    email: string;
+    name: string;
+    roleId: string;
+}
+
+export class UserUpdateInput {
+    currentPassword?: string;
+    newPassword?: string;
     email?: string;
+    name?: string;
     roleId?: string;
 }
 
@@ -92,8 +100,18 @@ export class Discount {
     isActive?: boolean;
 }
 
+export class LoginResponse {
+    token?: string;
+}
+
 export abstract class IMutation {
-    abstract createUser(userCreateInput?: UserCreateInput): string | Promise<string>;
+    abstract createUser(input: UserCreateInput): User | Promise<User>;
+
+    abstract login(username: string, password: string): LoginResponse | Promise<LoginResponse>;
+
+    abstract updateUser(userId: string, input: UserUpdateInput): boolean | Promise<boolean>;
+
+    abstract deleteUser(userId: string): boolean | Promise<boolean>;
 
     abstract createPaymentSlip(input?: PaymentSlipInput): string | Promise<string>;
 
@@ -129,7 +147,7 @@ export class Permission {
 export abstract class IQuery {
     abstract user(id: string): User | Promise<User>;
 
-    abstract users(ids: string[]): User[] | Promise<User[]>;
+    abstract users(): User[] | Promise<User[]>;
 
     abstract permissions(): Permission[] | Promise<Permission[]>;
 
@@ -190,7 +208,6 @@ export class TypeRoom {
 export class User {
     _id?: string;
     username?: string;
-    password?: string;
     email?: string;
     name?: string;
     createdAt?: number;

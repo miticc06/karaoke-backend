@@ -2,7 +2,7 @@
 
 type Query {
   user(id: ID!): User
-  users(ids: [ID]!): [User]
+  users: [User]
 
   #### PERMISSION
   permissions: [Permission]
@@ -28,7 +28,13 @@ type Query {
 }
 
 type Mutation {
-  createUser(userCreateInput: UserCreateInput): String
+  
+  #### USER
+  createUser(input: UserCreateInput!): User
+  login(username: String!, password: String!): LoginResponse
+  updateUser(userId: String!, input: UserUpdateInput!): Boolean
+  deleteUser(userId: String!): Boolean
+
 
   createPaymentSlip(input: PaymentSlipInput): String
 
@@ -50,7 +56,7 @@ type Mutation {
 type User {
   _id: ID
   username: String
-  password: String
+  # password: String
   email: String
   name: String
   createdAt: Float
@@ -183,10 +189,18 @@ enum TypeDiscount {
 # ------------------------ Input ------------------------
 
 input UserCreateInput {
-  username: String
-  password: String
-  name: String
+  username: String!
+  password: String!
+  email: String!
+  name: String!
+  roleId: String!
+}
+
+input UserUpdateInput {
+  currentPassword: String
+  newPassword: String
   email: String
+  name: String
   roleId: String
 }
 
@@ -210,4 +224,10 @@ input RoleInput {
   code: String!
   name: String!
   permissions: [String!]!
+}
+
+
+# ------------------------ Response ------------------------
+type LoginResponse {
+  token: String
 }

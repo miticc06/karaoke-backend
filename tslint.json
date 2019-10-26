@@ -62,7 +62,9 @@
     "trailing-comma": false,
     "no-string-throw": false,
     "object-literal-key-quotes": [false],
-    "indent": ["error", 2]
+    "indent": ["error", 2],
+    "no-shadowed-variable": false,
+    "no-use-before-define": false
   },
   "rulesDirectory": [],
   "linterOptions": {

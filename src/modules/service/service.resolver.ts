@@ -59,15 +59,15 @@ export class ServiceResolvers {
         _id: uuid.v4()
       }
 
-      const existService = await getMongoManager().findOne(ServiceEntity, {
-        where: {
-          name: input.name
-        }
-      })
+      // const existService = await getMongoManager().findOne(ServiceEntity, {
+      //   where: {
+      //     name: input.name
+      //   }
+      // })
 
-      if (existService) {
-        throw new ApolloError('Name cho service này đã được sử dụng!')
-      }
+      // if (existService) {
+      //   throw new ApolloError('Name cho service này đã được sử dụng!')
+      // }
 
       return await getMongoManager().save(ServiceEntity, service)
     } catch (error) {
@@ -89,24 +89,24 @@ export class ServiceResolvers {
         throw new ApolloError('Service not found!')
       }
 
-      const existService = await getMongoManager().findOne(ServiceEntity, {
-        where: {
-          $and: [
-            {
-              _id: {
-                $ne: serviceId
-              }
-            },
-            {
-              name: input.name
-            }
-          ]
-        }
-      })
+      // const existService = await getMongoManager().findOne(ServiceEntity, {
+      //   where: {
+      //     $and: [
+      //       {
+      //         _id: {
+      //           $ne: serviceId
+      //         }
+      //       },
+      //       {
+      //         name: input.name
+      //       }
+      //     ]
+      //   }
+      // })
 
-      if (existService) {
-        throw new ApolloError('Name hoặc code Service này đã được sử dụng!')
-      }
+      // if (existService) {
+      //   throw new ApolloError('Name hoặc code Service này đã được sử dụng!')
+      // }
 
       const result = await getMongoManager().update(
         ServiceEntity,

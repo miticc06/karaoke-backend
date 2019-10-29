@@ -10,7 +10,7 @@ type Query {
 
 #### SERVICE
   services: [Service]
-  role(serviceId: String!): Service
+  service(serviceId: String!): Service
 
   #### ROLE
   roles: [Role]
@@ -29,7 +29,7 @@ type Query {
   discounts: [Discount]
 
   bill(id: ID!): Bill
-  service(id: ID!): Service
+    # service(id: ID!): Service
 }
 
 type Mutation {
@@ -51,9 +51,9 @@ type Mutation {
   deletePermission(permissionId: String!): Boolean
 
    #### SERVICE
-  createSerice(input: SericeInput!): Serice
-  updateSerice(sericeId: String!, input: SericeInput!): Serice
-  deleteSerice(sericeId: String!): Boolean
+  createService(input: ServiceInput!): Service
+  updateService(serviceId: String!, input: ServiceInput!): Service
+  deleteService(serviceId: String!): Boolean
 
   #### ROLE
   createRole(input: RoleInput!): Role
@@ -223,6 +223,12 @@ input DiscountInput {
   name: String
   type: TypeDiscount
   value: Float
+}
+
+input ServiceInput{
+  name: String!,
+  price: Float!,
+  type: TypeService!
 }
 
 input PermissionInput {

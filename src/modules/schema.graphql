@@ -7,6 +7,11 @@ type Query {
   #### PERMISSION
   permissions: [Permission]
 
+
+#### SERVICE
+  services: [Service]
+  role(serviceId: String!): Service
+
   #### ROLE
   roles: [Role]
   role(roleId: String!): Role
@@ -44,6 +49,11 @@ type Mutation {
   createPermission(input: PermissionInput!): Permission
   updatePermission(permissionId: String!, input: PermissionInput!): Permission
   deletePermission(permissionId: String!): Boolean
+
+   #### SERVICE
+  createSerice(input: SericeInput!): Serice
+  updateSerice(sericeId: String!, input: SericeInput!): Serice
+  deleteSerice(sericeId: String!): Boolean
 
   #### ROLE
   createRole(input: RoleInput!): Role

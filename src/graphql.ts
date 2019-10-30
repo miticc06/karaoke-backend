@@ -36,6 +36,13 @@ export class RoleInput {
     permissions: string[];
 }
 
+export class RoomInput {
+    name: string;
+    createdAt: number;
+    typeRoom: string;
+    isActive: boolean;
+}
+
 export class TypeRoomInput {
     name: string;
     unitPrice: number;
@@ -140,6 +147,12 @@ export abstract class IMutation {
     abstract updateTypeRoom(typeroomId: string, input: TypeRoomInput): TypeRoom | Promise<TypeRoom>;
 
     abstract deleteTypeRoom(typeroomId: string): boolean | Promise<boolean>;
+
+    abstract createRoom(input: RoomInput): Room | Promise<Room>;
+
+    abstract updateRoom(roomId: string, input: RoomInput): Room | Promise<Room>;
+
+    abstract deleteRoom(roomId: string): boolean | Promise<boolean>;
 }
 
 export class PaymentSlip {
@@ -171,9 +184,9 @@ export abstract class IQuery {
 
     abstract customers(ids: string[]): Customer[] | Promise<Customer[]>;
 
-    abstract room(id: string): Room | Promise<Room>;
+    abstract room(roomId: string): Room | Promise<Room>;
 
-    abstract rooms(ids: string[]): Room[] | Promise<Room[]>;
+    abstract rooms(): Room[] | Promise<Room[]>;
 
     abstract typeroom(typeroomId: string): TypeRoom | Promise<TypeRoom>;
 

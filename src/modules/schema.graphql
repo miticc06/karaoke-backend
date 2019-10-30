@@ -17,6 +17,9 @@ type Query {
   room(id: ID!): Room
   rooms(ids: [ID]!): [Room]
 
+  typeRoom(id: ID!): TypeRoom
+  typeRooms(ids: [ID]!): [TypeRoom]
+
   paymentSlip(id: ID!): PaymentSlip
   paymentSlips(ids: [ID]!): [PaymentSlip]
 
@@ -49,6 +52,11 @@ type Mutation {
   createRole(input: RoleInput!): Role
   updateRole(roleId: String!, input: RoleInput!): Role
   deleteRole(roleId: String!): Boolean
+
+  #### TYPEROOM
+  createTypeRoom(input: TypeRoomInput!): TypeRoom
+  updateTypeRoom(typeRoomId: String!, input: TypeRoomInput!): TypeRoom
+  deleteTypeRoom(typeRoomId: String!): Boolean
 }
 
 # ------------------------ Entity ------------------------
@@ -226,7 +234,11 @@ input RoleInput {
   permissions: [String!]!
 }
 
-
+input TypeRoomInput {
+  name: String! 
+  unitPrice: Float!
+  updatedAt: Float!
+}
 # ------------------------ Response ------------------------
 type LoginResponse {
   token: String

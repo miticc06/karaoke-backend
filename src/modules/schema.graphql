@@ -14,8 +14,11 @@ type Query {
   customer(id: ID!): Customer
   customers(ids: [ID]!): [Customer]
 
-  room(id: ID!): Room
-  rooms(ids: [ID]!): [Room]
+  room(roomId: String!): Room
+  rooms: [Room]
+
+  typeroom(typeroomId: String!): TypeRoom
+  typerooms: [TypeRoom]
 
   paymentSlip(id: ID!): PaymentSlip
   paymentSlips(ids: [ID]!): [PaymentSlip]
@@ -49,6 +52,16 @@ type Mutation {
   createRole(input: RoleInput!): Role
   updateRole(roleId: String!, input: RoleInput!): Role
   deleteRole(roleId: String!): Boolean
+
+  #### TYPEROOM
+  createTypeRoom(input: TypeRoomInput!): TypeRoom
+  updateTypeRoom(typeroomId: String!, input: TypeRoomInput!): TypeRoom
+  deleteTypeRoom(typeroomId: String!): Boolean
+
+  #### ROOM 
+  createRoom(input: RoomInput!): Room
+  updateRoom(roomId: String!, input: RoomInput!): Room
+  deleteRoom(roomId: String!): Boolean
 }
 
 # ------------------------ Entity ------------------------
@@ -226,7 +239,18 @@ input RoleInput {
   permissions: [String!]!
 }
 
+input TypeRoomInput {
+  name: String! 
+  unitPrice: Float!
+  updatedAt: Float!
+}
 
+input RoomInput {
+  name: String!
+  createdAt: Float!
+  typeRoom: String!
+  isActive: Boolean!
+}
 # ------------------------ Response ------------------------
 type LoginResponse {
   token: String

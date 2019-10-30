@@ -137,9 +137,9 @@ export abstract class IMutation {
 
     abstract createTypeRoom(input: TypeRoomInput): TypeRoom | Promise<TypeRoom>;
 
-    abstract updateTypeRoom(typeRoomId: string, input: TypeRoomInput): TypeRoom | Promise<TypeRoom>;
+    abstract updateTypeRoom(typeroomId: string, input: TypeRoomInput): TypeRoom | Promise<TypeRoom>;
 
-    abstract deleteTypeRoom(typeRoomId: string): boolean | Promise<boolean>;
+    abstract deleteTypeRoom(typeroomId: string): boolean | Promise<boolean>;
 }
 
 export class PaymentSlip {
@@ -175,9 +175,9 @@ export abstract class IQuery {
 
     abstract rooms(ids: string[]): Room[] | Promise<Room[]>;
 
-    abstract typeRoom(id: string): TypeRoom | Promise<TypeRoom>;
+    abstract typeroom(typeroomId: string): TypeRoom | Promise<TypeRoom>;
 
-    abstract typeRooms(ids: string[]): TypeRoom[] | Promise<TypeRoom[]>;
+    abstract typerooms(): TypeRoom[] | Promise<TypeRoom[]>;
 
     abstract paymentSlip(id: string): PaymentSlip | Promise<PaymentSlip>;
 

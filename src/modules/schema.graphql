@@ -17,8 +17,8 @@ type Query {
   room(id: ID!): Room
   rooms(ids: [ID]!): [Room]
 
-  typeRoom(id: ID!): TypeRoom
-  typeRooms(ids: [ID]!): [TypeRoom]
+  typeroom(typeroomId: String!): TypeRoom
+  typerooms: [TypeRoom]
 
   paymentSlip(id: ID!): PaymentSlip
   paymentSlips(ids: [ID]!): [PaymentSlip]
@@ -55,8 +55,8 @@ type Mutation {
 
   #### TYPEROOM
   createTypeRoom(input: TypeRoomInput!): TypeRoom
-  updateTypeRoom(typeRoomId: String!, input: TypeRoomInput!): TypeRoom
-  deleteTypeRoom(typeRoomId: String!): Boolean
+  updateTypeRoom(typeroomId: String!, input: TypeRoomInput!): TypeRoom
+  deleteTypeRoom(typeroomId: String!): Boolean
 }
 
 # ------------------------ Entity ------------------------

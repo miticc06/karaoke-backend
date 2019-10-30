@@ -9,6 +9,7 @@ export enum TypeDiscount {
     DEDUCT = "DEDUCT"
 }
 
+
 export enum TypeService {
     TIME = "TIME",
     NUMS = "NUMS"
@@ -28,6 +29,12 @@ export class PaymentSlipInput {
 export class PermissionInput {
     code: string;
     name: string;
+}
+
+export class ServiceInput {
+    name: string;
+    price: number;
+    type: TypeService;
 }
 
 export class RoleInput {
@@ -173,7 +180,9 @@ export abstract class IQuery {
 
     abstract bill(id: string): Bill | Promise<Bill>;
 
-    abstract service(id: string): Service | Promise<Service>;
+    abstract services(): Service[] | Promise<Service[]>;
+
+    abstract service(serviceId: string): Service | Promise<Service>;
 }
 
 export class Role {

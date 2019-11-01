@@ -9,7 +9,6 @@ export enum TypeDiscount {
     DEDUCT = "DEDUCT"
 }
 
-
 export enum TypeService {
     TIME = "TIME",
     NUMS = "NUMS"
@@ -31,30 +30,23 @@ export class PermissionInput {
     name: string;
 }
 
-export class ServiceInput {
-    name: string;
-    price: number;
-    type: TypeService;
-}
-
 export class RoleInput {
     code: string;
     name: string;
     permissions: string[];
 }
 
-export class ServiceInput {
-    name: string;
-    price: number;
-    type: TypeService;
-}
-
-
 export class RoomInput {
     name: string;
     createdAt: number;
     typeRoom: string;
     isActive: boolean;
+}
+
+export class ServiceInput {
+    name: string;
+    price: number;
+    type: TypeService;
 }
 
 export class TypeRoomInput {
@@ -196,6 +188,10 @@ export abstract class IQuery {
 
     abstract permissions(): Permission[] | Promise<Permission[]>;
 
+    abstract services(): Service[] | Promise<Service[]>;
+
+    abstract service(serviceId: string): Service | Promise<Service>;
+
     abstract roles(): Role[] | Promise<Role[]>;
 
     abstract role(roleId: string): Role | Promise<Role>;
@@ -212,10 +208,6 @@ export abstract class IQuery {
 
     abstract typerooms(): TypeRoom[] | Promise<TypeRoom[]>;
 
-    abstract services(): Service[] | Promise<Service[]>;
-
-    abstract service(serviceId: string): Service | Promise<Service>;
-
     abstract paymentSlip(id: string): PaymentSlip | Promise<PaymentSlip>;
 
     abstract paymentSlips(ids: string[]): PaymentSlip[] | Promise<PaymentSlip[]>;
@@ -225,10 +217,6 @@ export abstract class IQuery {
     abstract discounts(): Discount[] | Promise<Discount[]>;
 
     abstract bill(id: string): Bill | Promise<Bill>;
-
-    abstract services(): Service[] | Promise<Service[]>;
-
-    abstract service(serviceId: string): Service | Promise<Service>;
 }
 
 export class Role {

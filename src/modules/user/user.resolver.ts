@@ -9,14 +9,13 @@ import {
   Parent
 } from '@nestjs/graphql'
 import { ApolloError } from 'apollo-server-express'
-import { RoleInput, UserCreateInput, UserUpdateInput } from 'src/graphql'
+import { UserCreateInput, UserUpdateInput } from 'src/graphql'
 import { getMongoRepository, getMongoManager } from 'typeorm'
 
 import * as uuid from 'uuid'
 import * as bcrypt from 'bcrypt'
 import * as jwt from 'jsonwebtoken'
 import * as moment from 'moment'
-import { updateShorthandPropertyAssignment } from 'typescript'
 
 const PRIVATE_KEY = 'privateKey@12345678'
 

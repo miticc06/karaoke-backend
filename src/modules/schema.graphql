@@ -7,6 +7,10 @@ type Query {
   #### PERMISSION
   permissions: [Permission]
 
+  #### SERVICE
+  services: [Service]
+  service(serviceId: String!): Service
+
   #### ROLE
   roles: [Role]
   role(roleId: String!): Role
@@ -14,8 +18,11 @@ type Query {
   customer(id: ID!): Customer
   customers(ids: [ID]!): [Customer]
 
-  room(id: ID!): Room
-  rooms(ids: [ID]!): [Room]
+  room(roomId: String!): Room
+  rooms: [Room]
+
+  typeroom(typeroomId: String!): TypeRoom
+  typerooms: [TypeRoom]
 
   paymentSlip(id: ID!): PaymentSlip
   paymentSlips(ids: [ID]!): [PaymentSlip]
@@ -24,7 +31,7 @@ type Query {
   discounts: [Discount]
 
   bill(id: ID!): Bill
-  service(id: ID!): Service
+  #service(id: ID!): Service
 }
 
 type Mutation {
@@ -45,10 +52,25 @@ type Mutation {
   updatePermission(permissionId: String!, input: PermissionInput!): Permission
   deletePermission(permissionId: String!): Boolean
 
+  #### SERVICE
+  createService(input: ServiceInput!): Service
+  updateService(serviceId: String!, input: ServiceInput!): Service
+  deleteService(serviceId: String!): Boolean
+
   #### ROLE
   createRole(input: RoleInput!): Role
   updateRole(roleId: String!, input: RoleInput!): Role
   deleteRole(roleId: String!): Boolean
+
+  #### TYPEROOM
+  createTypeRoom(input: TypeRoomInput!): TypeRoom
+  updateTypeRoom(typeroomId: String!, input: TypeRoomInput!): TypeRoom
+  deleteTypeRoom(typeroomId: String!): Boolean
+
+  #### ROOM 
+  createRoom(input: RoomInput!): Room
+  updateRoom(roomId: String!, input: RoomInput!): Room
+  deleteRoom(roomId: String!): Boolean
 }
 
 # ------------------------ Entity ------------------------
@@ -226,7 +248,24 @@ input RoleInput {
   permissions: [String!]!
 }
 
+input ServiceInput{
+  name: String!,
+  price: Float!,
+  type: TypeService!
+}
 
+input TypeRoomInput {
+  name: String! 
+  unitPrice: Float!
+  updatedAt: Float!
+}
+
+input RoomInput {
+  name: String!
+  createdAt: Float!
+  typeRoom: String!
+  isActive: Boolean!
+}
 # ------------------------ Response ------------------------
 type LoginResponse {
   token: String

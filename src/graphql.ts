@@ -36,6 +36,25 @@ export class RoleInput {
     permissions: string[];
 }
 
+export class RoomInput {
+    name: string;
+    createdAt: number;
+    typeRoom: string;
+    isActive: boolean;
+}
+
+export class ServiceInput {
+    name: string;
+    price: number;
+    type: TypeService;
+}
+
+export class TypeRoomInput {
+    name: string;
+    unitPrice: number;
+    updatedAt: number;
+}
+
 export class UserCreateInput {
     username: string;
     password: string;
@@ -123,11 +142,29 @@ export abstract class IMutation {
 
     abstract deletePermission(permissionId: string): boolean | Promise<boolean>;
 
+    abstract createService(input: ServiceInput): Service | Promise<Service>;
+
+    abstract updateService(serviceId: string, input: ServiceInput): Service | Promise<Service>;
+
+    abstract deleteService(serviceId: string): boolean | Promise<boolean>;
+
     abstract createRole(input: RoleInput): Role | Promise<Role>;
 
     abstract updateRole(roleId: string, input: RoleInput): Role | Promise<Role>;
 
     abstract deleteRole(roleId: string): boolean | Promise<boolean>;
+
+    abstract createTypeRoom(input: TypeRoomInput): TypeRoom | Promise<TypeRoom>;
+
+    abstract updateTypeRoom(typeroomId: string, input: TypeRoomInput): TypeRoom | Promise<TypeRoom>;
+
+    abstract deleteTypeRoom(typeroomId: string): boolean | Promise<boolean>;
+
+    abstract createRoom(input: RoomInput): Room | Promise<Room>;
+
+    abstract updateRoom(roomId: string, input: RoomInput): Room | Promise<Room>;
+
+    abstract deleteRoom(roomId: string): boolean | Promise<boolean>;
 }
 
 export class PaymentSlip {
@@ -151,6 +188,10 @@ export abstract class IQuery {
 
     abstract permissions(): Permission[] | Promise<Permission[]>;
 
+    abstract services(): Service[] | Promise<Service[]>;
+
+    abstract service(serviceId: string): Service | Promise<Service>;
+
     abstract roles(): Role[] | Promise<Role[]>;
 
     abstract role(roleId: string): Role | Promise<Role>;
@@ -159,9 +200,13 @@ export abstract class IQuery {
 
     abstract customers(ids: string[]): Customer[] | Promise<Customer[]>;
 
-    abstract room(id: string): Room | Promise<Room>;
+    abstract room(roomId: string): Room | Promise<Room>;
 
-    abstract rooms(ids: string[]): Room[] | Promise<Room[]>;
+    abstract rooms(): Room[] | Promise<Room[]>;
+
+    abstract typeroom(typeroomId: string): TypeRoom | Promise<TypeRoom>;
+
+    abstract typerooms(): TypeRoom[] | Promise<TypeRoom[]>;
 
     abstract paymentSlip(id: string): PaymentSlip | Promise<PaymentSlip>;
 
@@ -172,8 +217,6 @@ export abstract class IQuery {
     abstract discounts(): Discount[] | Promise<Discount[]>;
 
     abstract bill(id: string): Bill | Promise<Bill>;
-
-    abstract service(id: string): Service | Promise<Service>;
 }
 
 export class Role {

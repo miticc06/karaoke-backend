@@ -43,6 +43,13 @@ export class RoleInput {
     permissions: string[];
 }
 
+export class ServiceInput {
+    name: string;
+    price: number;
+    type: TypeService;
+}
+
+
 export class RoomInput {
     name: string;
     createdAt: number;
@@ -143,6 +150,12 @@ export abstract class IMutation {
 
     abstract deletePermission(permissionId: string): boolean | Promise<boolean>;
 
+    abstract createService(input: ServiceInput): Service | Promise<Service>;
+
+    abstract updateService(serviceId: string, input: ServiceInput): Service | Promise<Service>;
+
+    abstract deleteService(serviceId: string): boolean | Promise<boolean>;
+
     abstract createRole(input: RoleInput): Role | Promise<Role>;
 
     abstract updateRole(roleId: string, input: RoleInput): Role | Promise<Role>;
@@ -198,6 +211,10 @@ export abstract class IQuery {
     abstract typeroom(typeroomId: string): TypeRoom | Promise<TypeRoom>;
 
     abstract typerooms(): TypeRoom[] | Promise<TypeRoom[]>;
+
+    abstract services(): Service[] | Promise<Service[]>;
+
+    abstract service(serviceId: string): Service | Promise<Service>;
 
     abstract paymentSlip(id: string): PaymentSlip | Promise<PaymentSlip>;
 

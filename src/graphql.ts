@@ -9,6 +9,7 @@ export enum TypeDiscount {
     DEDUCT = "DEDUCT"
 }
 
+
 export enum TypeService {
     TIME = "TIME",
     NUMS = "NUMS"
@@ -30,6 +31,12 @@ export class PermissionInput {
     name: string;
 }
 
+export class ServiceInput {
+    name: string;
+    price: number;
+    type: TypeService;
+}
+
 export class RoleInput {
     code: string;
     name: string;
@@ -40,6 +47,20 @@ export class ServiceInput {
     name: string;
     price: number;
     type: TypeService;
+}
+
+
+export class RoomInput {
+    name: string;
+    createdAt: number;
+    typeRoom: string;
+    isActive: boolean;
+}
+
+export class TypeRoomInput {
+    name: string;
+    unitPrice: number;
+    updatedAt: number;
 }
 
 export class UserCreateInput {
@@ -140,6 +161,18 @@ export abstract class IMutation {
     abstract updateRole(roleId: string, input: RoleInput): Role | Promise<Role>;
 
     abstract deleteRole(roleId: string): boolean | Promise<boolean>;
+
+    abstract createTypeRoom(input: TypeRoomInput): TypeRoom | Promise<TypeRoom>;
+
+    abstract updateTypeRoom(typeroomId: string, input: TypeRoomInput): TypeRoom | Promise<TypeRoom>;
+
+    abstract deleteTypeRoom(typeroomId: string): boolean | Promise<boolean>;
+
+    abstract createRoom(input: RoomInput): Room | Promise<Room>;
+
+    abstract updateRoom(roomId: string, input: RoomInput): Room | Promise<Room>;
+
+    abstract deleteRoom(roomId: string): boolean | Promise<boolean>;
 }
 
 export class PaymentSlip {
@@ -171,9 +204,13 @@ export abstract class IQuery {
 
     abstract customers(ids: string[]): Customer[] | Promise<Customer[]>;
 
-    abstract room(id: string): Room | Promise<Room>;
+    abstract room(roomId: string): Room | Promise<Room>;
 
-    abstract rooms(ids: string[]): Room[] | Promise<Room[]>;
+    abstract rooms(): Room[] | Promise<Room[]>;
+
+    abstract typeroom(typeroomId: string): TypeRoom | Promise<TypeRoom>;
+
+    abstract typerooms(): TypeRoom[] | Promise<TypeRoom[]>;
 
     abstract services(): Service[] | Promise<Service[]>;
 
@@ -189,7 +226,9 @@ export abstract class IQuery {
 
     abstract bill(id: string): Bill | Promise<Bill>;
 
-    abstract service(id: string): Service | Promise<Service>;
+    abstract services(): Service[] | Promise<Service[]>;
+
+    abstract service(serviceId: string): Service | Promise<Service>;
 }
 
 export class Role {

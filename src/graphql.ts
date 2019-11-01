@@ -1,3 +1,4 @@
+
 /** ------------------------------------------------------
  * THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
  * -------------------------------------------------------
@@ -165,6 +166,10 @@ export abstract class IMutation {
     abstract updateRoom(roomId: string, input: RoomInput): Room | Promise<Room>;
 
     abstract deleteRoom(roomId: string): boolean | Promise<boolean>;
+
+    abstract restoreDB(label: string): boolean | Promise<boolean>;
+
+    abstract backupDB(label: string): boolean | Promise<boolean>;
 }
 
 export class PaymentSlip {

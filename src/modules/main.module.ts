@@ -5,6 +5,7 @@ import { UserResolvers } from './user/user.resolver'
 import { TypeRoomResolvers } from './typeroom/typeroom.resolver'
 import { RoomResolvers } from './room/room.resolver'
 import { ServiceResolvers } from './service/service.resolver'
+import { UtilsResolvers } from './utils/utils.resolver'
 
 @Module({
   providers: [
@@ -13,7 +14,8 @@ import { ServiceResolvers } from './service/service.resolver'
     RoleResolvers,
     UserResolvers,
     TypeRoomResolvers,
-    RoomResolvers
+    RoomResolvers,
+    UtilsResolvers
   ]
 })
 export class MainModule {}

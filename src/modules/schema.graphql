@@ -71,6 +71,11 @@ type Mutation {
   createRoom(input: RoomInput!): Room
   updateRoom(roomId: String!, input: RoomInput!): Room
   deleteRoom(roomId: String!): Boolean
+
+
+  #### UTILS
+  restoreDB(label: String!): Boolean
+  backupDB(label: String!): Boolean
 }
 
 # ------------------------ Entity ------------------------

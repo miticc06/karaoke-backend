@@ -2,7 +2,7 @@
   "name": "nest-typescript-starter",
   "private": true,
   "version": "1.0.0",
-  "description": "Nest TypeScript starter repository",
+  "description": "Backend",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",
@@ -38,6 +38,7 @@
     "@types/webpack-env": "^1.14.1",
     "apollo-server-express": "^2.9.6",
     "bcrypt": "^3.0.6",
+    "child_process": "^1.0.2",
     "dotenv": "^8.1.0",
     "graphql": "^14.5.8",
     "graphql-tools": "^4.0.5",

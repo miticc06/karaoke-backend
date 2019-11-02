@@ -26,8 +26,10 @@ export class DiscountInput {
 }
 
 export class PaymentSlipInput {
-    name?: string;
-    price?: number;
+    description: string;
+    price: number;
+    createdAt: number;
+    createdBy: string;
 }
 
 export class PermissionInput {
@@ -137,7 +139,11 @@ export abstract class IMutation {
 
     abstract deleteUser(userId: string): boolean | Promise<boolean>;
 
-    abstract createPaymentSlip(input?: PaymentSlipInput): string | Promise<string>;
+    abstract createPaymentSlip(input?: PaymentSlipInput): PaymentSlip | Promise<PaymentSlip>;
+
+    abstract updatePaymentSlip(paymentSlipId: string, input?: PaymentSlipInput): PaymentSlip | Promise<PaymentSlip>;
+
+    abstract deletePaymentSlip(paymentSlipId: string): boolean | Promise<boolean>;
 
     abstract createPermission(input: PermissionInput): Permission | Promise<Permission>;
 
@@ -182,7 +188,7 @@ export abstract class IMutation {
 
 export class PaymentSlip {
     _id?: string;
-    name?: string;
+    description?: string;
     price?: number;
     createdAt?: number;
     createdBy?: User;
@@ -221,9 +227,9 @@ export abstract class IQuery {
 
     abstract typerooms(): TypeRoom[] | Promise<TypeRoom[]>;
 
-    abstract paymentSlip(id: string): PaymentSlip | Promise<PaymentSlip>;
+    abstract paymentSlip(paymentSlipId: string): PaymentSlip | Promise<PaymentSlip>;
 
-    abstract paymentSlips(ids: string[]): PaymentSlip[] | Promise<PaymentSlip[]>;
+    abstract paymentSlips(): PaymentSlip[] | Promise<PaymentSlip[]>;
 
     abstract discount(discountId: string): Discount | Promise<Discount>;
 

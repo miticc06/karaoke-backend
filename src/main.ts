@@ -10,7 +10,7 @@ declare const module: any
 require('dotenv').config()
 
 async function bootstrap() {
-  const PORT = process.env.PORT || 3000
+  const PORT = process.env.PORT || 2000
   const app = await NestFactory.create(AppModule)
   app.use('/schema', createSchema({ endpointUrl: '/graphql' }))
 

@@ -27,7 +27,7 @@ type Query {
   paymentSlip(id: ID!): PaymentSlip
   paymentSlips(ids: [ID]!): [PaymentSlip]
 
-  discount(id: ID!): Discount
+  discount(discountId: String!): Discount
   discounts: [Discount]
 
   bill(id: ID!): Bill
@@ -44,8 +44,6 @@ type Mutation {
 
 
   createPaymentSlip(input: PaymentSlipInput): String
-
-  createDiscount(input: DiscountInput): String
 
   #### PERMISSION
   createPermission(input: PermissionInput!): Permission
@@ -72,6 +70,10 @@ type Mutation {
   updateRoom(roomId: String!, input: RoomInput!): Room
   deleteRoom(roomId: String!): Boolean
 
+  ####DISCOUNT 
+  createDiscount(input: DiscountInput!): Discount
+  updateDiscount(discountId: String!, input: DiscountInput!): Discount
+  deleteDiscount(discountId: String!): Boolean
 
   #### UTILS
   restoreDB(label: String!): Boolean
@@ -237,9 +239,13 @@ input PaymentSlipInput {
 }
 
 input DiscountInput {
-  name: String
-  type: TypeDiscount
-  value: Float
+  name: String!
+  type: TypeDiscount!
+  value: Float!
+  startDate: Float!
+  endDate: Float!
+  createdAt: Float!
+  createdBy: String!
 }
 
 input PermissionInput {

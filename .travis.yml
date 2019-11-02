@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+  - 11
+ 
+install:
+  - npm i
+  
+stages:
+  - UnitTest
+  - TestCoverage
+
+jobs:
+  include:
+    - stage: UnitTest
+      script:
+        - npm run test
+    - stage: TestCoverage
+      script:
+        - npm run test:ci

@@ -1,5 +1,12 @@
 <h2 style="color: #5a71af">KARAOKE BACKEND</h3>
 
+## Build Status
+
+|Branch   |CICD              |
+|:--------|:----------------:|
+|master|[![Build Status](https://travis-ci.com/miticc06/karaoke-backend.svg?branch=master)](https://travis-ci.com/miticc06/karaoke-backend)|
+|cicd|[![Build Status](https://travis-ci.com/miticc06/karaoke-backend.svg?branch=cicd)](https://travis-ci.com/miticc06/karaoke-backend)|
+
 <h3 style="color: #1c4587">Clone project:</h3>
 
 ```js

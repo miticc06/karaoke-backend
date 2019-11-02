@@ -133,7 +133,7 @@ export class UserResolvers {
       })
 
       if (!user) {
-        throw new ApolloError('Không tìm thấy username!')
+        throw new ApolloError('Tên đăng nhập hoặc mật khẩu không chính xác!')
       }
 
       // if (!user.isActive) {
@@ -142,7 +142,7 @@ export class UserResolvers {
 
       const match = await bcrypt.compare(password, user.password)
       if (!match) {
-        throw new ApolloError('Mật khẩu không chính xác!')
+        throw new ApolloError('Tên đăng nhập hoặc mật khẩu không chính xác!')
       }
 
       const token = jwt.sign({ userId: user._id, username }, PRIVATE_KEY)

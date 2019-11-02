@@ -1,0 +1,19 @@
+language: node_js
+node_js:
+  - 11
+ 
+install:
+  - yarn
+  
+stages:
+  - Build
+  - TestCoverage
+
+jobs:
+  include:
+    - stage: Build
+      script:
+        - yarn build
+    - stage: TestCoverage
+      script:
+        - yarn test:ci

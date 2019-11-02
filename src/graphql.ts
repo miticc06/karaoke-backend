@@ -16,14 +16,20 @@ export enum TypeService {
 }
 
 export class DiscountInput {
-    name?: string;
-    type?: TypeDiscount;
-    value?: number;
+    name: string;
+    type: TypeDiscount;
+    value: number;
+    startDate: number;
+    endDate: number;
+    createdAt: number;
+    createdBy: string;
 }
 
 export class PaymentSlipInput {
-    name?: string;
-    price?: number;
+    description: string;
+    price: number;
+    createdAt: number;
+    createdBy: string;
 }
 
 export class PermissionInput {
@@ -133,9 +139,11 @@ export abstract class IMutation {
 
     abstract deleteUser(userId: string): boolean | Promise<boolean>;
 
-    abstract createPaymentSlip(input?: PaymentSlipInput): string | Promise<string>;
+    abstract createPaymentSlip(input?: PaymentSlipInput): PaymentSlip | Promise<PaymentSlip>;
 
-    abstract createDiscount(input?: DiscountInput): string | Promise<string>;
+    abstract updatePaymentSlip(paymentSlipId: string, input?: PaymentSlipInput): PaymentSlip | Promise<PaymentSlip>;
+
+    abstract deletePaymentSlip(paymentSlipId: string): boolean | Promise<boolean>;
 
     abstract createPermission(input: PermissionInput): Permission | Promise<Permission>;
 
@@ -167,6 +175,12 @@ export abstract class IMutation {
 
     abstract deleteRoom(roomId: string): boolean | Promise<boolean>;
 
+    abstract createDiscount(input: DiscountInput): Discount | Promise<Discount>;
+
+    abstract updateDiscount(discountId: string, input: DiscountInput): Discount | Promise<Discount>;
+
+    abstract deleteDiscount(discountId: string): boolean | Promise<boolean>;
+
     abstract restoreDB(label: string): boolean | Promise<boolean>;
 
     abstract backupDB(label: string): boolean | Promise<boolean>;
@@ -174,7 +188,7 @@ export abstract class IMutation {
 
 export class PaymentSlip {
     _id?: string;
-    name?: string;
+    description?: string;
     price?: number;
     createdAt?: number;
     createdBy?: User;
@@ -213,11 +227,11 @@ export abstract class IQuery {
 
     abstract typerooms(): TypeRoom[] | Promise<TypeRoom[]>;
 
-    abstract paymentSlip(id: string): PaymentSlip | Promise<PaymentSlip>;
+    abstract paymentSlip(paymentSlipId: string): PaymentSlip | Promise<PaymentSlip>;
 
-    abstract paymentSlips(ids: string[]): PaymentSlip[] | Promise<PaymentSlip[]>;
+    abstract paymentSlips(): PaymentSlip[] | Promise<PaymentSlip[]>;
 
-    abstract discount(id: string): Discount | Promise<Discount>;
+    abstract discount(discountId: string): Discount | Promise<Discount>;
 
     abstract discounts(): Discount[] | Promise<Discount[]>;
 

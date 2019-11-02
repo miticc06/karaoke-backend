@@ -15,7 +15,7 @@ import { getMongoRepository, getMongoManager } from 'typeorm'
 import * as uuid from 'uuid'
 import * as bcrypt from 'bcrypt'
 import * as jwt from 'jsonwebtoken'
-import * as moment from 'moment'
+import moment from 'moment'
 
 const PRIVATE_KEY = 'privateKey@12345678'
 

@@ -24,10 +24,10 @@ type Query {
   typeroom(typeroomId: String!): TypeRoom
   typerooms: [TypeRoom]
 
-  paymentSlip(id: ID!): PaymentSlip
-  paymentSlips(ids: [ID]!): [PaymentSlip]
+  paymentSlip(paymentSlipId: String!): PaymentSlip
+  paymentSlips: [PaymentSlip]
 
-  discount(id: ID!): Discount
+  discount(discountId: String!): Discount
   discounts: [Discount]
 
   bill(id: ID!): Bill
@@ -42,10 +42,10 @@ type Mutation {
   updateUser(userId: String!, input: UserUpdateInput!): Boolean
   deleteUser(userId: String!): Boolean
 
-
-  createPaymentSlip(input: PaymentSlipInput): String
-
-  createDiscount(input: DiscountInput): String
+  #### PAYMENT SLIP 
+  createPaymentSlip(input: PaymentSlipInput): PaymentSlip
+  updatePaymentSlip(paymentSlipId: String!, input: PaymentSlipInput): PaymentSlip
+  deletePaymentSlip(paymentSlipId: String!): Boolean
 
   #### PERMISSION
   createPermission(input: PermissionInput!): Permission
@@ -72,6 +72,10 @@ type Mutation {
   updateRoom(roomId: String!, input: RoomInput!): Room
   deleteRoom(roomId: String!): Boolean
 
+  ####DISCOUNT 
+  createDiscount(input: DiscountInput!): Discount
+  updateDiscount(discountId: String!, input: DiscountInput!): Discount
+  deleteDiscount(discountId: String!): Boolean
 
   #### UTILS
   restoreDB(label: String!): Boolean
@@ -135,7 +139,7 @@ type Role {
 
 type PaymentSlip {
   _id: ID
-  name: String
+  description: String
   price: Float
   # histories: [HistoryPaymentSlip]
   createdAt: Float
@@ -232,14 +236,20 @@ input UserUpdateInput {
 }
 
 input PaymentSlipInput {
-  name: String
-  price: Float
+  description: String!
+  price: Float!
+  createdAt: Float!
+  createdBy: String!
 }
 
 input DiscountInput {
-  name: String
-  type: TypeDiscount
-  value: Float
+  name: String!
+  type: TypeDiscount!
+  value: Float!
+  startDate: Float!
+  endDate: Float!
+  createdAt: Float!
+  createdBy: String!
 }
 
 input PermissionInput {

@@ -13,3 +13,6 @@ jobs:
     - stage: Unit Tests
       script:
         - npm run test
+    - stage: Test Coverage
+      script:
+        - npm run test:ci

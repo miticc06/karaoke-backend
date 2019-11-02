@@ -24,8 +24,8 @@ type Query {
   typeroom(typeroomId: String!): TypeRoom
   typerooms: [TypeRoom]
 
-  paymentSlip(id: ID!): PaymentSlip
-  paymentSlips(ids: [ID]!): [PaymentSlip]
+  paymentSlip(paymentSlipId: String!): PaymentSlip
+  paymentSlips: [PaymentSlip]
 
   discount(discountId: String!): Discount
   discounts: [Discount]
@@ -42,8 +42,10 @@ type Mutation {
   updateUser(userId: String!, input: UserUpdateInput!): Boolean
   deleteUser(userId: String!): Boolean
 
-
-  createPaymentSlip(input: PaymentSlipInput): String
+  #### PAYMENT SLIP 
+  createPaymentSlip(input: PaymentSlipInput): PaymentSlip
+  updatePaymentSlip(paymentSlipId: String!, input: PaymentSlipInput): PaymentSlip
+  deletePaymentSlip(paymentSlipId: String!): Boolean
 
   #### PERMISSION
   createPermission(input: PermissionInput!): Permission
@@ -137,7 +139,7 @@ type Role {
 
 type PaymentSlip {
   _id: ID
-  name: String
+  description: String
   price: Float
   # histories: [HistoryPaymentSlip]
   createdAt: Float
@@ -234,8 +236,10 @@ input UserUpdateInput {
 }
 
 input PaymentSlipInput {
-  name: String
-  price: Float
+  description: String!
+  price: Float!
+  createdAt: Float!
+  createdBy: String!
 }
 
 input DiscountInput {

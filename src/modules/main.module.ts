@@ -5,6 +5,7 @@ import { UserResolvers } from './user/user.resolver'
 import { TypeRoomResolvers } from './typeroom/typeroom.resolver'
 import { RoomResolvers } from './room/room.resolver'
 import { ServiceResolvers } from './service/service.resolver'
+import { DiscountResolvers } from './discount/discount.resolver'
 import { UtilsResolvers } from './utils/utils.resolver'
 
 @Module({
@@ -15,6 +16,7 @@ import { UtilsResolvers } from './utils/utils.resolver'
     UserResolvers,
     TypeRoomResolvers,
     RoomResolvers,
+    DiscountResolvers,
     UtilsResolvers
   ]
 })

@@ -16,9 +16,13 @@ export enum TypeService {
 }
 
 export class DiscountInput {
-    name?: string;
-    type?: TypeDiscount;
-    value?: number;
+    name: string;
+    type: TypeDiscount;
+    value: number;
+    startDate: number;
+    endDate: number;
+    createdAt: number;
+    createdBy: string;
 }
 
 export class PaymentSlipInput {
@@ -135,8 +139,6 @@ export abstract class IMutation {
 
     abstract createPaymentSlip(input?: PaymentSlipInput): string | Promise<string>;
 
-    abstract createDiscount(input?: DiscountInput): string | Promise<string>;
-
     abstract createPermission(input: PermissionInput): Permission | Promise<Permission>;
 
     abstract updatePermission(permissionId: string, input: PermissionInput): Permission | Promise<Permission>;
@@ -166,6 +168,12 @@ export abstract class IMutation {
     abstract updateRoom(roomId: string, input: RoomInput): Room | Promise<Room>;
 
     abstract deleteRoom(roomId: string): boolean | Promise<boolean>;
+
+    abstract createDiscount(input: DiscountInput): Discount | Promise<Discount>;
+
+    abstract updateDiscount(discountId: string, input: DiscountInput): Discount | Promise<Discount>;
+
+    abstract deleteDiscount(discountId: string): boolean | Promise<boolean>;
 
     abstract restoreDB(label: string): boolean | Promise<boolean>;
 
@@ -217,7 +225,7 @@ export abstract class IQuery {
 
     abstract paymentSlips(ids: string[]): PaymentSlip[] | Promise<PaymentSlip[]>;
 
-    abstract discount(id: string): Discount | Promise<Discount>;
+    abstract discount(discountId: string): Discount | Promise<Discount>;
 
     abstract discounts(): Discount[] | Promise<Discount[]>;
 

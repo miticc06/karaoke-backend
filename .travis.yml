@@ -14,17 +14,15 @@ before_script:
 install:
   - npm i
 
-stages:
-  - Build
-  - TestCoverage
-  - DeployKaraokeTest
-    if: branch = cicd
+# stages:
+#   - Build
+#   - TestCoverage
+#   - DeployKaraokeTest
+#   - DeployKaraoke
 
 stages:
-  - Build
-  - TestCoverage
-  - DeployKaraokeTest
-  - DeployKaraoke
+  - name: Build
+    # require the branch name to be master (note for PRs this is the base branch name)
     if: branch = master
 
 jobs:

@@ -22,7 +22,7 @@ stages:
 
 stages:
   - name: DeployKaraoke
-    if: branch = master
+    if: branch = master OR branch = cicd
 
 jobs:
   include:

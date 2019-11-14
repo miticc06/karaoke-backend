@@ -14,15 +14,14 @@ before_script:
 install:
   - npm i
 
-# stages:
-#   - Build
-#   - TestCoverage
-#   - DeployKaraokeTest
-#   - DeployKaraoke
+stages:
+  - Build
+  - TestCoverage
+  - DeployKaraokeTest
+  - DeployKaraoke
 
 stages:
-  - name: Build
-    # require the branch name to be master (note for PRs this is the base branch name)
+  - name: DeployKaraoke
     if: branch = master
 
 jobs:

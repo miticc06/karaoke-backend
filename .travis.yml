@@ -14,15 +14,19 @@ before_script:
 install:
   - npm i
 
-stages:
-  - Build
-  - TestCoverage
-  - DeployKaraokeTest
-  - DeployKaraoke
+# stages:
+#   - Build
+#   - TestCoverage
+#   - DeployKaraokeTest
+#   - DeployKaraoke
 
 stages:
+  - name: Build
+  - name: TestCoverage
+  
   - name: DeployKaraoke
     if: branch = master
+    
   - name: DeployKaraokeTest
     if: branch = cicd
 

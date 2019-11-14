@@ -19,6 +19,7 @@ stages:
   - TestCoverage
   - DeployKaraokeTest
   - DeployKaraoke
+    if: branch = master
 
 jobs:
   include:

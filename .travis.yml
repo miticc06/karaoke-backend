@@ -18,6 +18,7 @@ stages:
   - Build
   - TestCoverage
   - DeployKaraokeTest
+  - DeployKaraoke
 
 jobs:
   include:
@@ -36,3 +37,9 @@ jobs:
         - ssh -p 22 deploy@dev1.kienthuc24h.com "/home/deploy/pm2/backend_karaoke_test/start.sh"
       on:
       branch: cicd
+
+    - stage: DeployKaraoke
+      script:
+        - ssh -p 22 deploy@dev1.kienthuc24h.com "/home/deploy/pm2/backend_karaoke/start.sh"
+      on:
+      branch: master

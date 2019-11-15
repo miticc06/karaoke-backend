@@ -5,6 +5,7 @@ import { UserResolvers } from './user/user.resolver'
 import { TypeRoomResolvers } from './typeroom/typeroom.resolver'
 import { RoomResolvers } from './room/room.resolver'
 import { ServiceResolvers } from './service/service.resolver'
+import { CustomerResolvers } from './customer/customer.resolver'
 import { DiscountResolvers } from './discount/discount.resolver'
 import { PaymentSlipResolvers } from './payment-slip/payment-slip.resolver'
 import { UtilsResolvers } from './utils/utils.resolver'
@@ -13,6 +14,7 @@ import { UtilsResolvers } from './utils/utils.resolver'
   providers: [
     PermissionResolvers,
     ServiceResolvers,
+    CustomerResolvers,
     RoleResolvers,
     UserResolvers,
     TypeRoomResolvers,

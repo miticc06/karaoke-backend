@@ -15,6 +15,14 @@ export enum TypeService {
     NUMS = "NUMS"
 }
 
+export class CustomerInput {
+    name: string;
+    dateOfBirth?: number;
+    phone?: string;
+    email?: string;
+    points?: number;
+}
+
 export class DiscountInput {
     name: string;
     type: TypeDiscount;
@@ -110,8 +118,6 @@ export class Customer {
     phone?: string;
     email?: string;
     points?: number;
-    createdAt?: number;
-    createdBy?: User;
 }
 
 export class Discount {
@@ -181,6 +187,12 @@ export abstract class IMutation {
 
     abstract deleteDiscount(discountId: string): boolean | Promise<boolean>;
 
+    abstract createCustomer(input: CustomerInput): Customer | Promise<Customer>;
+
+    abstract updateCustomer(customerId: string, input: CustomerInput): Customer | Promise<Customer>;
+
+    abstract deleteCustomer(customerId: string): boolean | Promise<boolean>;
+
     abstract restoreDB(label: string): boolean | Promise<boolean>;
 
     abstract backupDB(label: string): boolean | Promise<boolean>;
@@ -217,7 +229,7 @@ export abstract class IQuery {
 
     abstract customer(id: string): Customer | Promise<Customer>;
 
-    abstract customers(ids: string[]): Customer[] | Promise<Customer[]>;
+    abstract customers(): Customer[] | Promise<Customer[]>;
 
     abstract room(roomId: string): Room | Promise<Room>;
 

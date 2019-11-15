@@ -16,7 +16,7 @@ type Query {
   role(roleId: String!): Role
 
   customer(id: ID!): Customer
-  customers(ids: [ID]!): [Customer]
+  customers: [Customer]
 
   room(roomId: String!): Room
   rooms: [Room]
@@ -77,6 +77,11 @@ type Mutation {
   updateDiscount(discountId: String!, input: DiscountInput!): Discount
   deleteDiscount(discountId: String!): Boolean
 
+  ####CUSTOMER
+  createCustomer(input: CustomerInput!): Customer
+  updateCustomer(customerId: String!, input: CustomerInput!): Customer
+  deleteCustomer(customerId: String!): Boolean
+
   #### UTILS
   restoreDB(label: String!): Boolean
   backupDB(label: String!): Boolean
@@ -103,8 +108,6 @@ type Customer {
   phone: String
   email: String
   points: Int
-  createdAt: Float
-  createdBy: User
 }
 
 type Room {
@@ -267,6 +270,14 @@ input ServiceInput{
   name: String!,
   price: Float!,
   type: TypeService!
+}
+
+input CustomerInput{
+  name: String!,
+  dateOfBirth: Float,
+  phone: String,
+  email: String,
+  points: Int
 }
 
 input TypeRoomInput {

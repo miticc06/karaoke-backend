@@ -19,10 +19,10 @@ stages:
   - name: TestCoverage
   
   - name: DeployKaraoke
-    if: branch = master
+    if: branch = master AND type=push
     
   - name: DeployKaraokeTest
-    if: branch = cicd
+    if: branch = cicd AND type=push
 
 jobs:
   include:
@@ -39,11 +39,7 @@ jobs:
     - stage: DeployKaraokeTest
       script:
         - ssh -q -p 22 ${USER}@${HOST} "/home/${USER}/pm2/backend_karaoke_test/start.sh"
-      on:
-        branch: cicd
 
     - stage: DeployKaraoke
       script:
         - ssh -q -p 22 ${USER}@${HOST} "/home/${USER}/pm2/backend_karaoke/start.sh"
-      on:
-        branch: master

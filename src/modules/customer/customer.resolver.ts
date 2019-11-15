@@ -1,12 +1,5 @@
 import { Customer as CustomerEntity } from './customer.entity'
-import {
-  Query,
-  Resolver,
-  Mutation,
-  Args,
-  ResolveProperty,
-  Parent
-} from '@nestjs/graphql'
+import { Query, Resolver, Mutation, Args } from '@nestjs/graphql'
 import { ApolloError } from 'apollo-server-express'
 import { Customer as CustomerSchema, CustomerInput } from 'src/graphql'
 import { getMongoRepository, getMongoManager } from 'typeorm'
@@ -23,6 +16,7 @@ export class CustomerResolvers {
       return error
     }
   }
+
   @Query('customer')
   async customer(@Args('customerId') customerId: string) {
     try {
@@ -31,7 +25,7 @@ export class CustomerResolvers {
       })
 
       if (!customer) {
-        throw new ApolloError('Không tìm thấy Khach Hang!')
+        throw new ApolloError('Không tìm thấy khách hàng!')
       }
 
       return customer
@@ -79,7 +73,7 @@ export class CustomerResolvers {
       )
 
       if (!result) {
-        throw new ApolloError('Update customer không thành công!')
+        throw new ApolloError('Update customer thất bại!')
       }
 
       return {

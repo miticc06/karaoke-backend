@@ -5,22 +5,22 @@ node_js:
   - 13.1.0
 
 before_script:
-- openssl aes-256-cbc -K $encrypted_a41e61b5234a_key -iv $encrypted_a41e61b5234a_iv -in deploy_rsa.enc -out deploy_rsa -d
-- eval "$(ssh-agent -s)"
-- chmod 600 deploy_rsa
-- ssh-add deploy_rsa
-- echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+  - openssl aes-256-cbc -K $encrypted_a41e61b5234a_key -iv $encrypted_a41e61b5234a_iv -in deploy_rsa.enc -out deploy_rsa -d
+  - eval "$(ssh-agent -s)"
+  - chmod 600 deploy_rsa
+  - ssh-add deploy_rsa
+  - echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 
 install:
   - npm i
 
 stages:
   - name: Build
-  - name: TestCoverage
-  
+  # - name: TestCoverage
+
   - name: DeployKaraoke
     if: branch = master AND type=push
-    
+
   - name: DeployKaraokeTest
     if: branch = cicd AND type=push
 
@@ -32,9 +32,9 @@ jobs:
         - ssh -q -p 22 ${USER}@${HOST} "/bin/mkdir -p /home/${USER}/build/karaoke-backend"
         - rsync -a -e "ssh -p 22" ./ ${USER}@${HOST}:/home/${USER}/build/karaoke-backend/ --delete --exclude="node_modules"
 
-    - stage: TestCoverage
-      script:
-        - npm run test:ci
+    # - stage: TestCoverage
+    #   script:
+    #     - npm run test:ci
 
     - stage: DeployKaraokeTest
       script:

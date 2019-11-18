@@ -9,7 +9,11 @@ import {
   Parent
 } from '@nestjs/graphql'
 import { ApolloError } from 'apollo-server-express'
-import { UserCreateInput, UserUpdateInput } from 'src/graphql'
+import {
+  UserCreateInput,
+  UserUpdateInput,
+  UserUpdateInputByAdmin
+} from 'src/graphql'
 import { getMongoRepository, getMongoManager } from 'typeorm'
 
 import * as uuid from 'uuid'
@@ -62,7 +66,7 @@ export class UserResolvers {
   async createRole(@Args('input') createInput: UserCreateInput) {
     const { username, password, email, name, roleId } = createInput
     try {
-      if (!/^[a-z0-9_-]{3,}$/gim.test(username)) {
+      if (!/^[\w]{3,}$/gi.test(username)) {
         throw new ApolloError(
           'Username không hợp lệ (Chỉ nên bao gồm chữ cái và số)!'
         )
@@ -73,7 +77,8 @@ export class UserResolvers {
       }
 
       if (
-        !/^[a-z][a-z0-9_\.]{5,32}@[a-z0-9]{2,}(\.[a-z0-9]{2,4}){1,2}$/gm.test(
+        // tslint:disable-next-line:max-line-length
+        !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/gim.test(
           email
         )
       ) {
@@ -92,10 +97,10 @@ export class UserResolvers {
                   email
                 }
               ]
-            },
-            {
-              isActive: true
             }
+            // {
+            //   isActive: true
+            // }
           ]
         }
       })
@@ -175,6 +180,56 @@ export class UserResolvers {
         if (!match) {
           throw new ApolloError('Mật khẩu cũ không chính xác')
         }
+        user.password = bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10))
+      }
+
+      if (email) {
+        user.email = email
+      }
+
+      if (name) {
+        user.name = name
+      }
+
+      if (roleId) {
+        user.role = roleId
+      }
+
+      const result = await getMongoManager().update(
+        UserEntity,
+        { _id: userId },
+        {
+          ...user
+        }
+      )
+      if (!result) {
+        throw new ApolloError('Update user thất bại!')
+      }
+      return true
+    } catch (error) {
+      return error
+    }
+  }
+
+  @Mutation('updateUserByAdmin')
+  async updateUserByAdmin(
+    @Args('userId') userId: string,
+    @Args('input') input: UserUpdateInputByAdmin
+  ) {
+    try {
+      const user = await getMongoManager().findOne(UserEntity, {
+        _id: userId,
+        isActive: true
+      })
+
+      if (!user) {
+        throw new ApolloError('user not found!')
+      }
+
+      // TODO: CHECK email trùng
+
+      const { newPassword, email, name, roleId } = input
+      if (newPassword) {
         user.password = bcrypt.hashSync(newPassword, bcrypt.genSaltSync(10))
       }
 

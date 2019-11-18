@@ -86,6 +86,13 @@ export class UserUpdateInput {
     roleId?: string;
 }
 
+export class UserUpdateInputByAdmin {
+    newPassword?: string;
+    email?: string;
+    name?: string;
+    roleId?: string;
+}
+
 export class Bill {
     _id?: string;
     customer?: Customer;
@@ -142,6 +149,8 @@ export abstract class IMutation {
     abstract login(username: string, password: string): LoginResponse | Promise<LoginResponse>;
 
     abstract updateUser(userId: string, input: UserUpdateInput): boolean | Promise<boolean>;
+
+    abstract updateUserByAdmin(userId: string, input: UserUpdateInputByAdmin): boolean | Promise<boolean>;
 
     abstract deleteUser(userId: string): boolean | Promise<boolean>;
 

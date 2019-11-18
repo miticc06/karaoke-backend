@@ -35,16 +35,19 @@ type Query {
 }
 
 type Mutation {
-  
   #### USER
   createUser(input: UserCreateInput!): User
   login(username: String!, password: String!): LoginResponse
   updateUser(userId: String!, input: UserUpdateInput!): Boolean
+  updateUserByAdmin(userId: String!, input: UserUpdateInputByAdmin!): Boolean
   deleteUser(userId: String!): Boolean
 
-  #### PAYMENT SLIP 
+  #### PAYMENT SLIP
   createPaymentSlip(input: PaymentSlipInput): PaymentSlip
-  updatePaymentSlip(paymentSlipId: String!, input: PaymentSlipInput): PaymentSlip
+  updatePaymentSlip(
+    paymentSlipId: String!
+    input: PaymentSlipInput
+  ): PaymentSlip
   deletePaymentSlip(paymentSlipId: String!): Boolean
 
   #### PERMISSION
@@ -67,12 +70,12 @@ type Mutation {
   updateTypeRoom(typeroomId: String!, input: TypeRoomInput!): TypeRoom
   deleteTypeRoom(typeroomId: String!): Boolean
 
-  #### ROOM 
+  #### ROOM
   createRoom(input: RoomInput!): Room
   updateRoom(roomId: String!, input: RoomInput!): Room
   deleteRoom(roomId: String!): Boolean
 
-  ####DISCOUNT 
+  ####DISCOUNT
   createDiscount(input: DiscountInput!): Discount
   updateDiscount(discountId: String!, input: DiscountInput!): Discount
   deleteDiscount(discountId: String!): Boolean
@@ -238,6 +241,13 @@ input UserUpdateInput {
   roleId: String
 }
 
+input UserUpdateInputByAdmin {
+  newPassword: String
+  email: String
+  name: String
+  roleId: String
+}
+
 input PaymentSlipInput {
   description: String!
   price: Float!
@@ -266,22 +276,22 @@ input RoleInput {
   permissions: [String!]!
 }
 
-input ServiceInput{
-  name: String!,
-  price: Float!,
+input ServiceInput {
+  name: String!
+  price: Float!
   type: TypeService!
 }
 
-input CustomerInput{
-  name: String!,
-  dateOfBirth: Float,
-  phone: String,
-  email: String,
+input CustomerInput {
+  name: String!
+  dateOfBirth: Float
+  phone: String
+  email: String
   points: Int
 }
 
 input TypeRoomInput {
-  name: String! 
+  name: String!
   unitPrice: Float!
   updatedAt: Float!
 }

@@ -81,8 +81,8 @@ type Mutation {
   deleteDiscount(discountId: String!): Boolean
 
   ####CUSTOMER
-  createCustomer(input: CustomerInput!): Customer
-  updateCustomer(customerId: String!, input: CustomerInput!): Customer
+ createCustomer(input: CustomerInput!): Customer
+  updateCustomer(id: String!, input: CustomerInput!): Customer
   deleteCustomer(customerId: String!): Boolean
 
   #### UTILS
@@ -111,6 +111,7 @@ type Customer {
   phone: String
   email: String
   points: Int
+  createdAt: Float
 }
 
 type Room {
@@ -288,6 +289,7 @@ input CustomerInput {
   phone: String
   email: String
   points: Int
+  createdAt: Float
 }
 
 input TypeRoomInput {

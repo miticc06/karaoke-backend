@@ -21,6 +21,7 @@ export class CustomerInput {
     phone?: string;
     email?: string;
     points?: number;
+    createdAt?: number;
 }
 
 export class DiscountInput {
@@ -125,6 +126,7 @@ export class Customer {
     phone?: string;
     email?: string;
     points?: number;
+    createdAt?: number;
 }
 
 export class Discount {
@@ -198,7 +200,7 @@ export abstract class IMutation {
 
     abstract createCustomer(input: CustomerInput): Customer | Promise<Customer>;
 
-    abstract updateCustomer(customerId: string, input: CustomerInput): Customer | Promise<Customer>;
+    abstract updateCustomer(id: string, input: CustomerInput): Customer | Promise<Customer>;
 
     abstract deleteCustomer(customerId: string): boolean | Promise<boolean>;
 

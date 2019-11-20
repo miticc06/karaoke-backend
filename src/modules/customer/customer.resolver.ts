@@ -3,6 +3,7 @@ import { Query, Resolver, Mutation, Args } from '@nestjs/graphql'
 import { ApolloError } from 'apollo-server-express'
 import { Customer as CustomerSchema, CustomerInput } from 'src/graphql'
 import { getMongoRepository, getMongoManager } from 'typeorm'
+import moment from 'moment'
 
 import * as uuid from 'uuid'
 
@@ -18,7 +19,7 @@ export class CustomerResolvers {
   }
 
   @Query('customer')
-  async customer(@Args('customerId') customerId: string) {
+  async customer(@Args('id') customerId: string) {
     try {
       const customer = await getMongoRepository(CustomerEntity).findOne({
         _id: customerId
@@ -38,9 +39,30 @@ export class CustomerResolvers {
   async createCustomer(
     @Args('input') input: CustomerInput
   ): Promise<CustomerSchema | ApolloError> {
+    const { phone, email } = input
+
+    const exist = await getMongoManager().findOne(CustomerEntity, {
+      where: {
+        $and: [
+          {
+            $or: [
+              {
+                phone
+              }
+            ]
+          }
+        ]
+      }
+    })
+    if (exist) {
+      throw new ApolloError('Khách hàng này đã tồn tại!')
+    }
+
     try {
       const customer = {
         ...input,
+        createdAt: +moment(),
+        points: 0,
         _id: uuid.v4()
       }
 
@@ -52,7 +74,7 @@ export class CustomerResolvers {
 
   @Mutation('updateCustomer')
   async updateCustomer(
-    @Args('customerId') customerId: string,
+    @Args('id') customerId: string,
     @Args('input') input: CustomerInput
   ): Promise<CustomerSchema | ApolloError> {
     try {

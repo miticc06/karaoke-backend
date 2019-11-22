@@ -37,8 +37,6 @@ export class DiscountInput {
 export class PaymentSlipInput {
     description: string;
     price: number;
-    createdAt: number;
-    createdBy: string;
 }
 
 export class PermissionInput {

@@ -252,8 +252,6 @@ input UserUpdateInputByAdmin {
 input PaymentSlipInput {
   description: String!
   price: Float!
-  createdAt: Float!
-  createdBy: String!
 }
 
 input DiscountInput {

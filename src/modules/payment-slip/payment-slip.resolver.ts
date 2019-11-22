@@ -13,6 +13,7 @@ import { PaymentSlip as PaymentSlipSchema, PaymentSlipInput } from 'src/graphql'
 import { getMongoRepository, getMongoManager } from 'typeorm'
 
 import * as uuid from 'uuid'
+import moment = require('moment')
 
 @Resolver('PaymentSlip')
 export class PaymentSlipResolvers {
@@ -53,8 +54,12 @@ export class PaymentSlipResolvers {
   @Mutation('createPaymentSlip')
   async createPaymentSlip(@Args('input') input: PaymentSlipInput) {
     try {
+      // find the current user's id here
+
       const paymentSlip = {
         ...input,
+        createdAt: +moment(),
+        createdBy: '',
         _id: uuid.v4()
       }
 

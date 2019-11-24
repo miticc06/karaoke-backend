@@ -43,10 +43,10 @@ type Mutation {
   deleteUser(userId: String!): Boolean
 
   #### PAYMENT SLIP
-  createPaymentSlip(input: PaymentSlipInput): PaymentSlip
+  createPaymentSlip(input: PaymentSlipInput!): PaymentSlip
   updatePaymentSlip(
     paymentSlipId: String!
-    input: PaymentSlipInput
+    input: PaymentSlipInput!
   ): PaymentSlip
   deletePaymentSlip(paymentSlipId: String!): Boolean
 

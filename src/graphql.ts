@@ -154,9 +154,9 @@ export abstract class IMutation {
 
     abstract deleteUser(userId: string): boolean | Promise<boolean>;
 
-    abstract createPaymentSlip(input?: PaymentSlipInput): PaymentSlip | Promise<PaymentSlip>;
+    abstract createPaymentSlip(input: PaymentSlipInput): PaymentSlip | Promise<PaymentSlip>;
 
-    abstract updatePaymentSlip(paymentSlipId: string, input?: PaymentSlipInput): PaymentSlip | Promise<PaymentSlip>;
+    abstract updatePaymentSlip(paymentSlipId: string, input: PaymentSlipInput): PaymentSlip | Promise<PaymentSlip>;
 
     abstract deletePaymentSlip(paymentSlipId: string): boolean | Promise<boolean>;
 

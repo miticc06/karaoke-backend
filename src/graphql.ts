@@ -37,8 +37,6 @@ export class DiscountInput {
 export class PaymentSlipInput {
     description: string;
     price: number;
-    createdAt: number;
-    createdBy: string;
 }
 
 export class PermissionInput {
@@ -156,9 +154,9 @@ export abstract class IMutation {
 
     abstract deleteUser(userId: string): boolean | Promise<boolean>;
 
-    abstract createPaymentSlip(input?: PaymentSlipInput): PaymentSlip | Promise<PaymentSlip>;
+    abstract createPaymentSlip(input: PaymentSlipInput): PaymentSlip | Promise<PaymentSlip>;
 
-    abstract updatePaymentSlip(paymentSlipId: string, input?: PaymentSlipInput): PaymentSlip | Promise<PaymentSlip>;
+    abstract updatePaymentSlip(paymentSlipId: string, input: PaymentSlipInput): PaymentSlip | Promise<PaymentSlip>;
 
     abstract deletePaymentSlip(paymentSlipId: string): boolean | Promise<boolean>;
 

@@ -48,6 +48,9 @@ export class CustomerResolvers {
             $or: [
               {
                 phone
+              },
+              {
+                email
               }
             ]
           }

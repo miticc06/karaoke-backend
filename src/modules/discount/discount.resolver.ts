@@ -1,4 +1,5 @@
 import { Discount as DiscountEntity } from './discount.entity'
+import moment from 'moment'
 import { User as UserEntity } from '../user/user.entity'
 import {
   Query,
@@ -28,7 +29,7 @@ export class DiscountResolvers {
   async discounts() {
     try {
       return await getMongoRepository(DiscountEntity).find({
-        isActive: true
+        // isActive: true
       })
     } catch (error) {
       return error
@@ -39,8 +40,8 @@ export class DiscountResolvers {
   async discount(@Args('discountId') discountId: string) {
     try {
       const discount = await getMongoRepository(DiscountEntity).findOne({
-        _id: discountId,
-        isActive: true
+        _id: discountId
+        // isActive: true
       })
 
       if (!discount) {
@@ -59,6 +60,7 @@ export class DiscountResolvers {
       const discount = {
         ...input,
         isActive: true,
+        createdAt: +moment(),
         _id: uuid.v4()
       }
       const existDiscount = await getMongoManager().findOne(DiscountEntity, {
@@ -94,8 +96,8 @@ export class DiscountResolvers {
   ) {
     try {
       const foundDiscount = await getMongoManager().findOne(DiscountEntity, {
-        _id: discountId,
-        isActive: true
+        _id: discountId
+        // isActive: true
       })
 
       if (!foundDiscount) {
@@ -154,26 +156,33 @@ export class DiscountResolvers {
   ): Promise<boolean | ApolloError> {
     try {
       const discount = await getMongoManager().findOne(DiscountEntity, {
-        _id: discountId,
-        isActive: true
+        _id: discountId
+        // isActive: true
       })
 
       if (!discount) {
         throw new ApolloError('Discount không tồn tại!')
       }
 
-      const result = await getMongoManager().update(
-        DiscountEntity,
-        {
-          _id: discountId
-        },
-        {
-          isActive: false
-        }
-      )
+      // const result = await getMongoManager().update(
+      //   DiscountEntity,
+      //   {
+      //     _id: discountId
+      //   },
+      //   {
+      //     isActive: false
+      //   }
+      // )
+      // if (!result) {
+      //   throw new ApolloError('Delete Discount không thành công!')
+      // }
 
-      if (!result) {
-        throw new ApolloError('Delete Discount không thành công!')
+      const result = await getMongoManager().deleteOne(DiscountEntity, {
+        _id: discountId
+      })
+
+      if (result.deletedCount === 0) {
+        throw new ApolloError('Delete failed!')
       }
 
       return true

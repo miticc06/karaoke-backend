@@ -260,8 +260,9 @@ input DiscountInput {
   value: Float!
   startDate: Float!
   endDate: Float!
-  createdAt: Float!
-  createdBy: String!
+  createdAt: Float
+  createdBy: String
+  isActive: Boolean
 }
 
 input PermissionInput {

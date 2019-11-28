@@ -7,7 +7,8 @@ import {
   Mutation,
   Args,
   ResolveProperty,
-  Parent
+  Parent,
+  Context
 } from '@nestjs/graphql'
 import { ApolloError } from 'apollo-server-express'
 import { Discount as DiscountSchema, DiscountInput } from 'src/graphql'
@@ -55,32 +56,41 @@ export class DiscountResolvers {
   }
 
   @Mutation('createDiscount')
-  async createDiscount(@Args('input') input: DiscountInput) {
+  async createDiscount(@Args('input') input: DiscountInput, @Context() context) {
+    const { name, type, value, startDate, endDate } = input
     try {
       const discount = {
-        ...input,
+        name,
+        type,
+        value,
+        startDate,
+        endDate,
         isActive: true,
         createdAt: +moment(),
+        createdBy: context.currentUser._id,
         _id: uuid.v4()
       }
       const existDiscount = await getMongoManager().findOne(DiscountEntity, {
         where: {
           $and: [
             {
-              name: input.name
+              name
             },
             {
-              startDate: input.startDate
+              startDate
             },
             {
-              endDate: input.endDate
+              endDate
             }
           ]
         }
       })
 
+      if (startDate > endDate)
+        throw new ApolloError('Invalid Start Date and/or End Date !')
+
       if (existDiscount) {
-        throw new ApolloError('Discount đã tồn tại!')
+        throw new ApolloError('Discount đã tồn tại1!')
       }
 
       return await getMongoManager().save(DiscountEntity, discount)
@@ -104,30 +114,30 @@ export class DiscountResolvers {
         throw new ApolloError('Discount không tìm thấy!')
       }
 
-      const existDiscount = await getMongoManager().findOne(DiscountEntity, {
-        where: {
-          $and: [
-            {
-              _id: {
-                $ne: discountId
-              }
-            },
-            {
-              name: input.name
-            },
-            {
-              startDate: input.startDate
-            },
-            {
-              endDate: input.endDate
-            }
-          ]
-        }
-      })
+      // const existDiscount = await getMongoManager().findOne(DiscountEntity, {
+      //   where: {
+      //     $and: [
+      //       {
+      //         _id: {
+      //           $ne: discountId
+      //         }
+      //       },
+      //       {
+      //         name: input.name
+      //       },
+      //       {
+      //         startDate: input.startDate
+      //       },
+      //       {
+      //         endDate: input.endDate
+      //       }
+      //     ]
+      //   }
+      // })
 
-      if (existDiscount) {
-        throw new ApolloError('Discount này đã tồn tại!')
-      }
+      // if (existDiscount) {
+      //   throw new ApolloError('Discount này đã tồn tại!')
+      // }
 
       const result = await getMongoManager().update(
         DiscountEntity,

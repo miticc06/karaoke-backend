@@ -4,9 +4,10 @@ import { AppService } from './app.service'
 import { GraphQLModule } from '@nestjs/graphql'
 import { join } from 'path'
 import { MainModule } from './modules/main.module'
-import { getMetadataArgsStorage } from 'typeorm'
+import { getMetadataArgsStorage, getMongoManager } from 'typeorm'
 import { TypeOrmModule } from '@nestjs/typeorm'
-
+import * as jwt from 'jsonwebtoken'
+import { User } from './modules/user/user.entity'
 // tslint:disable-next-line:no-var-requires
 require('dotenv').config()
 
@@ -25,6 +26,32 @@ require('dotenv').config()
       definitions: {
         path: join(process.cwd(), 'src/graphql.ts'),
         outputAs: 'class'
+      },
+      context: async ({ req, connection }) => {
+        if (connection) {
+          if (connection.context.currentUserId) {
+            return {
+              connection,
+              currentUserId: connection.context.currentUserId
+            }
+          }
+          return { connection }
+        } else {
+          if (req.headers['token']) {
+            const currentUserId = jwt.decode(req.headers['token']).userId
+
+            if (currentUserId) {
+              const currentUser = await getMongoManager().findOne(User, {
+                where: { _id: currentUserId },
+                isActive: true
+              })
+              if (currentUser) {
+                return { req, currentUser }
+              }
+            }
+          }
+          return { req }
+        }
       }
     })
   ],

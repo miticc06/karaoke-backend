@@ -30,6 +30,9 @@ type Query {
   discount(discountId: String!): Discount
   discounts: [Discount]
 
+  ticket(ticketId: String!): Ticket
+  tickets: [Ticket] 
+
   bill(id: ID!): Bill
   #service(id: ID!): Service
 }
@@ -84,6 +87,11 @@ type Mutation {
  createCustomer(input: CustomerInput!): Customer
   updateCustomer(id: String!, input: CustomerInput!): Customer
   deleteCustomer(customerId: String!): Boolean
+
+  ####TICKET 
+  createTicket(input: TicketInput!): Ticket
+  updateTicket(ticketId: String!, input: TicketInput!): Ticket
+  deleteTicket(ticketId: String!): Boolean
 
   #### UTILS
   restoreDB(label: String!): Boolean
@@ -216,6 +224,25 @@ enum TypeDiscount {
   DEDUCT
 }
 
+type Ticket {
+  _id: ID
+  subject: String 
+  room: Room
+  status: TicketStatus
+  createdAt: Float
+  createdBy: User
+}
+
+enum TicketStatus {
+  NEW 
+  OPEN
+  ON_HOLD
+  PENDING
+  IN_PROGRESS
+  SOLVED
+  CLOSED
+}
+
 # ------------------------ Class Support ------------------------
 
 # type HistoryPaymentSlip {
@@ -301,6 +328,12 @@ input RoomInput {
   createdAt: Float!
   typeRoom: String!
   isActive: Boolean!
+}
+
+input TicketInput {
+  subject: String!
+  room: String!
+  status: TicketStatus!
 }
 # ------------------------ Response ------------------------
 type LoginResponse {

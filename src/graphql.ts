@@ -5,6 +5,16 @@
  */
 
 /* tslint:disable */
+export enum TicketStatus {
+    NEW = "NEW",
+    OPEN = "OPEN",
+    ON_HOLD = "ON_HOLD",
+    PENDING = "PENDING",
+    IN_PROGRESS = "IN_PROGRESS",
+    SOLVED = "SOLVED",
+    CLOSED = "CLOSED"
+}
+
 export enum TypeDiscount {
     PERCENT = "PERCENT",
     DEDUCT = "DEDUCT"
@@ -61,6 +71,12 @@ export class ServiceInput {
     name: string;
     price: number;
     type: TypeService;
+}
+
+export class TicketInput {
+    subject: string;
+    room: string;
+    status: TicketStatus;
 }
 
 export class TypeRoomInput {
@@ -202,6 +218,12 @@ export abstract class IMutation {
 
     abstract deleteCustomer(customerId: string): boolean | Promise<boolean>;
 
+    abstract createTicket(input: TicketInput): Ticket | Promise<Ticket>;
+
+    abstract updateTicket(ticketId: string, input: TicketInput): Ticket | Promise<Ticket>;
+
+    abstract deleteTicket(ticketId: string): boolean | Promise<boolean>;
+
     abstract restoreDB(label: string): boolean | Promise<boolean>;
 
     abstract backupDB(label: string): boolean | Promise<boolean>;
@@ -256,6 +278,10 @@ export abstract class IQuery {
 
     abstract discounts(): Discount[] | Promise<Discount[]>;
 
+    abstract ticket(ticketId: string): Ticket | Promise<Ticket>;
+
+    abstract tickets(): Ticket[] | Promise<Ticket[]>;
+
     abstract bill(id: string): Bill | Promise<Bill>;
 }
 
@@ -279,6 +305,15 @@ export class Service {
     name?: string;
     type?: TypeService;
     unitPrice?: number;
+}
+
+export class Ticket {
+    _id?: string;
+    subject?: string;
+    room?: Room;
+    status?: TicketStatus;
+    createdAt?: number;
+    createdBy?: User;
 }
 
 export class TypeRoom {

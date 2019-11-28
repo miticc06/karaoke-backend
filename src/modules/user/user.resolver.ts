@@ -6,7 +6,8 @@ import {
   Mutation,
   Args,
   ResolveProperty,
-  Parent
+  Parent,
+  Context
 } from '@nestjs/graphql'
 import { ApolloError } from 'apollo-server-express'
 import {
@@ -34,7 +35,7 @@ export class UserResolvers {
   }
 
   @Query('users')
-  async roles() {
+  async users() {
     try {
       return await getMongoRepository(UserEntity).find({
         isActive: true
@@ -45,7 +46,7 @@ export class UserResolvers {
   }
 
   @Query('user')
-  async role(@Args('id') userId: string) {
+  async user(@Args('id') userId: string) {
     try {
       const role = await getMongoRepository(UserEntity).findOne({
         _id: userId,
@@ -63,7 +64,7 @@ export class UserResolvers {
   }
 
   @Mutation('createUser')
-  async createRole(@Args('input') createInput: UserCreateInput) {
+  async createUser(@Args('input') createInput: UserCreateInput) {
     const { username, password, email, name, roleId } = createInput
     try {
       if (!/^[\w]{3,}$/gi.test(username)) {
@@ -129,8 +130,10 @@ export class UserResolvers {
   @Mutation('login')
   async login(
     @Args('username') username: string,
-    @Args('password') password: string
+    @Args('password') password: string,
+    @Context() context
   ) {
+    console.log(context.currentUser)
     try {
       const user = await getMongoManager().findOne(UserEntity, {
         username: username.toLocaleLowerCase(),
@@ -262,7 +265,7 @@ export class UserResolvers {
   }
 
   @Mutation('deleteUser')
-  async deleteRole(
+  async deleteUser(
     @Args('userId') userId: string
   ): Promise<boolean | ApolloError> {
     try {

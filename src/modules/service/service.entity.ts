@@ -12,5 +12,5 @@ export class Service {
   unitPrice: number
 
   @Column()
-  typeService: string
+  type: string
 }

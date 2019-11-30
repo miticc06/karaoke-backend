@@ -21,8 +21,8 @@ export enum TypeDiscount {
 }
 
 export enum TypeService {
-    TIME = "TIME",
-    NUMS = "NUMS"
+    perHOUR = "perHOUR",
+    perUNIT = "perUNIT"
 }
 
 export class CustomerInput {
@@ -40,8 +40,9 @@ export class DiscountInput {
     value: number;
     startDate: number;
     endDate: number;
-    createdAt: number;
-    createdBy: string;
+    createdAt?: number;
+    createdBy?: string;
+    isActive?: boolean;
 }
 
 export class PaymentSlipInput {
@@ -62,14 +63,14 @@ export class RoleInput {
 
 export class RoomInput {
     name: string;
-    createdAt: number;
+    createdAt?: number;
     typeRoom: string;
-    isActive: boolean;
+    isActive?: boolean;
 }
 
 export class ServiceInput {
     name: string;
-    price: number;
+    unitPrice: number;
     type: TypeService;
 }
 

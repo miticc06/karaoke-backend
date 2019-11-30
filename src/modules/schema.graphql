@@ -194,8 +194,8 @@ type Service {
 }
 
 enum TypeService {
-  TIME
-  NUMS
+  perHOUR
+  perUNIT
 }
 
 # type TypeService {
@@ -305,7 +305,7 @@ input RoleInput {
 
 input ServiceInput {
   name: String!
-  price: Float!
+  unitPrice: Float!
   type: TypeService!
 }
 
@@ -326,9 +326,9 @@ input TypeRoomInput {
 
 input RoomInput {
   name: String!
-  createdAt: Float!
+  createdAt: Float
   typeRoom: String!
-  isActive: Boolean!
+  isActive: Boolean
 }
 
 input TicketInput {

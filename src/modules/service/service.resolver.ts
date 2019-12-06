@@ -25,7 +25,7 @@ export class ServiceResolvers {
   // }
 
   @Query('services')
-  async services(): Promise<ServiceSchema[] | ApolloError> {
+  async services() {
     try {
       return await getMongoRepository(ServiceEntity).find({})
     } catch (error) {
@@ -50,9 +50,7 @@ export class ServiceResolvers {
   }
 
   @Mutation('createService')
-  async createService(
-    @Args('input') input: ServiceInput
-  ): Promise<ServiceSchema | ApolloError> {
+  async createService(@Args('input') input: ServiceInput) {
     try {
       const service = {
         ...input,

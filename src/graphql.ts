@@ -5,14 +5,24 @@
  */
 
 /* tslint:disable */
+export enum TicketStatus {
+    NEW = "NEW",
+    OPEN = "OPEN",
+    ON_HOLD = "ON_HOLD",
+    PENDING = "PENDING",
+    IN_PROGRESS = "IN_PROGRESS",
+    SOLVED = "SOLVED",
+    CLOSED = "CLOSED"
+}
+
 export enum TypeDiscount {
     PERCENT = "PERCENT",
     DEDUCT = "DEDUCT"
 }
 
 export enum TypeService {
-    TIME = "TIME",
-    NUMS = "NUMS"
+    perHOUR = "perHOUR",
+    perUNIT = "perUNIT"
 }
 
 export class CustomerInput {
@@ -21,6 +31,7 @@ export class CustomerInput {
     phone?: string;
     email?: string;
     points?: number;
+    createdAt?: number;
 }
 
 export class DiscountInput {
@@ -29,15 +40,14 @@ export class DiscountInput {
     value: number;
     startDate: number;
     endDate: number;
-    createdAt: number;
-    createdBy: string;
+    createdAt?: number;
+    createdBy?: string;
+    isActive?: boolean;
 }
 
 export class PaymentSlipInput {
     description: string;
     price: number;
-    createdAt: number;
-    createdBy: string;
 }
 
 export class PermissionInput {
@@ -53,15 +63,21 @@ export class RoleInput {
 
 export class RoomInput {
     name: string;
-    createdAt: number;
+    createdAt?: number;
     typeRoom: string;
-    isActive: boolean;
+    isActive?: boolean;
 }
 
 export class ServiceInput {
     name: string;
-    price: number;
+    unitPrice: number;
     type: TypeService;
+}
+
+export class TicketInput {
+    subject: string;
+    room: string;
+    status: TicketStatus;
 }
 
 export class TypeRoomInput {
@@ -125,6 +141,7 @@ export class Customer {
     phone?: string;
     email?: string;
     points?: number;
+    createdAt?: number;
 }
 
 export class Discount {
@@ -154,9 +171,9 @@ export abstract class IMutation {
 
     abstract deleteUser(userId: string): boolean | Promise<boolean>;
 
-    abstract createPaymentSlip(input?: PaymentSlipInput): PaymentSlip | Promise<PaymentSlip>;
+    abstract createPaymentSlip(input: PaymentSlipInput): PaymentSlip | Promise<PaymentSlip>;
 
-    abstract updatePaymentSlip(paymentSlipId: string, input?: PaymentSlipInput): PaymentSlip | Promise<PaymentSlip>;
+    abstract updatePaymentSlip(paymentSlipId: string, input: PaymentSlipInput): PaymentSlip | Promise<PaymentSlip>;
 
     abstract deletePaymentSlip(paymentSlipId: string): boolean | Promise<boolean>;
 
@@ -198,9 +215,15 @@ export abstract class IMutation {
 
     abstract createCustomer(input: CustomerInput): Customer | Promise<Customer>;
 
-    abstract updateCustomer(customerId: string, input: CustomerInput): Customer | Promise<Customer>;
+    abstract updateCustomer(id: string, input: CustomerInput): Customer | Promise<Customer>;
 
     abstract deleteCustomer(customerId: string): boolean | Promise<boolean>;
+
+    abstract createTicket(input: TicketInput): Ticket | Promise<Ticket>;
+
+    abstract updateTicket(ticketId: string, input: TicketInput): Ticket | Promise<Ticket>;
+
+    abstract deleteTicket(ticketId: string): boolean | Promise<boolean>;
 
     abstract restoreDB(label: string): boolean | Promise<boolean>;
 
@@ -256,6 +279,10 @@ export abstract class IQuery {
 
     abstract discounts(): Discount[] | Promise<Discount[]>;
 
+    abstract ticket(ticketId: string): Ticket | Promise<Ticket>;
+
+    abstract tickets(): Ticket[] | Promise<Ticket[]>;
+
     abstract bill(id: string): Bill | Promise<Bill>;
 }
 
@@ -279,6 +306,15 @@ export class Service {
     name?: string;
     type?: TypeService;
     unitPrice?: number;
+}
+
+export class Ticket {
+    _id?: string;
+    subject?: string;
+    room?: Room;
+    status?: TicketStatus;
+    createdAt?: number;
+    createdBy?: User;
 }
 
 export class TypeRoom {

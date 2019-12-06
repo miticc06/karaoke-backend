@@ -1,5 +1,6 @@
 import { Room as RoomEntity } from './room.entity'
 import { TypeRoom as TypeRoomEntity } from '../typeroom/typeroom.entity'
+import moment from 'moment'
 import {
   Query,
   Resolver,
@@ -58,7 +59,9 @@ export class RoomResolvers {
     try {
       const room = {
         ...input,
-        _id: uuid.v4()
+        _id: uuid.v4(),
+        isActive: true,
+        createdAt: +moment()
       }
       const existRoom = await getMongoManager().findOne(RoomEntity, {
         name: input.name

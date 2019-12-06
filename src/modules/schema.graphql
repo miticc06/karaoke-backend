@@ -30,6 +30,9 @@ type Query {
   discount(discountId: String!): Discount
   discounts: [Discount]
 
+  ticket(ticketId: String!): Ticket
+  tickets: [Ticket] 
+
   bill(id: ID!): Bill
   #service(id: ID!): Service
 }
@@ -43,10 +46,10 @@ type Mutation {
   deleteUser(userId: String!): Boolean
 
   #### PAYMENT SLIP
-  createPaymentSlip(input: PaymentSlipInput): PaymentSlip
+  createPaymentSlip(input: PaymentSlipInput!): PaymentSlip
   updatePaymentSlip(
     paymentSlipId: String!
-    input: PaymentSlipInput
+    input: PaymentSlipInput!
   ): PaymentSlip
   deletePaymentSlip(paymentSlipId: String!): Boolean
 
@@ -81,9 +84,14 @@ type Mutation {
   deleteDiscount(discountId: String!): Boolean
 
   ####CUSTOMER
-  createCustomer(input: CustomerInput!): Customer
-  updateCustomer(customerId: String!, input: CustomerInput!): Customer
+ createCustomer(input: CustomerInput!): Customer
+  updateCustomer(id: String!, input: CustomerInput!): Customer
   deleteCustomer(customerId: String!): Boolean
+
+  ####TICKET 
+  createTicket(input: TicketInput!): Ticket
+  updateTicket(ticketId: String!, input: TicketInput!): Ticket
+  deleteTicket(ticketId: String!): Boolean
 
   #### UTILS
   restoreDB(label: String!): Boolean
@@ -111,6 +119,7 @@ type Customer {
   phone: String
   email: String
   points: Int
+  createdAt: Float
 }
 
 type Room {
@@ -185,8 +194,8 @@ type Service {
 }
 
 enum TypeService {
-  TIME
-  NUMS
+  perHOUR
+  perUNIT
 }
 
 # type TypeService {
@@ -213,6 +222,25 @@ type Discount {
 enum TypeDiscount {
   PERCENT
   DEDUCT
+}
+
+type Ticket {
+  _id: ID
+  subject: String 
+  room: Room
+  status: TicketStatus
+  createdAt: Float
+  createdBy: User
+}
+
+enum TicketStatus {
+  NEW 
+  OPEN
+  ON_HOLD
+  PENDING
+  IN_PROGRESS
+  SOLVED
+  CLOSED
 }
 
 # ------------------------ Class Support ------------------------
@@ -251,8 +279,6 @@ input UserUpdateInputByAdmin {
 input PaymentSlipInput {
   description: String!
   price: Float!
-  createdAt: Float!
-  createdBy: String!
 }
 
 input DiscountInput {
@@ -261,8 +287,9 @@ input DiscountInput {
   value: Float!
   startDate: Float!
   endDate: Float!
-  createdAt: Float!
-  createdBy: String!
+  createdAt: Float
+  createdBy: String
+  isActive: Boolean
 }
 
 input PermissionInput {
@@ -278,7 +305,7 @@ input RoleInput {
 
 input ServiceInput {
   name: String!
-  price: Float!
+  unitPrice: Float!
   type: TypeService!
 }
 
@@ -288,6 +315,7 @@ input CustomerInput {
   phone: String
   email: String
   points: Int
+  createdAt: Float
 }
 
 input TypeRoomInput {
@@ -298,9 +326,15 @@ input TypeRoomInput {
 
 input RoomInput {
   name: String!
-  createdAt: Float!
+  createdAt: Float
   typeRoom: String!
-  isActive: Boolean!
+  isActive: Boolean
+}
+
+input TicketInput {
+  subject: String!
+  room: String!
+  status: TicketStatus!
 }
 # ------------------------ Response ------------------------
 type LoginResponse {

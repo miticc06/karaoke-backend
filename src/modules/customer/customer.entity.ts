@@ -1,6 +1,6 @@
 import { Column, Entity, ObjectID, ObjectIdColumn } from 'typeorm'
 
-@Entity({ name: 'customers' })
+@Entity({ name: 'customer' })
 export class Customer {
   @ObjectIdColumn()
   _id: string
@@ -19,4 +19,7 @@ export class Customer {
 
   @Column()
   points: number
+
+  @Column()
+  createdAt: number
 }

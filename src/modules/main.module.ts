@@ -8,6 +8,7 @@ import { ServiceResolvers } from './service/service.resolver'
 import { CustomerResolvers } from './customer/customer.resolver'
 import { DiscountResolvers } from './discount/discount.resolver'
 import { PaymentSlipResolvers } from './payment-slip/payment-slip.resolver'
+import { TicketResolvers } from './ticket/ticket.resolver'
 import { UtilsResolvers } from './utils/utils.resolver'
 
 @Module({
@@ -21,6 +22,7 @@ import { UtilsResolvers } from './utils/utils.resolver'
     RoomResolvers,
     DiscountResolvers,
     PaymentSlipResolvers,
+    TicketResolvers,
     UtilsResolvers
   ]
 })

@@ -5,6 +5,7 @@ import { TypeRoom as TypeRoomSchema, TypeRoomInput } from 'src/graphql'
 import { getMongoRepository, getMongoManager } from 'typeorm'
 
 import * as uuid from 'uuid'
+import moment = require('moment')
 
 @Resolver('TypeRoom')
 export class TypeRoomResolvers {
@@ -43,6 +44,7 @@ export class TypeRoomResolvers {
     try {
       const typeroom = {
         ...input,
+        updatedAt: +moment(),
         _id: uuid.v4()
       }
 
@@ -97,7 +99,8 @@ export class TypeRoomResolvers {
         TypeRoomEntity,
         { _id: typeroomId },
         {
-          ...input
+          ...input,
+          updatedAt: +moment()
         }
       )
 
@@ -107,6 +110,7 @@ export class TypeRoomResolvers {
 
       return {
         ...input,
+        updatedAt: +moment(),
         _id: typeroomId
       }
     } catch (error) {

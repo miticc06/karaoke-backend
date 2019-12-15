@@ -321,7 +321,6 @@ input CustomerInput {
 input TypeRoomInput {
   name: String!
   unitPrice: Float!
-  updatedAt: Float!
 }
 
 input RoomInput {

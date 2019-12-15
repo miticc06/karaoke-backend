@@ -83,7 +83,6 @@ export class TicketInput {
 export class TypeRoomInput {
     name: string;
     unitPrice: number;
-    updatedAt: number;
 }
 
 export class UserCreateInput {

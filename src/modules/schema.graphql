@@ -34,6 +34,7 @@ type Query {
   tickets: [Ticket] 
 
   bill(id: ID!): Bill
+  billByRoom(roomId: ID!): Bill
   #service(id: ID!): Service
 }
 

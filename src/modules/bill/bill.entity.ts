@@ -14,15 +14,27 @@ export class Bill {
   @Column()
   createdBy: string
 
+  /**
+   * state 0: Đã hủy
+   * state 10: Đang còn sử dụng
+   * state 20: Đã hoàn thành
+   */
   @Column()
   state: number
 
   @Column()
-  roomDetails: any
+  roomDetails: BillRoomDetailsInput[] // any
 
   @Column()
   serviceDetails: any
 
   @Column()
+  total: number
+}
+
+class BillRoomDetailsInput {
+  room: string
+  startTime: string
+  endTime: string
   total: number
 }

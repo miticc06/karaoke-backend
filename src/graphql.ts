@@ -307,6 +307,8 @@ export abstract class IQuery {
     abstract tickets(): Ticket[] | Promise<Ticket[]>;
 
     abstract bill(id: string): Bill | Promise<Bill>;
+
+    abstract billByRoom(roomId: string): Bill | Promise<Bill>;
 }
 
 export class Role {

@@ -17,6 +17,7 @@ import { User as UserEntity } from '../user/user.entity'
 import { Room as RoomEntiry } from '../room/room.entity'
 import { Customer as CustomerEntity } from '../customer/customer.entity'
 import { Service as ServiceEntity } from '../service/service.entity'
+import { Bill as BillEntity } from './bill.entity'
 
 @Resolver('Bill')
 export class BillResolvers {
@@ -90,7 +91,22 @@ export class BillResolvers {
         createdBy: ctx.currentUser._id
       }
 
-      console.log(bill)
+      await getMongoRepository(BillEntity).insertOne(bill)
+      return bill
+    } catch (error) {
+      return error
+    }
+  }
+
+  @Query('billByRoom')
+  async billByRoom(@Args('roomId') roomId: string) {
+    try {
+      const bill = await getMongoRepository(BillEntity).findOne({
+        where: {
+          state: 10,
+          'roomDetails.room': roomId
+        }
+      })
       return bill
     } catch (error) {
       return error

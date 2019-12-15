@@ -25,6 +25,27 @@ export enum TypeService {
     perUNIT = "perUNIT"
 }
 
+export class BillInput {
+    customer?: string;
+    roomDetails: BillRoomDetailsInput[];
+    serviceDetails: BillServiceDetailsInput[];
+}
+
+export class BillRoomDetailsInput {
+    room: string;
+    startTime: number;
+    endTime?: number;
+    total?: number;
+}
+
+export class BillServiceDetailsInput {
+    service: string;
+    startTime: number;
+    endTime?: number;
+    quantity?: number;
+    total?: number;
+}
+
 export class CustomerInput {
     name: string;
     dateOfBirth?: number;
@@ -83,7 +104,6 @@ export class TicketInput {
 export class TypeRoomInput {
     name: string;
     unitPrice: number;
-    updatedAt: number;
 }
 
 export class UserCreateInput {
@@ -116,6 +136,7 @@ export class Bill {
     createdBy?: User;
     roomDetails?: BillRoomDetails[];
     serviceDetails?: BillServiceDetails[];
+    state?: number;
     total?: number;
 }
 
@@ -161,6 +182,8 @@ export class LoginResponse {
 }
 
 export abstract class IMutation {
+    abstract createBill(input: BillInput): Bill | Promise<Bill>;
+
     abstract createUser(input: UserCreateInput): User | Promise<User>;
 
     abstract login(username: string, password: string): LoginResponse | Promise<LoginResponse>;
@@ -284,6 +307,8 @@ export abstract class IQuery {
     abstract tickets(): Ticket[] | Promise<Ticket[]>;
 
     abstract bill(id: string): Bill | Promise<Bill>;
+
+    abstract billByRoom(roomId: string): Bill | Promise<Bill>;
 }
 
 export class Role {

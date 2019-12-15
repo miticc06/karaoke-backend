@@ -38,6 +38,10 @@ type Query {
 }
 
 type Mutation {
+  ### BILL
+  createBill(input: BillInput!): Bill
+
+
   #### USER
   createUser(input: UserCreateInput!): User
   login(username: String!, password: String!): LoginResponse
@@ -168,6 +172,7 @@ type Bill {
   createdBy: User
   roomDetails: [BillRoomDetails]
   serviceDetails: [BillServiceDetails]
+  state: Int
   total: Float
 }
 
@@ -252,6 +257,28 @@ enum TicketStatus {
 # }
 
 # ------------------------ Input ------------------------
+
+input BillInput {
+  customer: String
+  roomDetails: [BillRoomDetailsInput!]!
+  serviceDetails: [BillServiceDetailsInput!]!
+
+}
+
+input BillRoomDetailsInput {
+  room: String!
+  startTime: Float!
+  endTime: Float
+  total: Float
+}
+
+input BillServiceDetailsInput {
+  service: String!
+  startTime: Float!
+  endTime: Float
+  quantity: Int
+  total: Float
+}
 
 input UserCreateInput {
   username: String!
@@ -339,3 +366,5 @@ input TicketInput {
 type LoginResponse {
   token: String
 }
+
+

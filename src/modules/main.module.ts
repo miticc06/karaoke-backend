@@ -10,6 +10,7 @@ import { DiscountResolvers } from './discount/discount.resolver'
 import { PaymentSlipResolvers } from './payment-slip/payment-slip.resolver'
 import { TicketResolvers } from './ticket/ticket.resolver'
 import { UtilsResolvers } from './utils/utils.resolver'
+import { BillResolvers } from './bill/bill.resolver'
 
 @Module({
   providers: [
@@ -23,7 +24,8 @@ import { UtilsResolvers } from './utils/utils.resolver'
     DiscountResolvers,
     PaymentSlipResolvers,
     TicketResolvers,
-    UtilsResolvers
+    UtilsResolvers,
+    BillResolvers
   ]
 })
 export class MainModule {}

@@ -8,6 +8,10 @@ export class Service {
   @Column()
   name: string
 
+  /**
+   * perHOUR: Theo giờ.
+   * perUNIT: Theo lượt.
+   */
   @Column()
   unitPrice: number
 

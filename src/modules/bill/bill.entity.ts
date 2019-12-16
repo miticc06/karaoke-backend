@@ -1,4 +1,5 @@
 import { Column, Entity, ObjectIdColumn } from 'typeorm'
+import { Room } from '../room/room.entity'
 
 @Entity({ name: 'bill' })
 export class Bill {
@@ -23,18 +24,19 @@ export class Bill {
   state: number
 
   @Column()
-  roomDetails: BillRoomDetailsInput[] // any
+  roomDetails: any[] // any
 
   @Column()
-  serviceDetails: any
+  serviceDetails: any[]
 
   @Column()
   total: number
 }
 
-class BillRoomDetailsInput {
-  room: string
-  startTime: string
-  endTime: string
-  total: number
-}
+// class BillRoomDetailsInput {
+//   // room: string
+//   room: any
+//   startTime: string
+//   endTime: string
+//   total: number
+// }

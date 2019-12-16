@@ -11,6 +11,6 @@ export class TypeRoom {
   @Column()
   unitPrice: number
 
-  @Column()
-  updatedAt: number
+  // @Column()
+  // updatedAt: number
 }

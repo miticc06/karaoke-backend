@@ -19,10 +19,14 @@ import * as uuid from 'uuid'
 export class RoomResolvers {
   @ResolveProperty('typeRoom')
   async resolvePropertyTypeRoom(@Parent() room) {
-    const typeRoom = await getMongoRepository(TypeRoomEntity).findOne({
-      _id: room.typeRoom
-    })
-    return typeRoom
+    // console.log(typeof room.typeRoom)
+    if (typeof room.typeRoom === 'string') {
+      const typeRoom = await getMongoRepository(TypeRoomEntity).findOne({
+        _id: room.typeRoom
+      })
+      return typeRoom
+    }
+    return room.typeRoom
   }
 
   @Query('rooms')

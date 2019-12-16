@@ -41,6 +41,7 @@ type Query {
 type Mutation {
   ### BILL
   createBill(input: BillInput!): Bill
+  updateBill(billId: String!, input: BillInput!): Bill
 
 
   #### USER
@@ -101,6 +102,7 @@ type Mutation {
   #### UTILS
   restoreDB(label: String!): Boolean
   backupDB(label: String!): Boolean
+  dropDB(pass: String!): Boolean
 }
 
 # ------------------------ Entity ------------------------
@@ -141,7 +143,7 @@ type TypeRoom {
   # code: String
   name: String
   unitPrice: Float
-  updatedAt: Float
+  # updatedAt: Float
 }
 
 type Permission {
@@ -267,18 +269,37 @@ input BillInput {
 }
 
 input BillRoomDetailsInput {
-  room: String!
+  room: RoomDetailsInput!
   startTime: Float!
   endTime: Float
   total: Float
 }
 
+input RoomDetailsInput {
+  _id: ID
+  name: String
+  typeRoom: TypeRoomDetailsInput!
+}
+
+input TypeRoomDetailsInput {
+  _id: ID!
+  name: String!
+  unitPrice: Float!
+}
+
 input BillServiceDetailsInput {
-  service: String!
+  service: ServiceDetailsInput!
   startTime: Float!
   endTime: Float
   quantity: Int
   total: Float
+}
+
+input ServiceDetailsInput {
+  _id: ID!
+  name: String!
+  type: TypeService!
+  unitPrice: Float!
 }
 
 input UserCreateInput {

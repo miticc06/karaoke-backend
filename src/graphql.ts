@@ -32,14 +32,14 @@ export class BillInput {
 }
 
 export class BillRoomDetailsInput {
-    room: string;
+    room: RoomDetailsInput;
     startTime: number;
     endTime?: number;
     total?: number;
 }
 
 export class BillServiceDetailsInput {
-    service: string;
+    service: ServiceDetailsInput;
     startTime: number;
     endTime?: number;
     quantity?: number;
@@ -82,11 +82,24 @@ export class RoleInput {
     permissions: string[];
 }
 
+export class RoomDetailsInput {
+    _id?: string;
+    name?: string;
+    typeRoom: TypeRoomDetailsInput;
+}
+
 export class RoomInput {
     name: string;
     createdAt?: number;
     typeRoom: string;
     isActive?: boolean;
+}
+
+export class ServiceDetailsInput {
+    _id: string;
+    name: string;
+    type: TypeService;
+    unitPrice: number;
 }
 
 export class ServiceInput {
@@ -99,6 +112,12 @@ export class TicketInput {
     subject: string;
     room: string;
     status: TicketStatus;
+}
+
+export class TypeRoomDetailsInput {
+    _id: string;
+    name: string;
+    unitPrice: number;
 }
 
 export class TypeRoomInput {
@@ -184,6 +203,8 @@ export class LoginResponse {
 export abstract class IMutation {
     abstract createBill(input: BillInput): Bill | Promise<Bill>;
 
+    abstract updateBill(billId: string, input: BillInput): Bill | Promise<Bill>;
+
     abstract createUser(input: UserCreateInput): User | Promise<User>;
 
     abstract login(username: string, password: string): LoginResponse | Promise<LoginResponse>;
@@ -251,6 +272,8 @@ export abstract class IMutation {
     abstract restoreDB(label: string): boolean | Promise<boolean>;
 
     abstract backupDB(label: string): boolean | Promise<boolean>;
+
+    abstract dropDB(pass: string): boolean | Promise<boolean>;
 }
 
 export class PaymentSlip {
@@ -346,7 +369,6 @@ export class TypeRoom {
     _id?: string;
     name?: string;
     unitPrice?: number;
-    updatedAt?: number;
 }
 
 export class User {

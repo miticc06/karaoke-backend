@@ -44,7 +44,6 @@ export class TypeRoomResolvers {
     try {
       const typeroom = {
         ...input,
-        updatedAt: +moment(),
         _id: uuid.v4()
       }
 
@@ -99,8 +98,7 @@ export class TypeRoomResolvers {
         TypeRoomEntity,
         { _id: typeroomId },
         {
-          ...input,
-          updatedAt: +moment()
+          ...input
         }
       )
 

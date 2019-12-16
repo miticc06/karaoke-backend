@@ -20,10 +20,13 @@ import * as uuid from 'uuid'
 export class DiscountResolvers {
   @ResolveProperty('createdBy')
   async resolvePropertyCreatedBy(@Parent() discount) {
-    const user = await getMongoRepository(UserEntity).findOne({
-      _id: discount.createdBy
-    })
-    return user
+    if (typeof discount.createdBy === 'string') {
+      const user = await getMongoRepository(UserEntity).findOne({
+        _id: discount.createdBy
+      })
+      return user
+    }
+    return discount.createdBy
   }
 
   @Query('discounts')

@@ -14,6 +14,7 @@ import { Room as RoomSchema, RoomInput } from 'src/graphql'
 import { getMongoRepository, getMongoManager } from 'typeorm'
 
 import * as uuid from 'uuid'
+import { Bill as BillEntity } from '../bill/bill.entity'
 
 @Resolver('Room')
 export class RoomResolvers {
@@ -27,6 +28,16 @@ export class RoomResolvers {
       return typeRoom
     }
     return room.typeRoom
+  }
+
+  @ResolveProperty('bill')
+  async resolvePropertyBill(@Parent() room) {
+    return await getMongoRepository(BillEntity).findOne({
+      where: {
+        state: 10,
+        'roomDetails.room._id': room._id
+      }
+    })
   }
 
   @Query('rooms')
@@ -57,6 +68,17 @@ export class RoomResolvers {
       return error
     }
   }
+
+  // @Query('roomsInfo')
+  // async roomsInfo() {
+  //   try {
+  //     return await getMongoRepository(RoomEntity).find({
+  //       isActive: true
+  //     })
+  //   } catch (error) {
+  //     return error
+  //   }
+  // }
 
   @Mutation('createRoom')
   async createRoom(@Args('input') input: RoomInput) {

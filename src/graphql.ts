@@ -313,6 +313,8 @@ export abstract class IQuery {
 
     abstract rooms(): Room[] | Promise<Room[]>;
 
+    abstract roomsInfo(): RoomInfo[] | Promise<RoomInfo[]>;
+
     abstract typeroom(typeroomId: string): TypeRoom | Promise<TypeRoom>;
 
     abstract typerooms(): TypeRoom[] | Promise<TypeRoom[]>;
@@ -347,6 +349,16 @@ export class Room {
     createdAt?: number;
     typeRoom?: TypeRoom;
     isActive?: boolean;
+    tickets: Ticket[];
+    bill?: Bill;
+}
+
+export class RoomInfo {
+    _id: string;
+    name: string;
+    tickets: Ticket[];
+    bill?: Bill;
+    typeRoom: TypeRoom;
 }
 
 export class Service {

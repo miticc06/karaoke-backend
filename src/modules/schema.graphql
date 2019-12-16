@@ -20,6 +20,7 @@ type Query {
 
   room(roomId: String!): Room
   rooms: [Room]
+  roomsInfo: [RoomInfo]
 
   typeroom(typeroomId: String!): TypeRoom
   typerooms: [TypeRoom]
@@ -133,9 +134,10 @@ type Room {
   _id: ID
   name: String
   createdAt: Float
-
   typeRoom: TypeRoom
   isActive: Boolean
+  tickets: [Ticket]!
+  bill: Bill
 }
 
 type TypeRoom {
@@ -389,4 +391,10 @@ type LoginResponse {
   token: String
 }
 
-
+type RoomInfo {
+  _id: ID!
+  name: String!
+  tickets: [Ticket]!
+  bill: Bill
+  typeRoom: TypeRoom!
+}

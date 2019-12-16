@@ -203,6 +203,8 @@ export class LoginResponse {
 export abstract class IMutation {
     abstract createBill(input: BillInput): Bill | Promise<Bill>;
 
+    abstract updateBill(billId: string, input: BillInput): Bill | Promise<Bill>;
+
     abstract createUser(input: UserCreateInput): User | Promise<User>;
 
     abstract login(username: string, password: string): LoginResponse | Promise<LoginResponse>;
@@ -270,6 +272,8 @@ export abstract class IMutation {
     abstract restoreDB(label: string): boolean | Promise<boolean>;
 
     abstract backupDB(label: string): boolean | Promise<boolean>;
+
+    abstract dropDB(pass: string): boolean | Promise<boolean>;
 }
 
 export class PaymentSlip {
@@ -365,7 +369,6 @@ export class TypeRoom {
     _id?: string;
     name?: string;
     unitPrice?: number;
-    updatedAt?: number;
 }
 
 export class User {

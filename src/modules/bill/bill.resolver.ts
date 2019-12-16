@@ -17,7 +17,7 @@ import { User as UserEntity } from '../user/user.entity'
 import { Room as RoomEntiry } from '../room/room.entity'
 import { Customer as CustomerEntity } from '../customer/customer.entity'
 import { Service as ServiceEntity } from '../service/service.entity'
-import { Bill as BillEntity } from './bill.entity'
+import { Bill as BillEntity, Bill } from './bill.entity'
 
 @Resolver('Bill')
 export class BillResolvers {
@@ -99,6 +99,46 @@ export class BillResolvers {
       }
 
       await getMongoRepository(BillEntity).insertOne(bill)
+      return bill
+    } catch (error) {
+      return error
+    }
+  }
+
+  @Mutation('updateBill')
+  async updateBill(
+    @Args('billId') billId: string,
+    @Args('input') input: BillInput,
+    @Context() ctx
+  ) {
+    try {
+      if (!ctx.currentUser) {
+        throw new ApolloError('Bạn chưa đăng nhập!')
+      }
+
+      const findBill = await getMongoRepository(BillEntity).findOne({
+        _id: billId
+      })
+
+      if (!findBill) {
+        throw new ApolloError('Không tìm thấy bill!')
+      }
+
+      const bill = {
+        ...findBill,
+        ...input
+      }
+      delete bill._id
+
+      await getMongoRepository(BillEntity).updateOne(
+        { _id: billId },
+        {
+          $set: {
+            ...bill
+          }
+        }
+      )
+
       return bill
     } catch (error) {
       return error

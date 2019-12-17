@@ -6,10 +6,7 @@
 
 /* tslint:disable */
 export enum TicketStatus {
-    NEW = "NEW",
     OPEN = "OPEN",
-    ON_HOLD = "ON_HOLD",
-    PENDING = "PENDING",
     IN_PROGRESS = "IN_PROGRESS",
     SOLVED = "SOLVED",
     CLOSED = "CLOSED"

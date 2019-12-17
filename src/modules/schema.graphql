@@ -244,10 +244,7 @@ type Ticket {
 }
 
 enum TicketStatus {
-  NEW 
   OPEN
-  ON_HOLD
-  PENDING
   IN_PROGRESS
   SOLVED
   CLOSED

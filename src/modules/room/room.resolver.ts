@@ -15,6 +15,7 @@ import { getMongoRepository, getMongoManager } from 'typeorm'
 
 import * as uuid from 'uuid'
 import { Bill as BillEntity } from '../bill/bill.entity'
+import { Ticket as TicketEntity } from '../ticket/ticket.entity'
 
 @Resolver('Room')
 export class RoomResolvers {
@@ -28,6 +29,18 @@ export class RoomResolvers {
       return typeRoom
     }
     return room.typeRoom
+  }
+
+  @ResolveProperty('tickets')
+  async resolvePropertyTickets(@Parent() room) {
+    return await getMongoRepository(TicketEntity).find({
+      where: {
+        room: room._id,
+        status: {
+          $ne: 'CLOSED'
+        }
+      }
+    })
   }
 
   @ResolveProperty('bill')

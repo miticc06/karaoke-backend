@@ -24,7 +24,6 @@ export class CustomerResolvers {
     @Args('text') text: string
   ): Promise<CustomerSchema[] | ApolloError> {
     try {
-      const conditional = {}
       if (text) {
         const regex = new RegExp(addslashes(text), 'gmi')
         return await getMongoRepository(CustomerEntity).find({

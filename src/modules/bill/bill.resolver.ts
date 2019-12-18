@@ -151,13 +151,18 @@ export class BillResolvers {
   @Query('billByRoom')
   async billByRoom(@Args('roomId') roomId: string) {
     try {
-      const bill = await getMongoRepository(BillEntity).findOne({
+      const bills = await getMongoRepository(BillEntity).find({
         where: {
           state: 10,
           'roomDetails.room._id': roomId
         }
       })
-      return bill
+      for (const bill of bills) {
+        const leng = bill.roomDetails.length
+        if (leng > 0 && bill.roomDetails[leng - 1].room._id === roomId) {
+          return bill
+        }
+      }
     } catch (error) {
       return error
     }

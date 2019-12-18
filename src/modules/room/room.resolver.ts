@@ -45,12 +45,18 @@ export class RoomResolvers {
 
   @ResolveProperty('bill')
   async resolvePropertyBill(@Parent() room) {
-    return await getMongoRepository(BillEntity).findOne({
+    const bills = await getMongoRepository(BillEntity).find({
       where: {
         state: 10,
         'roomDetails.room._id': room._id
       }
     })
+    for (const bill of bills) {
+      const leng = bill.roomDetails.length
+      if (leng > 0 && bill.roomDetails[leng - 1].room._id === room._id) {
+        return bill
+      }
+    }
   }
 
   @Query('rooms')

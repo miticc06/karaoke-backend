@@ -306,6 +306,8 @@ export abstract class IQuery {
 
     abstract customers(): Customer[] | Promise<Customer[]>;
 
+    abstract searchCustomers(text?: string): Customer[] | Promise<Customer[]>;
+
     abstract room(roomId: string): Room | Promise<Room>;
 
     abstract rooms(): Room[] | Promise<Room[]>;

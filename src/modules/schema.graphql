@@ -41,8 +41,8 @@ type Query {
 
 type Mutation {
   ### BILL
-  createBill(input: BillInput!): Bill
-  updateBill(billId: String!, input: BillInput!): Bill
+  createBill(input: BillInput!): Bill!
+  updateBill(billId: String!, input: BillInput!): Bill!
 
 
   #### USER

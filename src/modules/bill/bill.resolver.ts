@@ -139,7 +139,10 @@ export class BillResolvers {
         }
       )
 
-      return bill
+      return {
+        ...bill,
+        _id: billId
+      }
     } catch (error) {
       return error
     }

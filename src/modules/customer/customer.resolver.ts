@@ -4,14 +4,46 @@ import { ApolloError } from 'apollo-server-express'
 import { Customer as CustomerSchema, CustomerInput } from 'src/graphql'
 import { getMongoRepository, getMongoManager } from 'typeorm'
 import moment from 'moment'
-
 import * as uuid from 'uuid'
+
+const addslashes = str =>
+  `${str}`.replace(/[\\"'\(\)\[\]]/g, '\\$&').replace(/\u0000/g, '\\0')
 
 @Resolver('Customer')
 export class CustomerResolvers {
   @Query('customers')
   async customers(): Promise<CustomerSchema[] | ApolloError> {
     try {
+      return await getMongoRepository(CustomerEntity).find({})
+    } catch (error) {
+      return error
+    }
+  }
+  @Query('searchCustomers')
+  async searchCustomers(
+    @Args('text') text: string
+  ): Promise<CustomerSchema[] | ApolloError> {
+    try {
+      const conditional = {}
+      if (text) {
+        const regex = new RegExp(addslashes(text), 'gmi')
+        return await getMongoRepository(CustomerEntity).find({
+          where: {
+            $or: [
+              {
+                name: { $regex: regex }
+              },
+              {
+                phone: { $regex: regex }
+              },
+              {
+                email: { $regex: regex }
+              }
+            ]
+          }
+        })
+      }
+
       return await getMongoRepository(CustomerEntity).find({})
     } catch (error) {
       return error

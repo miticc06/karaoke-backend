@@ -117,31 +117,6 @@ export class DiscountResolvers {
         throw new ApolloError('Discount không tìm thấy!')
       }
 
-      // const existDiscount = await getMongoManager().findOne(DiscountEntity, {
-      //   where: {
-      //     $and: [
-      //       {
-      //         _id: {
-      //           $ne: discountId
-      //         }
-      //       },
-      //       {
-      //         name: input.name
-      //       },
-      //       {
-      //         startDate: input.startDate
-      //       },
-      //       {
-      //         endDate: input.endDate
-      //       }
-      //     ]
-      //   }
-      // })
-
-      // if (existDiscount) {
-      //   throw new ApolloError('Discount này đã tồn tại!')
-      // }
-
       const result = await getMongoManager().update(
         DiscountEntity,
         { _id: discountId },

@@ -6,7 +6,8 @@ import {
   Mutation,
   Args,
   ResolveProperty,
-  Parent
+  Parent,
+  Context
 } from '@nestjs/graphql'
 import { ApolloError } from 'apollo-server-express'
 import { PaymentSlip as PaymentSlipSchema, PaymentSlipInput } from 'src/graphql'
@@ -52,14 +53,17 @@ export class PaymentSlipResolvers {
   }
 
   @Mutation('createPaymentSlip')
-  async createPaymentSlip(@Args('input') input: PaymentSlipInput) {
+  async createPaymentSlip(
+    @Args('input') input: PaymentSlipInput,
+    @Context() context
+  ) {
     try {
       // find the current user's id here
 
       const paymentSlip = {
         ...input,
         createdAt: +moment(),
-        createdBy: '',
+        createdBy: context.currentUser._id,
         _id: uuid.v4()
       }
 

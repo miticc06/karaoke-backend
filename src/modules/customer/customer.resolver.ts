@@ -42,6 +42,9 @@ export class CustomerResolvers {
           where: {
             $or: [
               {
+                _id: text
+              },
+              {
                 name: { $regex: regex }
               },
               {
@@ -83,19 +86,20 @@ export class CustomerResolvers {
     @Args('input') input: CustomerInput
   ): Promise<CustomerSchema | ApolloError> {
     const { phone, email } = input
+    const conditional = []
+    if (email) {
+      conditional.push({ email })
+    }
+
+    if (phone) {
+      conditional.push({ phone })
+    }
 
     const exist = await getMongoManager().findOne(CustomerEntity, {
       where: {
         $and: [
           {
-            $or: [
-              {
-                phone
-              },
-              {
-                email
-              }
-            ]
+            $or: [...conditional]
           }
         ]
       }

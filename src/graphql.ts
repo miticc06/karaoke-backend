@@ -28,6 +28,7 @@ export class BillInput {
     serviceDetails: BillServiceDetailsInput[];
     state?: number;
     total?: number;
+    discount?: string;
 }
 
 export class BillRoomDetailsInput {
@@ -155,6 +156,7 @@ export class Bill {
     roomDetails?: BillRoomDetails[];
     serviceDetails?: BillServiceDetails[];
     state?: number;
+    discount?: Discount;
     total?: number;
 }
 
@@ -307,6 +309,8 @@ export abstract class IQuery {
     abstract customer(id: string): Customer | Promise<Customer>;
 
     abstract customers(): Customer[] | Promise<Customer[]>;
+
+    abstract customersNew(): Customer[] | Promise<Customer[]>;
 
     abstract searchCustomers(text?: string): Customer[] | Promise<Customer[]>;
 

@@ -17,6 +17,7 @@ type Query {
 
   customer(id: ID!): Customer
   customers: [Customer]
+  customersNew: [Customer]
   searchCustomers(text: String): [Customer!]!
 
   room(roomId: String!): Room
@@ -178,6 +179,7 @@ type Bill {
   roomDetails: [BillRoomDetails]
   serviceDetails: [BillServiceDetails]
   state: Int
+  discount: Discount
   total: Float
 }
 
@@ -267,6 +269,7 @@ input BillInput {
 
   state: Int
   total: Float
+  discount: String
 }
 
 input BillRoomDetailsInput {

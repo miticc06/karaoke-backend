@@ -6,10 +6,7 @@
 
 /* tslint:disable */
 export enum TicketStatus {
-    NEW = "NEW",
     OPEN = "OPEN",
-    ON_HOLD = "ON_HOLD",
-    PENDING = "PENDING",
     IN_PROGRESS = "IN_PROGRESS",
     SOLVED = "SOLVED",
     CLOSED = "CLOSED"
@@ -23,6 +20,29 @@ export enum TypeDiscount {
 export enum TypeService {
     perHOUR = "perHOUR",
     perUNIT = "perUNIT"
+}
+
+export class BillInput {
+    customer?: string;
+    roomDetails: BillRoomDetailsInput[];
+    serviceDetails: BillServiceDetailsInput[];
+    state?: number;
+    total?: number;
+}
+
+export class BillRoomDetailsInput {
+    room: RoomDetailsInput;
+    startTime: number;
+    endTime?: number;
+    total?: number;
+}
+
+export class BillServiceDetailsInput {
+    service: ServiceDetailsInput;
+    startTime: number;
+    endTime?: number;
+    quantity?: number;
+    total?: number;
 }
 
 export class CustomerInput {
@@ -61,11 +81,24 @@ export class RoleInput {
     permissions: string[];
 }
 
+export class RoomDetailsInput {
+    _id?: string;
+    name?: string;
+    typeRoom: TypeRoomDetailsInput;
+}
+
 export class RoomInput {
     name: string;
     createdAt?: number;
     typeRoom: string;
     isActive?: boolean;
+}
+
+export class ServiceDetailsInput {
+    _id: string;
+    name: string;
+    type: TypeService;
+    unitPrice: number;
 }
 
 export class ServiceInput {
@@ -80,10 +113,15 @@ export class TicketInput {
     status: TicketStatus;
 }
 
+export class TypeRoomDetailsInput {
+    _id: string;
+    name: string;
+    unitPrice: number;
+}
+
 export class TypeRoomInput {
     name: string;
     unitPrice: number;
-    updatedAt: number;
 }
 
 export class UserCreateInput {
@@ -116,6 +154,7 @@ export class Bill {
     createdBy?: User;
     roomDetails?: BillRoomDetails[];
     serviceDetails?: BillServiceDetails[];
+    state?: number;
     total?: number;
 }
 
@@ -161,6 +200,10 @@ export class LoginResponse {
 }
 
 export abstract class IMutation {
+    abstract createBill(input: BillInput): Bill | Promise<Bill>;
+
+    abstract updateBill(billId: string, input: BillInput): Bill | Promise<Bill>;
+
     abstract createUser(input: UserCreateInput): User | Promise<User>;
 
     abstract login(username: string, password: string): LoginResponse | Promise<LoginResponse>;
@@ -228,6 +271,8 @@ export abstract class IMutation {
     abstract restoreDB(label: string): boolean | Promise<boolean>;
 
     abstract backupDB(label: string): boolean | Promise<boolean>;
+
+    abstract dropDB(pass: string): boolean | Promise<boolean>;
 }
 
 export class PaymentSlip {
@@ -263,9 +308,13 @@ export abstract class IQuery {
 
     abstract customers(): Customer[] | Promise<Customer[]>;
 
+    abstract searchCustomers(text?: string): Customer[] | Promise<Customer[]>;
+
     abstract room(roomId: string): Room | Promise<Room>;
 
     abstract rooms(): Room[] | Promise<Room[]>;
+
+    abstract roomsInfo(): RoomInfo[] | Promise<RoomInfo[]>;
 
     abstract typeroom(typeroomId: string): TypeRoom | Promise<TypeRoom>;
 
@@ -284,6 +333,8 @@ export abstract class IQuery {
     abstract tickets(): Ticket[] | Promise<Ticket[]>;
 
     abstract bill(id: string): Bill | Promise<Bill>;
+
+    abstract billByRoom(roomId: string): Bill | Promise<Bill>;
 }
 
 export class Role {
@@ -299,6 +350,16 @@ export class Room {
     createdAt?: number;
     typeRoom?: TypeRoom;
     isActive?: boolean;
+    tickets: Ticket[];
+    bill?: Bill;
+}
+
+export class RoomInfo {
+    _id: string;
+    name: string;
+    tickets: Ticket[];
+    bill?: Bill;
+    typeRoom: TypeRoom;
 }
 
 export class Service {
@@ -321,7 +382,6 @@ export class TypeRoom {
     _id?: string;
     name?: string;
     unitPrice?: number;
-    updatedAt?: number;
 }
 
 export class User {

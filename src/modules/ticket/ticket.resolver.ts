@@ -7,7 +7,8 @@ import {
   Mutation,
   Args,
   ResolveProperty,
-  Parent
+  Parent,
+  Context
 } from '@nestjs/graphql'
 import { ApolloError } from 'apollo-server-express'
 import { Ticket as TicketSchema, TicketInput } from 'src/graphql'
@@ -63,26 +64,18 @@ export class TicketResolvers {
   }
 
   @Mutation('createTicket')
-  async createTicket(@Args('input') input: TicketInput) {
+  async createTicket(@Args('input') input: TicketInput, @Context() ctx) {
     try {
+      if (!ctx.currentUser) {
+        throw new ApolloError('Bạn chưa đăng nhập!')
+      }
+
       const ticket = {
         ...input,
         createdAt: +moment(),
-        createdBy: '', // TODO: find the user's ID here
+        createdBy: ctx.currentUser._id,
         _id: uuid.v4()
       }
-
-      // NOTE: No need to check duplicate room's ticket because a room can have several problems (sound, lighting,...)
-
-      // const existTicket = await getMongoManager().findOne(TicketEntity, {
-      //   where: {
-      //     room: input.room
-      //   }
-      // })
-
-      // if (existTicket) {
-      //   throw new ApolloError('Ticket đã tồn tại!')
-      // }
 
       return await getMongoManager().save(TicketEntity, ticket)
     } catch (error) {
@@ -93,9 +86,14 @@ export class TicketResolvers {
   @Mutation('updateTicket')
   async updateTicket(
     @Args('ticketId') ticketId: string,
-    @Args('input') input: TicketInput
+    @Args('input') input: TicketInput,
+    @Context() ctx
   ) {
     try {
+      if (!ctx.currentUser) {
+        throw new ApolloError('Bạn chưa đăng nhập!')
+      }
+
       const foundTicket = await getMongoManager().findOne(TicketEntity, {
         _id: ticketId
       })
@@ -127,9 +125,13 @@ export class TicketResolvers {
 
   @Mutation('deleteTicket')
   async deleteTicket(
-    @Args('ticketId') ticketId: string
+    @Args('ticketId') ticketId: string,
+    @Context() ctx
   ): Promise<boolean | ApolloError> {
     try {
+      if (!ctx.currentUser) {
+        throw new ApolloError('Bạn chưa đăng nhập!')
+      }
       const ticket = await getMongoManager().findOne(TicketEntity, {
         _id: ticketId
       })

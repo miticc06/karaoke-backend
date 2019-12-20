@@ -5,6 +5,23 @@ import { exec } from 'child_process'
 @Resolver('Utils')
 export class UtilsResolvers {
   @Mutation('backupDB')
+  async dropDB(@Args('pass') pass: string): Promise<boolean | ApolloError> {
+    if (pass !== 'tien') {
+      return new ApolloError('pass khong hop le')
+    }
+    const url = process.env.MONGO_URL || 'mongodb://localhost:27017/karaoke'
+    const port = url.split(':')[2].split('/')[0]
+    const host = url.split('//')[1].split(':')[0]
+    const database = url.split(':')[2].split('/')[1]
+
+    exec(
+      `mongo --host=${host}:${port} --db ${database} --eval "db.dropDatabase()`,
+      () => {}
+    )
+    return true
+  }
+
+  @Mutation('backupDB')
   async backupDB(@Args('label') label: string): Promise<boolean | ApolloError> {
     const regex = new RegExp(/^[a-z0-9_]+$/gim)
     if (!regex.test(label)) {

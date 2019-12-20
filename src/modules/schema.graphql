@@ -17,9 +17,11 @@ type Query {
 
   customer(id: ID!): Customer
   customers: [Customer]
+  searchCustomers(text: String): [Customer!]!
 
   room(roomId: String!): Room
   rooms: [Room]
+  roomsInfo: [RoomInfo]
 
   typeroom(typeroomId: String!): TypeRoom
   typerooms: [TypeRoom]
@@ -31,13 +33,18 @@ type Query {
   discounts: [Discount]
 
   ticket(ticketId: String!): Ticket
-  tickets: [Ticket] 
+  tickets: [Ticket]
 
   bill(id: ID!): Bill
+  billByRoom(roomId: ID!): Bill
   #service(id: ID!): Service
 }
 
 type Mutation {
+  ### BILL
+  createBill(input: BillInput!): Bill!
+  updateBill(billId: String!, input: BillInput!): Bill!
+
   #### USER
   createUser(input: UserCreateInput!): User
   login(username: String!, password: String!): LoginResponse
@@ -84,11 +91,11 @@ type Mutation {
   deleteDiscount(discountId: String!): Boolean
 
   ####CUSTOMER
- createCustomer(input: CustomerInput!): Customer
+  createCustomer(input: CustomerInput!): Customer
   updateCustomer(id: String!, input: CustomerInput!): Customer
   deleteCustomer(customerId: String!): Boolean
 
-  ####TICKET 
+  ####TICKET
   createTicket(input: TicketInput!): Ticket
   updateTicket(ticketId: String!, input: TicketInput!): Ticket
   deleteTicket(ticketId: String!): Boolean
@@ -96,6 +103,7 @@ type Mutation {
   #### UTILS
   restoreDB(label: String!): Boolean
   backupDB(label: String!): Boolean
+  dropDB(pass: String!): Boolean
 }
 
 # ------------------------ Entity ------------------------
@@ -126,9 +134,10 @@ type Room {
   _id: ID
   name: String
   createdAt: Float
-
   typeRoom: TypeRoom
   isActive: Boolean
+  tickets: [Ticket]!
+  bill: Bill
 }
 
 type TypeRoom {
@@ -136,7 +145,7 @@ type TypeRoom {
   # code: String
   name: String
   unitPrice: Float
-  updatedAt: Float
+  # updatedAt: Float
 }
 
 type Permission {
@@ -168,6 +177,7 @@ type Bill {
   createdBy: User
   roomDetails: [BillRoomDetails]
   serviceDetails: [BillServiceDetails]
+  state: Int
   total: Float
 }
 
@@ -226,7 +236,7 @@ enum TypeDiscount {
 
 type Ticket {
   _id: ID
-  subject: String 
+  subject: String
   room: Room
   status: TicketStatus
   createdAt: Float
@@ -234,10 +244,7 @@ type Ticket {
 }
 
 enum TicketStatus {
-  NEW 
   OPEN
-  ON_HOLD
-  PENDING
   IN_PROGRESS
   SOLVED
   CLOSED
@@ -252,6 +259,49 @@ enum TicketStatus {
 # }
 
 # ------------------------ Input ------------------------
+
+input BillInput {
+  customer: String
+  roomDetails: [BillRoomDetailsInput!]!
+  serviceDetails: [BillServiceDetailsInput!]!
+
+  state: Int
+  total: Float
+}
+
+input BillRoomDetailsInput {
+  room: RoomDetailsInput!
+  startTime: Float!
+  endTime: Float
+  total: Float
+}
+
+input RoomDetailsInput {
+  _id: ID
+  name: String
+  typeRoom: TypeRoomDetailsInput!
+}
+
+input TypeRoomDetailsInput {
+  _id: ID!
+  name: String!
+  unitPrice: Float!
+}
+
+input BillServiceDetailsInput {
+  service: ServiceDetailsInput!
+  startTime: Float!
+  endTime: Float
+  quantity: Int
+  total: Float
+}
+
+input ServiceDetailsInput {
+  _id: ID!
+  name: String!
+  type: TypeService!
+  unitPrice: Float!
+}
 
 input UserCreateInput {
   username: String!
@@ -321,7 +371,6 @@ input CustomerInput {
 input TypeRoomInput {
   name: String!
   unitPrice: Float!
-  updatedAt: Float!
 }
 
 input RoomInput {
@@ -339,4 +388,12 @@ input TicketInput {
 # ------------------------ Response ------------------------
 type LoginResponse {
   token: String
+}
+
+type RoomInfo {
+  _id: ID!
+  name: String!
+  tickets: [Ticket]!
+  bill: Bill
+  typeRoom: TypeRoom!
 }

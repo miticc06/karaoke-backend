@@ -14,15 +14,49 @@ import { Room as RoomSchema, RoomInput } from 'src/graphql'
 import { getMongoRepository, getMongoManager } from 'typeorm'
 
 import * as uuid from 'uuid'
+import { Bill as BillEntity } from '../bill/bill.entity'
+import { Ticket as TicketEntity } from '../ticket/ticket.entity'
 
 @Resolver('Room')
 export class RoomResolvers {
   @ResolveProperty('typeRoom')
   async resolvePropertyTypeRoom(@Parent() room) {
-    const typeRoom = await getMongoRepository(TypeRoomEntity).findOne({
-      _id: room.typeRoom
+    // console.log(typeof room.typeRoom)
+    if (typeof room.typeRoom === 'string') {
+      const typeRoom = await getMongoRepository(TypeRoomEntity).findOne({
+        _id: room.typeRoom
+      })
+      return typeRoom
+    }
+    return room.typeRoom
+  }
+
+  @ResolveProperty('tickets')
+  async resolvePropertyTickets(@Parent() room) {
+    return await getMongoRepository(TicketEntity).find({
+      where: {
+        room: room._id,
+        status: {
+          $ne: 'CLOSED'
+        }
+      }
     })
-    return typeRoom
+  }
+
+  @ResolveProperty('bill')
+  async resolvePropertyBill(@Parent() room) {
+    const bills = await getMongoRepository(BillEntity).find({
+      where: {
+        state: 10,
+        'roomDetails.room._id': room._id
+      }
+    })
+    for (const bill of bills) {
+      const leng = bill.roomDetails.length
+      if (leng > 0 && bill.roomDetails[leng - 1].room._id === room._id) {
+        return bill
+      }
+    }
   }
 
   @Query('rooms')
@@ -53,6 +87,17 @@ export class RoomResolvers {
       return error
     }
   }
+
+  // @Query('roomsInfo')
+  // async roomsInfo() {
+  //   try {
+  //     return await getMongoRepository(RoomEntity).find({
+  //       isActive: true
+  //     })
+  //   } catch (error) {
+  //     return error
+  //   }
+  // }
 
   @Mutation('createRoom')
   async createRoom(@Args('input') input: RoomInput) {

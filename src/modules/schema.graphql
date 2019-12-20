@@ -37,6 +37,7 @@ type Query {
   tickets: [Ticket]
 
   bill(id: ID!): Bill
+  bills: [Bill]
   billByRoom(roomId: ID!): Bill
   #service(id: ID!): Service
 }
@@ -45,6 +46,7 @@ type Mutation {
   ### BILL
   createBill(input: BillInput!): Bill!
   updateBill(billId: String!, input: BillInput!): Bill!
+  deleteBill(billId: String!): Boolean
 
   #### USER
   createUser(input: UserCreateInput!): User

@@ -1,6 +1,9 @@
 # ------------------------ Graphql ------------------------
 
 type Query {
+  ### REPORT
+  ReportRevenueRooms(startDate: Float!, endDate: Float!): [Bill!]!
+
   user(id: ID!): User
   users: [User]
 
@@ -402,3 +405,10 @@ type RoomInfo {
   bill: Bill
   typeRoom: TypeRoom!
 }
+
+# type ReportRevenueRooms {
+#   billId: String!,
+#   totalRooms: Float!
+#   total
+#   totalBill: Float!
+# }

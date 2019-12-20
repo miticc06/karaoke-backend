@@ -264,6 +264,9 @@ input BillInput {
   customer: String
   roomDetails: [BillRoomDetailsInput!]!
   serviceDetails: [BillServiceDetailsInput!]!
+
+  state: Int
+  total: Float
 }
 
 input BillRoomDetailsInput {

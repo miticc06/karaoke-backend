@@ -26,6 +26,8 @@ export class BillInput {
     customer?: string;
     roomDetails: BillRoomDetailsInput[];
     serviceDetails: BillServiceDetailsInput[];
+    state?: number;
+    total?: number;
 }
 
 export class BillRoomDetailsInput {

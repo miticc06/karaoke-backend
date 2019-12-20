@@ -129,7 +129,6 @@ export class BillResolvers {
         ...input
       }
       delete bill._id
-
       await getMongoRepository(BillEntity).updateOne(
         { _id: billId },
         {

@@ -17,6 +17,8 @@ type Query {
 
   customer(id: ID!): Customer
   customers: [Customer]
+  customersNew: [Customer]
+  searchCustomers(text: String): [Customer!]!
 
   room(roomId: String!): Room
   rooms: [Room]
@@ -32,7 +34,7 @@ type Query {
   discounts: [Discount]
 
   ticket(ticketId: String!): Ticket
-  tickets: [Ticket] 
+  tickets: [Ticket]
 
   bill(id: ID!): Bill
   bills: [Bill]
@@ -42,10 +44,9 @@ type Query {
 
 type Mutation {
   ### BILL
-  createBill(input: BillInput!): Bill
-  updateBill(billId: String!, input: BillInput!): Bill
+  createBill(input: BillInput!): Bill!
+  updateBill(billId: String!, input: BillInput!): Bill!
   deleteBill(billId: String!): Boolean
-
 
   #### USER
   createUser(input: UserCreateInput!): User
@@ -93,11 +94,11 @@ type Mutation {
   deleteDiscount(discountId: String!): Boolean
 
   ####CUSTOMER
- createCustomer(input: CustomerInput!): Customer
+  createCustomer(input: CustomerInput!): Customer
   updateCustomer(id: String!, input: CustomerInput!): Customer
   deleteCustomer(customerId: String!): Boolean
 
-  ####TICKET 
+  ####TICKET
   createTicket(input: TicketInput!): Ticket
   updateTicket(ticketId: String!, input: TicketInput!): Ticket
   deleteTicket(ticketId: String!): Boolean
@@ -180,6 +181,7 @@ type Bill {
   roomDetails: [BillRoomDetails]
   serviceDetails: [BillServiceDetails]
   state: Int
+  discount: Discount
   total: Float
 }
 
@@ -238,7 +240,7 @@ enum TypeDiscount {
 
 type Ticket {
   _id: ID
-  subject: String 
+  subject: String
   room: Room
   status: TicketStatus
   createdAt: Float
@@ -267,6 +269,9 @@ input BillInput {
   roomDetails: [BillRoomDetailsInput!]!
   serviceDetails: [BillServiceDetailsInput!]!
 
+  state: Int
+  total: Float
+  discount: String
 }
 
 input BillRoomDetailsInput {

@@ -17,7 +17,8 @@ import { User as UserEntity } from '../user/user.entity'
 import { Room as RoomEntiry } from '../room/room.entity'
 import { Customer as CustomerEntity } from '../customer/customer.entity'
 import { Service as ServiceEntity } from '../service/service.entity'
-import { Bill as BillEntity, Bill } from './bill.entity'
+import { Bill as BillEntity } from './bill.entity'
+import { Discount as DiscountEntity } from '../discount/discount.entity'
 
 @Resolver('Bill')
 export class BillResolvers {
@@ -66,7 +67,13 @@ export class BillResolvers {
   //   }
   //   return res
   // }
-
+  @ResolveProperty('discount')
+  async resolvePropertyDiscount(@Parent() bill) {
+    const discount = await getMongoRepository(DiscountEntity).findOne({
+      _id: bill.discount
+    })
+    return discount
+  }
   @ResolveProperty('customer')
   async resolvePropertyCustomer(@Parent() bill) {
     const customer = await getMongoRepository(CustomerEntity).findOne({
@@ -129,7 +136,6 @@ export class BillResolvers {
         ...input
       }
       delete bill._id
-
       await getMongoRepository(BillEntity).updateOne(
         { _id: billId },
         {
@@ -139,7 +145,10 @@ export class BillResolvers {
         }
       )
 
-      return bill
+      return {
+        ...bill,
+        _id: billId
+      }
     } catch (error) {
       return error
     }
@@ -175,13 +184,18 @@ export class BillResolvers {
   @Query('billByRoom')
   async billByRoom(@Args('roomId') roomId: string) {
     try {
-      const bill = await getMongoRepository(BillEntity).findOne({
+      const bills = await getMongoRepository(BillEntity).find({
         where: {
           state: 10,
           'roomDetails.room._id': roomId
         }
       })
-      return bill
+      for (const bill of bills) {
+        const leng = bill.roomDetails.length
+        if (leng > 0 && bill.roomDetails[leng - 1].room._id === roomId) {
+          return bill
+        }
+      }
     } catch (error) {
       return error
     }

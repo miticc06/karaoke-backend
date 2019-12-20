@@ -202,6 +202,8 @@ export abstract class IMutation {
 
     abstract updateBill(billId: string, input: BillInput): Bill | Promise<Bill>;
 
+    abstract deleteBill(billId: string): boolean | Promise<boolean>;
+
     abstract createUser(input: UserCreateInput): User | Promise<User>;
 
     abstract login(username: string, password: string): LoginResponse | Promise<LoginResponse>;
@@ -329,6 +331,8 @@ export abstract class IQuery {
     abstract tickets(): Ticket[] | Promise<Ticket[]>;
 
     abstract bill(id: string): Bill | Promise<Bill>;
+
+    abstract bills(): Bill[] | Promise<Bill[]>;
 
     abstract billByRoom(roomId: string): Bill | Promise<Bill>;
 }

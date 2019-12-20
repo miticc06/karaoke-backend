@@ -8,7 +8,7 @@ import {
   Context
 } from '@nestjs/graphql'
 import { ApolloError } from 'apollo-server-express'
-import { BillInput } from 'src/graphql'
+import { Bill as BillSchema, BillInput } from 'src/graphql'
 import { getMongoRepository, getMongoManager } from 'typeorm'
 
 import * as uuid from 'uuid'
@@ -145,6 +145,33 @@ export class BillResolvers {
     }
   }
 
+  @Mutation('deleteBill')
+  async deleteBill(
+    @Args('billId') billId: string
+  ): Promise<boolean | ApolloError> {
+    try {
+      const bill = await getMongoManager().findOne(BillEntity, {
+        _id: billId
+      })
+
+      if (!bill) {
+        throw new ApolloError('Không tìm thấy bill! ')
+      }
+
+      const result = await getMongoManager().deleteOne(BillEntity, {
+        _id: billId
+      })
+
+      if (result.deletedCount === 0) {
+        throw new ApolloError('Xóa bill thất bại!')
+      }
+
+      return true
+    } catch (error) {
+      return error
+    }
+  }
+
   @Query('billByRoom')
   async billByRoom(@Args('roomId') roomId: string) {
     try {
@@ -154,6 +181,32 @@ export class BillResolvers {
           'roomDetails.room._id': roomId
         }
       })
+      return bill
+    } catch (error) {
+      return error
+    }
+  }
+
+  @Query('bills')
+  async bills() {
+    try {
+      return await getMongoRepository(BillEntity).find({})
+    } catch (error) {
+      return error
+    }
+  }
+
+  @Query('bill')
+  async bill(@Args('id') id: string) {
+    try {
+      const bill = await getMongoRepository(BillEntity).findOne({
+        _id: id
+      })
+
+      if (!bill) {
+        throw new ApolloError('Không tìm thấy Bill!')
+      }
+
       return bill
     } catch (error) {
       return error

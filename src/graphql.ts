@@ -294,6 +294,8 @@ export class Permission {
 }
 
 export abstract class IQuery {
+    abstract ReportRevenueRooms(startDate: number, endDate: number): Bill[] | Promise<Bill[]>;
+
     abstract user(id: string): User | Promise<User>;
 
     abstract users(): User[] | Promise<User[]>;

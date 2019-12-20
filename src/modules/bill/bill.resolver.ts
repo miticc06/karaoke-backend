@@ -17,7 +17,8 @@ import { User as UserEntity } from '../user/user.entity'
 import { Room as RoomEntiry } from '../room/room.entity'
 import { Customer as CustomerEntity } from '../customer/customer.entity'
 import { Service as ServiceEntity } from '../service/service.entity'
-import { Bill as BillEntity, Bill } from './bill.entity'
+import { Bill as BillEntity } from './bill.entity'
+import { Discount as DiscountEntity } from '../discount/discount.entity'
 
 @Resolver('Bill')
 export class BillResolvers {
@@ -66,7 +67,13 @@ export class BillResolvers {
   //   }
   //   return res
   // }
-
+  @ResolveProperty('discount')
+  async resolvePropertyDiscount(@Parent() bill) {
+    const discount = await getMongoRepository(DiscountEntity).findOne({
+      _id: bill.discount
+    })
+    return discount
+  }
   @ResolveProperty('customer')
   async resolvePropertyCustomer(@Parent() bill) {
     const customer = await getMongoRepository(CustomerEntity).findOne({

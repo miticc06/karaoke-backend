@@ -19,6 +19,18 @@ export class CustomerResolvers {
       return error
     }
   }
+
+  //   @Query('customersNew')
+  // async customersNew(): Promise<CustomerSchema[] | ApolloError> {
+  //   try {
+  //     return await getMongoRepository(CustomerEntity).find({
+  //       wh
+  //     })
+  //   } catch (error) {
+  //     return error
+  //   }
+  // }
+
   @Query('searchCustomers')
   async searchCustomers(
     @Args('text') text: string

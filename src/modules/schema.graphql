@@ -3,6 +3,8 @@
 type Query {
   ### REPORT
   ReportRevenueRooms(startDate: Float!, endDate: Float!): [Bill!]!
+  ReportRevenueServices(startDate: Float!, endDate: Float!):[ReportRevenueService!]!
+  ReportThuChiTongHop(startDate: Float!, endDate: Float!): [ReportThuChi!]!
 
   user(id: ID!): User
   users: [User]
@@ -406,9 +408,17 @@ type RoomInfo {
   typeRoom: TypeRoom!
 }
 
-# type ReportRevenueRooms {
-#   billId: String!,
-#   totalRooms: Float!
-#   total
-#   totalBill: Float!
-# }
+type ReportRevenueService {
+  serviceId: String!
+  name: String!
+  type: TypeService!
+  unitPrice:Float!
+  quantity: Int!
+  total: Float!
+}
+
+type ReportThuChi {
+  name: String!
+  type: String!
+  total: Float!
+}

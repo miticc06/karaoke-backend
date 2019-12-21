@@ -143,6 +143,15 @@ export class ReportResolvers {
       }))
     ]
 
+    const ReportRevenueRooms = await this.ReportRevenueRooms(startDate, endDate)
+    console.log()
+    res.push({
+      name: `Doanh thu tiền phòng từ ${moment(startDate).format(
+        'DD/MM/YYYY'
+      )} đến ${moment(endDate).format('DD/MM/YYYY')}`,
+      type: 'THU',
+      total: ReportRevenueRooms.reduce((total, obj) => total + obj.total, 0)
+    })
     return res
   }
 }

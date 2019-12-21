@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"karaoke.discount"}],"uuid":"3e6dc9f3b38b4409bc29482c851b4457"}

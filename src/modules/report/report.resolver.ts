@@ -1,41 +1,11 @@
-import {
-  Query,
-  Resolver,
-  Mutation,
-  Args,
-  ResolveProperty,
-  Parent,
-  Context
-} from '@nestjs/graphql'
+import { Query, Resolver, Args, ResolveProperty } from '@nestjs/graphql'
 import { getMongoRepository } from 'typeorm'
-import { User as UserEntity } from '../user/user.entity'
-import { Customer as CustomerEntity } from '../customer/customer.entity'
 import { Bill as BillEntity } from '../bill/bill.entity'
-import { Discount as DiscountEntity } from '../discount/discount.entity'
+import { PaymentSlip as PaymentSlipEntity } from '../payment-slip/payment-slip.entity'
+import moment = require('moment')
 
 @Resolver('Report')
 export class ReportResolvers {
-  // @ResolveProperty('createdBy')
-  // async resolvePropertyCreatedBy(@Parent() bill) {
-  //   const user = await getMongoRepository(UserEntity).findOne({
-  //     _id: bill.createdBy
-  //   })
-  //   return user
-  // }
-  // @ResolveProperty('discount')
-  // async resolvePropertyDiscount(@Parent() bill) {
-  //   const discount = await getMongoRepository(DiscountEntity).findOne({
-  //     _id: bill.discount
-  //   })
-  //   return discount
-  // }
-  // @ResolveProperty('customer')
-  // async resolvePropertyCustomer(@Parent() bill) {
-  //   const customer = await getMongoRepository(CustomerEntity).findOne({
-  //     _id: bill.customer
-  //   })
-  //   return customer
-  // }
   @Query('ReportRevenueRooms')
   async ReportRevenueRooms(
     @Args('startDate') startDate: number,
@@ -65,5 +35,114 @@ export class ReportResolvers {
     } catch (error) {
       return error
     }
+  }
+
+  @Query('ReportRevenueServices')
+  async ReportRevenueServices(
+    @Args('startDate') startDate: number,
+    @Args('endDate') endDate: number
+  ) {
+    try {
+      const data = await getMongoRepository(BillEntity).find({
+        where: {
+          $and: [
+            {
+              state: 20
+            },
+            {
+              createdAt: {
+                $gte: startDate
+              }
+            },
+            {
+              createdAt: {
+                $lte: endDate
+              }
+            }
+          ]
+        }
+      })
+
+      const hash = {}
+
+      data.map(bill => {
+        bill.serviceDetails.map(serviceDetail => {
+          // hash[serviceDetail.service._id] = 1
+          if (!hash[serviceDetail.service._id]) {
+            hash[serviceDetail.service._id] = {
+              serviceId: serviceDetail.service._id,
+              name: serviceDetail.service.name,
+              type: serviceDetail.service.type,
+              unitPrice: serviceDetail.service.unitPrice,
+              quantity:
+                serviceDetail.service.type === 'perUNIT'
+                  ? serviceDetail.quantity
+                  : serviceDetail.endTime - serviceDetail.startTime,
+              total: serviceDetail.total
+            }
+            console.log('xxxx', serviceDetail, hash[serviceDetail.service._id])
+          } else {
+            hash[serviceDetail.service._id] = {
+              ...hash[serviceDetail.service._id],
+              quantity:
+                serviceDetail.service.type === 'perUNIT'
+                  ? hash[serviceDetail.service._id].quantity +
+                    serviceDetail.quantity
+                  : hash[serviceDetail.service._id].quantity +
+                    serviceDetail.endTime -
+                    serviceDetail.startTime,
+              total: hash[serviceDetail.service._id].total + serviceDetail.total
+            }
+          }
+        })
+      })
+      console.log(hash)
+      const res = []
+
+      // tslint:disable-next-line:forin
+      for (const key in hash) {
+        res.push(hash[key])
+      }
+
+      return res.sort((aa, bb) => (aa.total < bb.total ? 1 : -1))
+      // .map(obj => ({ ...obj, total: obj.unitPrice * obj.quantity }))
+    } catch (error) {
+      return error
+    }
+  }
+
+  @Query('ReportThuChiTongHop')
+  async ReportThuChiTongHop(
+    @Args('startDate') startDate: number,
+    @Args('endDate') endDate: number
+  ) {
+    const data = await getMongoRepository(PaymentSlipEntity).find({
+      where: {
+        $and: [
+          {
+            createdAt: {
+              $gte: startDate
+            }
+          },
+          {
+            createdAt: {
+              $lte: endDate
+            }
+          }
+        ]
+      }
+    })
+
+    const res = [
+      ...data.map(pay => ({
+        name: `${pay.description} (${moment(pay.createdAt).format(
+          'DD/MM/YYYY HH:MM'
+        )}))`,
+        total: pay.price,
+        type: 'CHI'
+      }))
+    ]
+
+    return res
   }
 }

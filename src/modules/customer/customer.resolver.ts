@@ -19,6 +19,18 @@ export class CustomerResolvers {
       return error
     }
   }
+
+  //   @Query('customersNew')
+  // async customersNew(): Promise<CustomerSchema[] | ApolloError> {
+  //   try {
+  //     return await getMongoRepository(CustomerEntity).find({
+  //       wh
+  //     })
+  //   } catch (error) {
+  //     return error
+  //   }
+  // }
+
   @Query('searchCustomers')
   async searchCustomers(
     @Args('text') text: string
@@ -29,6 +41,9 @@ export class CustomerResolvers {
         return await getMongoRepository(CustomerEntity).find({
           where: {
             $or: [
+              {
+                _id: text
+              },
               {
                 name: { $regex: regex }
               },
@@ -71,19 +86,20 @@ export class CustomerResolvers {
     @Args('input') input: CustomerInput
   ): Promise<CustomerSchema | ApolloError> {
     const { phone, email } = input
+    const conditional = []
+    if (email) {
+      conditional.push({ email })
+    }
+
+    if (phone) {
+      conditional.push({ phone })
+    }
 
     const exist = await getMongoManager().findOne(CustomerEntity, {
       where: {
         $and: [
           {
-            $or: [
-              {
-                phone
-              },
-              {
-                email
-              }
-            ]
+            $or: [...conditional]
           }
         ]
       }

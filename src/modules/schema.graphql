@@ -1,6 +1,11 @@
 # ------------------------ Graphql ------------------------
 
 type Query {
+  ### REPORT
+  ReportRevenueRooms(startDate: Float!, endDate: Float!): [Bill!]!
+  ReportRevenueServices(startDate: Float!, endDate: Float!):[ReportRevenueService!]!
+  ReportThuChiTongHop(startDate: Float!, endDate: Float!): [ReportThuChi!]!
+
   user(id: ID!): User
   users: [User]
 
@@ -17,6 +22,7 @@ type Query {
 
   customer(id: ID!): Customer
   customers: [Customer]
+  customersNew: [Customer]
   searchCustomers(text: String): [Customer!]!
 
   room(roomId: String!): Room
@@ -36,6 +42,7 @@ type Query {
   tickets: [Ticket]
 
   bill(id: ID!): Bill
+  bills: [Bill]
   billByRoom(roomId: ID!): Bill
   #service(id: ID!): Service
 }
@@ -44,6 +51,7 @@ type Mutation {
   ### BILL
   createBill(input: BillInput!): Bill!
   updateBill(billId: String!, input: BillInput!): Bill!
+  deleteBill(billId: String!): Boolean
 
   #### USER
   createUser(input: UserCreateInput!): User
@@ -178,6 +186,7 @@ type Bill {
   roomDetails: [BillRoomDetails]
   serviceDetails: [BillServiceDetails]
   state: Int
+  discount: Discount
   total: Float
 }
 
@@ -267,6 +276,7 @@ input BillInput {
 
   state: Int
   total: Float
+  discount: String
 }
 
 input BillRoomDetailsInput {
@@ -396,4 +406,19 @@ type RoomInfo {
   tickets: [Ticket]!
   bill: Bill
   typeRoom: TypeRoom!
+}
+
+type ReportRevenueService {
+  serviceId: String!
+  name: String!
+  type: TypeService!
+  unitPrice:Float!
+  quantity: Int!
+  total: Float!
+}
+
+type ReportThuChi {
+  name: String!
+  type: String!
+  total: Float!
 }

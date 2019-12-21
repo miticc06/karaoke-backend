@@ -21,7 +21,6 @@ import { Ticket as TicketEntity } from '../ticket/ticket.entity'
 export class RoomResolvers {
   @ResolveProperty('typeRoom')
   async resolvePropertyTypeRoom(@Parent() room) {
-    // console.log(typeof room.typeRoom)
     if (typeof room.typeRoom === 'string') {
       const typeRoom = await getMongoRepository(TypeRoomEntity).findOne({
         _id: room.typeRoom

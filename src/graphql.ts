@@ -28,6 +28,7 @@ export class BillInput {
     serviceDetails: BillServiceDetailsInput[];
     state?: number;
     total?: number;
+    discount?: string;
 }
 
 export class BillRoomDetailsInput {
@@ -155,6 +156,7 @@ export class Bill {
     roomDetails?: BillRoomDetails[];
     serviceDetails?: BillServiceDetails[];
     state?: number;
+    discount?: Discount;
     total?: number;
 }
 
@@ -203,6 +205,8 @@ export abstract class IMutation {
     abstract createBill(input: BillInput): Bill | Promise<Bill>;
 
     abstract updateBill(billId: string, input: BillInput): Bill | Promise<Bill>;
+
+    abstract deleteBill(billId: string): boolean | Promise<boolean>;
 
     abstract createUser(input: UserCreateInput): User | Promise<User>;
 
@@ -290,6 +294,12 @@ export class Permission {
 }
 
 export abstract class IQuery {
+    abstract ReportRevenueRooms(startDate: number, endDate: number): Bill[] | Promise<Bill[]>;
+
+    abstract ReportRevenueServices(startDate: number, endDate: number): ReportRevenueService[] | Promise<ReportRevenueService[]>;
+
+    abstract ReportThuChiTongHop(startDate: number, endDate: number): ReportThuChi[] | Promise<ReportThuChi[]>;
+
     abstract user(id: string): User | Promise<User>;
 
     abstract users(): User[] | Promise<User[]>;
@@ -307,6 +317,8 @@ export abstract class IQuery {
     abstract customer(id: string): Customer | Promise<Customer>;
 
     abstract customers(): Customer[] | Promise<Customer[]>;
+
+    abstract customersNew(): Customer[] | Promise<Customer[]>;
 
     abstract searchCustomers(text?: string): Customer[] | Promise<Customer[]>;
 
@@ -334,7 +346,24 @@ export abstract class IQuery {
 
     abstract bill(id: string): Bill | Promise<Bill>;
 
+    abstract bills(): Bill[] | Promise<Bill[]>;
+
     abstract billByRoom(roomId: string): Bill | Promise<Bill>;
+}
+
+export class ReportRevenueService {
+    serviceId: string;
+    name: string;
+    type: TypeService;
+    unitPrice: number;
+    quantity: number;
+    total: number;
+}
+
+export class ReportThuChi {
+    name: string;
+    type: string;
+    total: number;
 }
 
 export class Role {

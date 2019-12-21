@@ -31,6 +31,9 @@ export class Bill {
 
   @Column()
   total: number
+
+  @Column()
+  discount: string
 }
 
 // class BillRoomDetailsInput {

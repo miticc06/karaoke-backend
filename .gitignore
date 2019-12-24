@@ -392,3 +392,6 @@ docker-compose.yml
 dist
 .hot
 coverage/
+
+deploy_rsa
+deploy_rsa.pub

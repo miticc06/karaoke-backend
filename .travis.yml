@@ -5,7 +5,7 @@ node_js:
   - 13.1.0
 
 before_script:
-  - openssl aes-256-cbc -K $encrypted_a41e61b5234a_key -iv $encrypted_a41e61b5234a_iv -in deploy_rsa.enc -out deploy_rsa -d
+  - openssl aes-256-cbc -K $encrypted_d3c5acc61ede_key -iv $encrypted_d3c5acc61ede_iv -in deploy_rsa.enc -out deploy_rsa -d
   - eval "$(ssh-agent -s)"
   - chmod 600 deploy_rsa
   - ssh-add deploy_rsa
@@ -29,8 +29,8 @@ jobs:
     - stage: Build
       script:
         - npm run build
-        - ssh -q -p 22 ${USER}@${HOST} "/bin/mkdir -p /home/${USER}/build/karaoke-backend"
-        - rsync -a -e "ssh -p 22" ./ ${USER}@${HOST}:/home/${USER}/build/karaoke-backend/ --delete --exclude="node_modules"
+        - ssh -q -p ${PORT_SSH} ${USER}@${HOST} "/bin/mkdir -p /home/${USER}/build/karaoke-backend"
+        - rsync -a -e "ssh -p ${PORT_SSH}" ./ ${USER}@${HOST}:/home/${USER}/build/karaoke-backend/ --delete --exclude="node_modules"
 
     # - stage: TestCoverage
     #   script:
@@ -38,8 +38,8 @@ jobs:
 
     - stage: DeployKaraokeTest
       script:
-        - ssh -q -p 22 ${USER}@${HOST} "/home/${USER}/pm2/backend_karaoke_test/start.sh"
+        - ssh -q -p ${PORT_SSH} ${USER}@${HOST} "/home/${USER}/pm2/backend_karaoke_test/start.sh"
 
     - stage: DeployKaraoke
       script:
-        - ssh -q -p 22 ${USER}@${HOST} "/home/${USER}/pm2/backend_karaoke/start.sh"
+        - ssh -q -p ${PORT_SSH} ${USER}@${HOST} "/home/${USER}/pm2/backend_karaoke/start.sh"

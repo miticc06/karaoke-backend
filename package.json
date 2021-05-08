@@ -52,7 +52,7 @@
     "rimraf": "^3.0.0",
     "rxjs": "^6.5.3",
     "tslint-plugin-prettier": "^2.0.1",
-    "typeorm": "^0.2.19",
+    "typeorm": "^0.2.25",
     "uuid": "^3.3.3",
     "webpack": "^4.41.2",
     "webpack-cli": "^3.3.9"
